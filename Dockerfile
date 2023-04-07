@@ -29,3 +29,9 @@ COPY src ./src
 
 # Build the project and create the JAR file
 RUN mvn clean package
+
+# expose the service on the port 8080
+EXPOSE 8080
+
+# Run the container right after the build
+CMD ["java", "-jar", "./target/commons-compress-1.23.1-SNAPSHOT.jar"]
