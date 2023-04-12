@@ -211,6 +211,11 @@ Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.
       <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-junit5-plugin</artifactId>
+      <version>1.1.2</version>
+    </dependency>
   </dependencies>
 
   <developers>
@@ -328,6 +333,20 @@ Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.
     <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.12.0</version>
+          <!--<configuration>
+            <mutators>
+              <mutator>CONSTRUCTOR_CALLS</mutator>
+            </mutators>
+            <targetClasses>
+              <param>org.apache.commons.compress.utils.Sets</param>
+            </targetClasses>-->
+          </configuration>
+        </plugin>
+
         <!-- Override Javadoc config in parent pom to add JCIP tags -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
