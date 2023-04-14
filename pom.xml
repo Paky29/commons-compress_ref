@@ -343,8 +343,8 @@ Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.
             </mutators>
             <targetClasses>
               <param>org.apache.commons.compress.utils.Sets</param>
-            </targetClasses>-->
-          </configuration>
+            </targetClasses>
+          </configuration>-->
         </plugin>
 
         <!-- Override Javadoc config in parent pom to add JCIP tags -->
