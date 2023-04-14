@@ -338,6 +338,19 @@ Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.
           <artifactId>pitest-maven</artifactId>
           <version>1.12.0</version>
           <!--<configuration>
+            <excludedClasses>
+              <param>org.apache.commons.compress.utils.* </param>
+              <param>org.apache.commons.compress.archivers.* </param>
+              <param>org.apache.commons.compress.changes.* </param>
+              <param>org.apache.commons.compress.compressors.CompressorInputStream</param>
+              <param>org.apache.commons.compress.compressors.CompressorStreamFactory</param>
+              <param>org.apache.commons.compress.compressors.FileNameUtil</param>
+              <param>org.apache.commons.compress.MemoryLimitException</param>
+              <param>org.apache.commons.compress.java.util.jar.*</param>
+              <param>org.apache.commons.compress.parallel.*</param>
+
+            </excludedClasses>
+
             <mutators>
               <mutator>CONSTRUCTOR_CALLS</mutator>
             </mutators>
