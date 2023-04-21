@@ -343,6 +343,12 @@ Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.
           <groupId>org.pitest</groupId>
           <artifactId>pitest-maven</artifactId>
           <version>1.11.7</version>
+          <configuration>
+            <excludedTestClasses>
+              <param>org.apache.commons.compress.archivers.tar.FileTimesIT</param>
+              <param>org.apache.commons.compress.archivers.zip.Zip64SupportIT</param>
+            </excludedTestClasses>
+          </configuration>
         </plugin>
 
         <!-- Override Javadoc config in parent pom to add JCIP tags -->
