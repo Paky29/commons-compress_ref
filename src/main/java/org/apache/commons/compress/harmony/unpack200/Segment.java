@@ -508,8 +508,11 @@ public class Segment {
 
         if (doPreRead && header.getArchiveSize() != 0) {
             final byte[] data = new byte[size];
-            in.read(data);
-            internalBuffer = new BufferedInputStream(new ByteArrayInputStream(data));
+            if(in.read(data) > 0){
+                internalBuffer = new BufferedInputStream(new ByteArrayInputStream(data));
+            }
+            else throw new IOException("No byte read or EOF reached");
+            //in.read(data);
         } else {
             readSegment(in);
         }

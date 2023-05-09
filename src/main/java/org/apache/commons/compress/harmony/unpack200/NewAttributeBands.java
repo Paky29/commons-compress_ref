@@ -237,9 +237,6 @@ public class NewAttributeBands extends BandSet {
                 case 2:
                     value = (short) value;
                     break;
-                case 4:
-                    value = value;
-                    break;
                 default:
                     break;
                 }
@@ -776,7 +773,8 @@ public class NewAttributeBands extends BandSet {
             // Replication
         case 'N':
             final char uintType = (char) stream.read();
-            stream.read(); // '['
+            stream.skip(1);
+            //stream.read(); // '['
             final String str = readUpToMatchingBracket(stream);
             return new Replication("" + uintType, str);
 
@@ -791,9 +789,10 @@ public class NewAttributeBands extends BandSet {
             while ((c = readNextUnionCase(stream)) != null) {
                 unionCases.add(c);
             }
-            stream.read(); // '('
-            stream.read(); // ')'
-            stream.read(); // '['
+            stream.skip(3);
+            //stream.read(); // '('
+            //stream.read(); // ')'
+            //stream.read(); // '['
             List<LayoutElement> body = null;
             stream.mark(1);
             final char next = (char) stream.read();
@@ -806,7 +805,8 @@ public class NewAttributeBands extends BandSet {
         // Call
         case '(':
             final int number = readNumber(stream).intValue();
-            stream.read(); // ')'
+            stream.skip(1);
+            //stream.read(); // ')'
             return new Call(number);
         // Reference
         case 'K':
@@ -831,7 +831,8 @@ public class NewAttributeBands extends BandSet {
      */
     private UnionCase readNextUnionCase(final StringReader stream) throws IOException {
         stream.mark(2);
-        stream.read(); // '('
+        stream.skip(1);
+        //stream.read(); // '('
         final int next = stream.read();
         char ch = (char) next;
         if (ch == ')'|| next == -1) {
@@ -839,17 +840,20 @@ public class NewAttributeBands extends BandSet {
             return null;
         }
         stream.reset();
-        stream.read(); // '('
+        stream.skip(1);
+        //stream.read(); // '('
         final List<Integer> tags = new ArrayList<>();
         Integer nextTag;
         do {
             nextTag = readNumber(stream);
             if (nextTag != null) {
                 tags.add(nextTag);
-                stream.read(); // ',' or ')'
+                stream.skip(1);
+                //stream.read(); // ',' or ')'
             }
         } while (nextTag != null);
-        stream.read(); // '['
+        stream.skip(1);
+        //stream.read(); // '['
         stream.mark(1);
         ch = (char) stream.read();
         if (ch == ']') {

@@ -711,7 +711,8 @@ public class NewAttributeBands extends BandSet {
             // Replication
         case 'N':
             final char uint_type = (char) reader.read();
-            reader.read(); // '['
+            reader.skip(1);
+            //reader.read(); // '['
             final String str = readUpToMatchingBracket(reader);
             return new Replication("" + uint_type, str);
 
@@ -726,9 +727,10 @@ public class NewAttributeBands extends BandSet {
             while ((c = readNextUnionCase(reader)) != null) {
                 unionCases.add(c);
             }
-            reader.read(); // '('
-            reader.read(); // ')'
-            reader.read(); // '['
+            reader.skip(3);
+            //reader.read(); // '('
+            //reader.read(); // ')'
+            //reader.read(); // '['
             List<LayoutElement> body = null;
             reader.mark(1);
             final char next = (char) reader.read();
@@ -741,7 +743,8 @@ public class NewAttributeBands extends BandSet {
         // Call
         case '(':
             final int number = readNumber(reader).intValue();
-            reader.read(); // ')'
+            reader.skip(1);
+            //reader.read(); // ')'
             return new Call(number);
         // Reference
         case 'K':
@@ -766,7 +769,8 @@ public class NewAttributeBands extends BandSet {
      */
     private UnionCase readNextUnionCase(final StringReader reader) throws IOException {
         reader.mark(2);
-        reader.read(); // '('
+        reader.skip(1);
+        //reader.read(); // '('
         final int next = reader.read();
         char ch = (char) next;
         if (ch == ')' || next == -1) {
@@ -774,17 +778,20 @@ public class NewAttributeBands extends BandSet {
             return null;
         }
         reader.reset();
-        reader.read(); // '('
+        reader.skip(1);
+        //reader.read(); // '('
         final List<Integer> tags = new ArrayList<>();
         Integer nextTag;
         do {
             nextTag = readNumber(reader);
             if (nextTag != null) {
                 tags.add(nextTag);
-                reader.read(); // ',' or ')'
+                reader.skip(1);
+                //reader.read(); // ',' or ')'
             }
         } while (nextTag != null);
-        reader.read(); // '['
+        reader.skip(1);
+        //reader.read(); // '['
         reader.mark(1);
         ch = (char) reader.read();
         if (ch == ']') {

@@ -231,7 +231,7 @@ public class AttributeLayout implements IMatcher {
     }
 
     public int numBackwardsCallables() {
-        if (layout == "*") {
+        if (layout.equals("*")) {
             return 1;
         }
         return backwardsCallCount;
