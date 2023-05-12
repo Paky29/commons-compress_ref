@@ -30,6 +30,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //import org.apache.commons.compress.harmony.kernel.vm.VM;
 
@@ -47,14 +49,14 @@ public class Messages {
 
     // ResourceBundle holding the system messages.
     static private ResourceBundle bundle = null;
-
+    static private final Logger logger = Logger.getLogger("MessagesLogger");
     static {
         // Attempt to load the messages.
         try {
             bundle = setLocale(Locale.getDefault(),
                 "org.apache.commons.compress.harmony.archive.internal.nls.messages"); //$NON-NLS-1$
         } catch (final Throwable e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Unable to load the messages", e);
         }
     }
 

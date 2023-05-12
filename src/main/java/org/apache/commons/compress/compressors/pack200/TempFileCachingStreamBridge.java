@@ -19,11 +19,18 @@
 
 package org.apache.commons.compress.compressors.pack200;
 
+import org.apache.commons.lang3.SystemUtils;
+
+import java.io.File;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 
 /**
  * StreamBridge that caches all data written to the output side in
@@ -34,7 +41,17 @@ class TempFileCachingStreamBridge extends StreamBridge {
     private final Path f;
 
     TempFileCachingStreamBridge() throws IOException {
-        f = Files.createTempFile("commons-compress", "packtemp");
+        if(SystemUtils.IS_OS_UNIX) {
+            FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
+            f = Files.createTempFile("commons-compress", "packtemp", attr);
+        }
+        else {
+            File fTemp = Files.createTempFile("commons-compress", "packtemp").toFile();
+            fTemp.setReadable(true, true);
+            fTemp.setWritable(true, true);
+            fTemp.setExecutable(true, true);
+            f = fTemp.toPath();
+        }
         f.toFile().deleteOnExit();
         out = Files.newOutputStream(f);
     }

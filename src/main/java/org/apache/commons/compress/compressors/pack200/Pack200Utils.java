@@ -24,12 +24,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 
 import org.apache.commons.compress.java.util.jar.Pack200;
+import org.apache.commons.lang3.SystemUtils;
 
 /**
  * Utility methods for Pack200.
@@ -110,7 +115,18 @@ public class Pack200Utils {
             props = new HashMap<>();
         }
         props.put(Pack200.Packer.SEGMENT_LIMIT, "-1");
-        final Path tempFile = Files.createTempFile("commons-compress", "pack200normalize");
+        final Path tempFile;
+        if(SystemUtils.IS_OS_UNIX) {
+            FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
+            tempFile = Files.createTempFile("commons-compress", "pack200normalize", attr);
+        }
+        else {
+            File f = Files.createTempFile("commons-compress", "pack200normalize").toFile();
+            f.setReadable(true, true);
+            f.setWritable(true, true);
+            f.setExecutable(true, true);
+            tempFile = f.toPath();
+        }
         try {
             try (OutputStream fos = Files.newOutputStream(tempFile);
                  JarFile jarFile = new JarFile(from)) {

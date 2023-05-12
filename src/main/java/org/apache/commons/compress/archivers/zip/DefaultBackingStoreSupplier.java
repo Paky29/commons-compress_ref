@@ -17,14 +17,20 @@
 
 package org.apache.commons.compress.archivers.zip;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.compress.parallel.FileBasedScatterGatherBackingStore;
 import org.apache.commons.compress.parallel.ScatterGatherBackingStore;
 import org.apache.commons.compress.parallel.ScatterGatherBackingStoreSupplier;
+import org.apache.commons.lang3.SystemUtils;
 
 /**
  * Implements {@link ScatterGatherBackingStoreSupplier} using a temporary folder.
@@ -60,7 +66,19 @@ public class DefaultBackingStoreSupplier implements ScatterGatherBackingStoreSup
     @Override
     public ScatterGatherBackingStore get() throws IOException {
         final String suffix = "n" + storeNum.incrementAndGet();
-        final Path tempFile = dir == null ? Files.createTempFile(PREFIX, suffix) : Files.createTempFile(dir, PREFIX, suffix);
+        final Path tempFile;
+
+        if(SystemUtils.IS_OS_UNIX) {
+            FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"));
+            tempFile = dir == null ? Files.createTempFile(PREFIX, suffix, attr) : Files.createTempFile(dir, PREFIX, suffix, attr);
+        }
+        else {
+            File f = dir == null ? Files.createTempFile(PREFIX, suffix).toFile() : Files.createTempFile(dir, PREFIX, suffix).toFile();
+            f.setReadable(true, true);
+            f.setWritable(true, true);
+            f.setExecutable(true, true);
+            tempFile = f.toPath();
+        }
         return new FileBasedScatterGatherBackingStore(tempFile);
     }
 }
