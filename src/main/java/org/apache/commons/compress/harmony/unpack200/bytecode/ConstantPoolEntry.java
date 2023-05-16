@@ -24,30 +24,30 @@ import java.io.IOException;
  */
 public abstract class ConstantPoolEntry extends ClassFileEntry {
 
-    public static final byte CP_CLASS = 7;
+    public static final byte CP_Class = 7;
 
-    public static final byte CP_DOUBLE = 6;
+    public static final byte CP_Double = 6;
 
-    public static final byte CP_FIELDREF = 9;
+    public static final byte CP_Fieldref = 9;
 
-    public static final byte CP_FLOAT = 4;
+    public static final byte CP_Float = 4;
 
-    public static final byte CP_INTEGER = 3;
+    public static final byte CP_Integer = 3;
 
     /*
      * class MemberRef extends ConstantPoolEntry { private int index; Class(String name) { super(CP_Class); index =
      * pool.indexOf(name); } void writeBody(DataOutputStream dos) throws IOException { dos.writeShort(index); } }
      */
 
-    public static final byte CP_INTERFACE_METHODREF = 11;
+    public static final byte CP_InterfaceMethodref = 11;
 
-    public static final byte CP_LONG = 5;
+    public static final byte CP_Long = 5;
 
-    public static final byte CP_METHODREF = 10;
+    public static final byte CP_Methodref = 10;
 
-    public static final byte CP_NAME_AND_TYPE = 12;
+    public static final byte CP_NameAndType = 12;
 
-    public static final byte CP_STRING = 8;
+    public static final byte CP_String = 8;
 
     public static final byte CP_UTF8 = 1;
 
