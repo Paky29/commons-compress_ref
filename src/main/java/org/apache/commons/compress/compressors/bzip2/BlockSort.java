@@ -625,20 +625,20 @@ class BlockSort {
     private void mainQSort3(final BZip2CompressorOutputStream.Data dataShadow,
                             final int loSt, final int hiSt, final int dSt,
                             final int last) {
-        final int[] newStack_ll = this.stack_ll;
-        final int[] newStack_hh = this.stack_hh;
-        final int[] newStack_dd = this.stack_dd;
+        final int[] newStackll = this.stack_ll;
+        final int[] newStackhh = this.stack_hh;
+        final int[] newStackdd = this.stack_dd;
         final int[] newFmap = dataShadow.fmap;
         final byte[] block = dataShadow.block;
 
-        newStack_ll[0] = loSt;
-        newStack_hh[0] = hiSt;
-        newStack_dd[0] = dSt;
+        newStackll[0] = loSt;
+        newStackhh[0] = hiSt;
+        newStackdd[0] = dSt;
 
         for (int sp = 1; --sp >= 0;) {
-            final int lo = newStack_ll[sp];
-            final int hi = newStack_hh[sp];
-            final int d = newStack_dd[sp];
+            final int lo = newStackll[sp];
+            final int hi = newStackhh[sp];
+            final int d = newStackdd[sp];
 
             if ((hi - lo < SMALL_THRESH) || (d > DEPTH_THRESH)) {
                 if (mainSimpleSort(dataShadow, lo, hi, d, last)) {
@@ -693,9 +693,9 @@ class BlockSort {
                 }
 
                 if (gtHi < ltLo) {
-                    newStack_ll[sp] = lo;
-                    newStack_hh[sp] = hi;
-                    newStack_dd[sp] = d1;
+                    newStackll[sp] = lo;
+                    newStackhh[sp] = hi;
+                    newStackdd[sp] = d1;
                 } else {
                     int n = Math.min(ltLo - lo, unLo - ltLo);
                     vswap(newFmap, lo, unLo - n, n);
@@ -705,19 +705,19 @@ class BlockSort {
                     n = lo + unLo - ltLo - 1;
                     m = hi - (gtHi - unHi) + 1;
 
-                    newStack_ll[sp] = lo;
-                    newStack_hh[sp] = n;
-                    newStack_dd[sp] = d;
+                    newStackll[sp] = lo;
+                    newStackhh[sp] = n;
+                    newStackdd[sp] = d;
                     sp++;
 
-                    newStack_ll[sp] = n + 1;
-                    newStack_hh[sp] = m - 1;
-                    newStack_dd[sp] = d1;
+                    newStackll[sp] = n + 1;
+                    newStackhh[sp] = m - 1;
+                    newStackdd[sp] = d1;
                     sp++;
 
-                    newStack_ll[sp] = m;
-                    newStack_hh[sp] = hi;
-                    newStack_dd[sp] = d;
+                    newStackll[sp] = m;
+                    newStackhh[sp] = hi;
+                    newStackdd[sp] = d;
                 }
                 sp++;
             }

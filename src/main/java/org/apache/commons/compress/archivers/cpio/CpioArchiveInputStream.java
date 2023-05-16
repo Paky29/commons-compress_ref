@@ -153,8 +153,8 @@ public class CpioArchiveInputStream extends ArchiveInputStream implements
      */
     private final ZipEncoding zipEncoding;
 
-    private final static String illegalEntry = "Found illegal entry with negative length";
-    private final static String illegalNameEntry = "Found illegal entry with negative name length";
+    private static final String ILLEGAL_ENTRY = "Found illegal entry with negative length";
+    private static final String ILLEGAL_NAME_ENTRY = "Found illegal entry with negative name length";
 
 
     // the provided encoding (for unit tests)
@@ -457,7 +457,7 @@ public class CpioArchiveInputStream extends ArchiveInputStream implements
         ret.setTime(readAsciiLong(8, 16));
         ret.setSize(readAsciiLong(8, 16));
         if (ret.getSize() < 0) {
-            throw new IOException(illegalEntry);
+            throw new IOException(ILLEGAL_ENTRY);
         }
         ret.setDeviceMaj(readAsciiLong(8, 16));
         ret.setDeviceMin(readAsciiLong(8, 16));
@@ -465,7 +465,7 @@ public class CpioArchiveInputStream extends ArchiveInputStream implements
         ret.setRemoteDeviceMin(readAsciiLong(8, 16));
         final long namesize = readAsciiLong(8, 16);
         if (namesize < 0) {
-            throw new IOException(illegalNameEntry);
+            throw new IOException(ILLEGAL_NAME_ENTRY);
         }
         ret.setChksum(readAsciiLong(8, 16));
         final String name = readCString((int) namesize);
@@ -496,11 +496,11 @@ public class CpioArchiveInputStream extends ArchiveInputStream implements
         ret.setTime(readAsciiLong(11, 8));
         final long namesize = readAsciiLong(6, 8);
         if (namesize < 0) {
-            throw new IOException(illegalNameEntry);
+            throw new IOException(ILLEGAL_NAME_ENTRY);
         }
         ret.setSize(readAsciiLong(11, 8));
         if (ret.getSize() < 0) {
-            throw new IOException(illegalEntry);
+            throw new IOException(ILLEGAL_ENTRY);
         }
         final String name = readCString((int) namesize);
         ret.setName(name);
@@ -530,11 +530,11 @@ public class CpioArchiveInputStream extends ArchiveInputStream implements
         ret.setTime(readBinaryLong(4, swapHalfWord));
         final long namesize = readBinaryLong(2, swapHalfWord);
         if (namesize < 0) {
-            throw new IOException(illegalNameEntry);
+            throw new IOException(ILLEGAL_NAME_ENTRY);
         }
         ret.setSize(readBinaryLong(4, swapHalfWord));
         if (ret.getSize() < 0) {
-            throw new IOException(illegalEntry);
+            throw new IOException(ILLEGAL_ENTRY);
         }
         final String name = readCString((int) namesize);
         ret.setName(name);

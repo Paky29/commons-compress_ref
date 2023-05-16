@@ -41,7 +41,7 @@ public class BcBands extends BandSet {
     private static final int IINC = 132;
     private static final int LOOKUPSWITCH = 171;
     private static final int endMarker = 255;
-    private static final String wrote = "Wrote ";
+    private static final String WROTE = "Wrote ";
     private final CpBands cpBands;
 
     private final Segment segment;
@@ -111,87 +111,87 @@ public class BcBands extends BandSet {
         PackingUtils.log("Writing byte code bands...");
         byte[] encodedBand = encodeBandInt("bcCodes", bcCodes.toArray(), Codec.BYTE1);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcCodes[" + bcCodes.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcCodes[" + bcCodes.size() + "]");
 
         encodedBand = encodeBandInt("bcCaseCount", bcCaseCount.toArray(), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcCaseCount[" + bcCaseCount.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcCaseCount[" + bcCaseCount.size() + "]");
 
         encodedBand = encodeBandInt("bcCaseValue", bcCaseValue.toArray(), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcCaseValue[" + bcCaseValue.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcCaseValue[" + bcCaseValue.size() + "]");
 
         encodedBand = encodeBandInt("bcByte", bcByte.toArray(), Codec.BYTE1);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcByte[" + bcByte.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcByte[" + bcByte.size() + "]");
 
         encodedBand = encodeBandInt("bcShort", bcShort.toArray(), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcShort[" + bcShort.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcShort[" + bcShort.size() + "]");
 
         encodedBand = encodeBandInt("bcLocal", bcLocal.toArray(), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcLocal[" + bcLocal.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcLocal[" + bcLocal.size() + "]");
 
         encodedBand = encodeBandInt("bcLabel", integerListToArray(bcLabel), Codec.BRANCH5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcLabel[" + bcLabel.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcLabel[" + bcLabel.size() + "]");
 
         encodedBand = encodeBandInt("bcIntref", cpEntryListToArray(bcIntref), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcIntref[" + bcIntref.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcIntref[" + bcIntref.size() + "]");
 
         encodedBand = encodeBandInt("bcFloatRef", cpEntryListToArray(bcFloatRef), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcFloatRef[" + bcFloatRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcFloatRef[" + bcFloatRef.size() + "]");
 
         encodedBand = encodeBandInt("bcLongRef", cpEntryListToArray(bcLongRef), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcLongRef[" + bcLongRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcLongRef[" + bcLongRef.size() + "]");
 
         encodedBand = encodeBandInt("bcDoubleRef", cpEntryListToArray(bcDoubleRef), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcDoubleRef[" + bcDoubleRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcDoubleRef[" + bcDoubleRef.size() + "]");
 
         encodedBand = encodeBandInt("bcStringRef", cpEntryListToArray(bcStringRef), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcStringRef[" + bcStringRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcStringRef[" + bcStringRef.size() + "]");
 
         encodedBand = encodeBandInt("bcClassRef", cpEntryOrNullListToArray(bcClassRef), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcClassRef[" + bcClassRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcClassRef[" + bcClassRef.size() + "]");
 
         encodedBand = encodeBandInt("bcFieldRef", cpEntryListToArray(bcFieldRef), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcFieldRef[" + bcFieldRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcFieldRef[" + bcFieldRef.size() + "]");
 
         encodedBand = encodeBandInt("bcMethodRef", cpEntryListToArray(bcMethodRef), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcMethodRef[" + bcMethodRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcMethodRef[" + bcMethodRef.size() + "]");
 
         encodedBand = encodeBandInt("bcIMethodRef", cpEntryListToArray(bcIMethodRef), Codec.DELTA5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcIMethodRef[" + bcIMethodRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcIMethodRef[" + bcIMethodRef.size() + "]");
 
         encodedBand = encodeBandInt("bcThisField", integerListToArray(bcThisField), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcThisField[" + bcThisField.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcThisField[" + bcThisField.size() + "]");
 
         encodedBand = encodeBandInt("bcSuperField", integerListToArray(bcSuperField), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcSuperField[" + bcSuperField.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcSuperField[" + bcSuperField.size() + "]");
 
         encodedBand = encodeBandInt("bcThisMethod", integerListToArray(bcThisMethod), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcThisMethod[" + bcThisMethod.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcThisMethod[" + bcThisMethod.size() + "]");
 
         encodedBand = encodeBandInt("bcSuperMethod", integerListToArray(bcSuperMethod), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcSuperMethod[" + bcSuperMethod.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcSuperMethod[" + bcSuperMethod.size() + "]");
 
         encodedBand = encodeBandInt("bcInitRef", integerListToArray(bcInitRef), Codec.UNSIGNED5);
         out.write(encodedBand);
-        PackingUtils.log(wrote + encodedBand.length + " bytes from bcInitRef[" + bcInitRef.size() + "]");
+        PackingUtils.log(WROTE + encodedBand.length + " bytes from bcInitRef[" + bcInitRef.size() + "]");
 
         // out.write(encodeBandInt(cpEntryintegerListToArray(bcEscRef),
         // Codec.UNSIGNED5));

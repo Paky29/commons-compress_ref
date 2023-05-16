@@ -49,7 +49,7 @@ public class Messages {
 
     // ResourceBundle holding the system messages.
     static private ResourceBundle bundle = null;
-    static private final Logger LOGGER = Logger.getLogger("MessagesLogger");
+    private static final Logger LOGGER = Logger.getLogger("MessagesLogger");
     static {
         // Attempt to load the messages.
         try {

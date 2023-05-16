@@ -61,7 +61,7 @@ public final class Lister {
 
     private static void list7z(final File f) throws IOException {
         try (SevenZFile z = new SevenZFile(f)) {
-            LOGGER.log(Level.INFO, "Created " + z);
+            LOGGER.log(Level.INFO, "Created ", z);
             ArchiveEntry ae;
             while ((ae = z.getNextEntry()) != null) {
                 final String name = ae.getName() == null ? z.getDefaultName() + " (entry name was null)"
@@ -74,7 +74,7 @@ public final class Lister {
     private static void listStream(final File f, final String[] args) throws ArchiveException, IOException {
         try (final InputStream fis = new BufferedInputStream(Files.newInputStream(f.toPath()));
                 final ArchiveInputStream ais = createArchiveInputStream(args, fis)) {
-            LOGGER.log(Level.INFO, "Created " + ais.toString());
+            LOGGER.log(Level.INFO, "Created ", ais.toString());
             ArchiveEntry ae;
             while ((ae = ais.getNextEntry()) != null) {
                 LOGGER.log(Level.INFO, ae.getName());
@@ -84,14 +84,14 @@ public final class Lister {
 
     private static void listZipUsingTarFile(final File f) throws IOException {
         try (TarFile t = new TarFile(f)) {
-            LOGGER.log(Level.INFO, "Created " + t);
+            LOGGER.log(Level.INFO, "Created", t);
             t.getEntries().forEach(en -> LOGGER.log(Level.INFO, en.getName()));
         }
     }
 
     private static void listZipUsingZipFile(final File f) throws IOException {
         try (ZipFile z = new ZipFile(f)) {
-            LOGGER.log(Level.INFO, "Created " + z);
+            LOGGER.log(Level.INFO, "Created ", z);
             for (final Enumeration<ZipArchiveEntry> en = z.getEntries(); en.hasMoreElements(); ) {
                 LOGGER.log(Level.INFO, en.nextElement().getName());
             }

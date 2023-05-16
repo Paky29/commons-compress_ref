@@ -309,8 +309,8 @@ public class SevenZOutputFile implements Closeable {
         final byte[] headerBytes = headerBaos.toByteArray();
         channel.write(ByteBuffer.wrap(headerBytes));
 
-        final CRC32 new_crc32 = new CRC32();
-        new_crc32.update(headerBytes);
+        final CRC32 newCrc32 = new CRC32();
+        newCrc32.update(headerBytes);
 
         final ByteBuffer bb = ByteBuffer.allocate(SevenZFile.sevenZSignature.length
                                             + 2 /* version */
@@ -331,10 +331,10 @@ public class SevenZOutputFile implements Closeable {
         // start header
         bb.putLong(headerPosition - SevenZFile.SIGNATURE_HEADER_SIZE)
             .putLong(0xffffFFFFL & headerBytes.length)
-            .putInt((int) new_crc32.getValue());
-        new_crc32.reset();
-        new_crc32.update(bb.array(), SevenZFile.sevenZSignature.length + 6, 20);
-        bb.putInt(SevenZFile.sevenZSignature.length + 2, (int) new_crc32.getValue());
+            .putInt((int) newCrc32.getValue());
+        newCrc32.reset();
+        newCrc32.update(bb.array(), SevenZFile.sevenZSignature.length + 6, 20);
+        bb.putInt(SevenZFile.sevenZSignature.length + 2, (int) newCrc32.getValue());
         bb.flip();
         channel.write(bb);
     }

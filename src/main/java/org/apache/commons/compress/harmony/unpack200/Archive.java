@@ -29,7 +29,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.zip.GZIPInputStream;
-import java.nio.file.Files;
 
 import org.apache.commons.compress.harmony.pack200.Pack200Exception;
 

@@ -40,7 +40,6 @@ import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipEncoding;
 import org.apache.commons.compress.archivers.zip.ZipEncodingHelper;
 import org.apache.commons.compress.utils.CountingOutputStream;
-import org.apache.commons.compress.utils.ExactMath;
 import org.apache.commons.compress.utils.FixedLengthBlockOutputStream;
 import org.apache.commons.compress.utils.TimeUtils;
 
@@ -96,7 +95,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
      */
     public static final int BIGNUMBER_POSIX = 2;
     private static final int RECORD_SIZE = 512;
-    private static final String streamFinished = "Stream has already been finished";
+    private static final String STREAM_FINISHED = "Stream has already been finished";
 
     private static final ZipEncoding ASCII =
         ZipEncodingHelper.getZipEncoding("ASCII");
@@ -337,7 +336,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     @Override
     public void closeArchiveEntry() throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
         if (!haveUnclosedEntry) {
             throw new IOException("No current entry to close");
@@ -361,7 +360,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     public ArchiveEntry createArchiveEntry(final File inputFile, final String entryName)
         throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
         return new TarArchiveEntry(inputFile, entryName);
     }
@@ -369,7 +368,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     @Override
     public ArchiveEntry createArchiveEntry(final Path inputPath, final String entryName, final LinkOption... options) throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
         return new TarArchiveEntry(inputPath, entryName, options);
     }
@@ -564,7 +563,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     @Override
     public void putArchiveEntry(final ArchiveEntry archiveEntry) throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
         final TarArchiveEntry entry = (TarArchiveEntry) archiveEntry;
         if (entry.isGlobalPaxHeader()) {

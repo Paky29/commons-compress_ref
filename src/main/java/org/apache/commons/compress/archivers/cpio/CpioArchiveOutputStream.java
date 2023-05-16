@@ -97,7 +97,7 @@ public class CpioArchiveOutputStream extends ArchiveOutputStream implements
      */
     private final ZipEncoding zipEncoding;
 
-    private final static String streamFinished = "Stream has already been finished";
+    private static final String STREAM_FINISHED = "Stream has already been finished";
 
     // the provided encoding (for unit tests)
     final String encoding;
@@ -225,7 +225,7 @@ public class CpioArchiveOutputStream extends ArchiveOutputStream implements
     @Override
     public void closeArchiveEntry() throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
 
         ensureOpen();
@@ -272,7 +272,7 @@ public class CpioArchiveOutputStream extends ArchiveOutputStream implements
     public ArchiveEntry createArchiveEntry(final Path inputPath, final String entryName, final LinkOption... options)
             throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
         return new CpioArchiveEntry(inputPath, entryName, options);
     }
@@ -360,7 +360,7 @@ public class CpioArchiveOutputStream extends ArchiveOutputStream implements
     @Override
     public void putArchiveEntry(final ArchiveEntry entry) throws IOException {
         if (finished) {
-            throw new IOException(streamFinished);
+            throw new IOException(STREAM_FINISHED);
         }
 
         final CpioArchiveEntry e = (CpioArchiveEntry) entry;
