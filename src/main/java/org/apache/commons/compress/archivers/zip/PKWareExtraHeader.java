@@ -74,9 +74,9 @@ public abstract class PKWareExtraHeader implements ZipExtraField {
      */
     public enum EncryptionAlgorithm {
         DES(0x6601),
-        RC2_PRE_52(0x6602),
-        TRIPLE_DES_168(0x6603),
-        TRIPLE_DES_192(0x6609),
+        RC2pre52(0x6602),
+        TripleDES168(0x6603),
+        TripleDES192(0x6609),
         AES128(0x660E),
         AES192(0x660F),
         AES256(0x6610),
