@@ -101,7 +101,7 @@ public class AttrDefinitionBands extends BandSet {
         EnclosingMethodAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("EnclosingMethod")); //$NON-NLS-1$
         ExceptionsAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("Exceptions")); //$NON-NLS-1$
         InnerClassesAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("InnerClasses")); //$NON-NLS-1$
-        LineNumberTableAttribute.setLineNumberTableAttributeName(segment.getCpBands().cpUTF8Value("LineNumberTable")); //$NON-NLS-1$
+        LineNumberTableAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("LineNumberTable")); //$NON-NLS-1$
         LocalVariableTableAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("LocalVariableTable")); //$NON-NLS-1$
         LocalVariableTypeTableAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("LocalVariableTypeTable")); //$NON-NLS-1$
         SignatureAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("Signature")); //$NON-NLS-1$

@@ -686,14 +686,7 @@ public class ZipFileTest extends AbstractTestCase {
      */
     @Test
     public void testInvalidAlignment() {
-        assertThrows(IllegalArgumentException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                ZipArchiveEntry entry = new ZipArchiveEntry("dummy");
-                entry.setAlignment(3);
-            }
-        });
-    }
+        assertThrows(IllegalArgumentException.class, () -> new ZipArchiveEntry("dummy").setAlignment(3));}
 
     /**
      * Test correct population of header and data offsets.

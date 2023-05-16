@@ -26,7 +26,7 @@ public class LineNumberTableAttribute extends BCIRenumberedAttribute {
 
     private static CPUTF8 lineNumberTableAttributeName;
     
-    public static void setLineNumberTableAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         lineNumberTableAttributeName = cpUTF8Value;
     }
 
