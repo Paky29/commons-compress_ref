@@ -49,14 +49,14 @@ public class Messages {
 
     // ResourceBundle holding the system messages.
     static private ResourceBundle bundle = null;
-    static private final Logger logger = Logger.getLogger("MessagesLogger");
+    static private final Logger LOGGER = Logger.getLogger("MessagesLogger");
     static {
         // Attempt to load the messages.
         try {
             bundle = setLocale(Locale.getDefault(),
                 "org.apache.commons.compress.harmony.archive.internal.nls.messages"); //$NON-NLS-1$
         } catch (final Exception e) {
-            logger.log(Level.SEVERE, "Unable to load the messages", e);
+            LOGGER.log(Level.SEVERE, "Unable to load the messages", e);
         }
     }
 
