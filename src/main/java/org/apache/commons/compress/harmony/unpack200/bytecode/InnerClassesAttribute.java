@@ -82,17 +82,17 @@ public class InnerClassesAttribute extends Attribute {
 
     }
 
-    private static CPUTF8 attributeName;
+    private static CPUTF8 innerClassesAttributeName;
 
-    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
-        attributeName = cpUTF8Value;
+    public static void setInnerClassesAttributeName(final CPUTF8 cpUTF8Value) {
+        innerClassesAttributeName = cpUTF8Value;
     }
 
     private final List<InnerClassesEntry> innerClasses = new ArrayList<>();
     private final List<ConstantPoolEntry> nestedClassFileEntries = new ArrayList<>();
 
     public InnerClassesAttribute(final String name) {
-        super(attributeName);
+        super(innerClassesAttributeName);
         nestedClassFileEntries.add(getAttributeName());
     }
 

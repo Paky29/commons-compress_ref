@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 import org.apache.commons.compress.archivers.tar.TarFile;
@@ -41,6 +43,8 @@ public final class Lister {
 
     private static final ArchiveStreamFactory FACTORY = ArchiveStreamFactory.DEFAULT;
 
+    private static final Logger LOGGER = Logger.getLogger("ListerLogger");
+
     private static ArchiveInputStream createArchiveInputStream(final String[] args, final InputStream fis)
             throws ArchiveException {
         if (args.length > 1) {
@@ -57,12 +61,12 @@ public final class Lister {
 
     private static void list7z(final File f) throws IOException {
         try (SevenZFile z = new SevenZFile(f)) {
-            System.out.println("Created " + z);
+            LOGGER.log(Level.INFO, "Created " + z);
             ArchiveEntry ae;
             while ((ae = z.getNextEntry()) != null) {
                 final String name = ae.getName() == null ? z.getDefaultName() + " (entry name was null)"
                     : ae.getName();
-                System.out.println(name);
+                LOGGER.log(Level.INFO, name);
             }
         }
     }
@@ -70,26 +74,26 @@ public final class Lister {
     private static void listStream(final File f, final String[] args) throws ArchiveException, IOException {
         try (final InputStream fis = new BufferedInputStream(Files.newInputStream(f.toPath()));
                 final ArchiveInputStream ais = createArchiveInputStream(args, fis)) {
-            System.out.println("Created " + ais.toString());
+            LOGGER.log(Level.INFO, "Created " + ais.toString());
             ArchiveEntry ae;
             while ((ae = ais.getNextEntry()) != null) {
-                System.out.println(ae.getName());
+                LOGGER.log(Level.INFO, ae.getName());
             }
         }
     }
 
     private static void listZipUsingTarFile(final File f) throws IOException {
         try (TarFile t = new TarFile(f)) {
-            System.out.println("Created " + t);
-            t.getEntries().forEach(en -> System.out.println(en.getName()));
+            LOGGER.log(Level.INFO, "Created " + t);
+            t.getEntries().forEach(en -> LOGGER.log(Level.INFO, en.getName()));
         }
     }
 
     private static void listZipUsingZipFile(final File f) throws IOException {
         try (ZipFile z = new ZipFile(f)) {
-            System.out.println("Created " + z);
+            LOGGER.log(Level.INFO, "Created " + z);
             for (final Enumeration<ZipArchiveEntry> en = z.getEntries(); en.hasMoreElements(); ) {
-                System.out.println(en.nextElement().getName());
+                LOGGER.log(Level.INFO, en.nextElement().getName());
             }
         }
     }
@@ -112,7 +116,7 @@ public final class Lister {
             usage();
             return;
         }
-        System.out.println("Analysing " + args[0]);
+        LOGGER.log(Level.INFO, "Analysing " + args[0]);
         final File f = new File(args[0]);
         if (!f.isFile()) {
             System.err.println(f + " doesn't exist or is a directory");
@@ -130,9 +134,9 @@ public final class Lister {
     }
 
     private static void usage() {
-        System.out.println("Parameters: archive-name [archive-type]\n");
-        System.out.println("The magic archive-type 'zipfile' prefers ZipFile over ZipArchiveInputStream");
-        System.out.println("The magic archive-type 'tarfile' prefers TarFile over TarArchiveInputStream");
+        LOGGER.log(Level.INFO, "Parameters: archive-name [archive-type]\n");
+        LOGGER.log(Level.INFO, "The magic archive-type 'zipfile' prefers ZipFile over ZipArchiveInputStream");
+        LOGGER.log(Level.INFO, "The magic archive-type 'tarfile' prefers TarFile over TarArchiveInputStream");
     }
 
 }

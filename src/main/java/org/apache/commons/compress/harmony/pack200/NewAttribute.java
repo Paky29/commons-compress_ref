@@ -126,6 +126,7 @@ public class NewAttribute extends Attribute {
         case AttributeDefinitionBands.CONTEXT_CODE:
             contextCode = true;
             break;
+        default: break;
         }
     }
 
@@ -177,6 +178,7 @@ public class NewAttribute extends Attribute {
             return !contextField;
         case AttributeDefinitionBands.CONTEXT_CODE:
             return !contextCode;
+        default: break;
         }
         return false;
     }

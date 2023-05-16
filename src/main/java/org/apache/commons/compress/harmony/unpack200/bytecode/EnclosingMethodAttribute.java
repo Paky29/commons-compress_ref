@@ -24,9 +24,9 @@ import java.io.IOException;
  */
 public class EnclosingMethodAttribute extends Attribute {
 
-    private static CPUTF8 attributeName;
-    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
-        attributeName = cpUTF8Value;
+    private static CPUTF8 enclosingMethodAttributeName;
+    public static void setEnclosingMethodAttributeName(final CPUTF8 cpUTF8Value) {
+        enclosingMethodAttributeName = cpUTF8Value;
     }
     private int classIndex;
     private int methodIndex;
@@ -35,7 +35,7 @@ public class EnclosingMethodAttribute extends Attribute {
     private final CPNameAndType method;
 
     public EnclosingMethodAttribute(final CPClass cpClass, final CPNameAndType method) {
-        super(attributeName);
+        super(enclosingMethodAttributeName);
         this.cpClass = cpClass;
         this.method = method;
     }
@@ -53,9 +53,9 @@ public class EnclosingMethodAttribute extends Attribute {
     @Override
     protected ClassFileEntry[] getNestedClassFileEntries() {
         if (method != null) {
-            return new ClassFileEntry[] { attributeName, cpClass, method };
+            return new ClassFileEntry[] {enclosingMethodAttributeName, cpClass, method };
         }
-        return new ClassFileEntry[] { attributeName, cpClass };
+        return new ClassFileEntry[] {enclosingMethodAttributeName, cpClass };
     }
 
     @Override

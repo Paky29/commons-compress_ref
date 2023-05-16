@@ -24,14 +24,14 @@ import java.io.IOException;
  */
 public class DeprecatedAttribute extends Attribute {
 
-    private static CPUTF8 attributeName;
+    private static CPUTF8 deprecatedAttributeName;
 
-    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
-        attributeName = cpUTF8Value;
+    public static void setDeprecatedAttributeName(final CPUTF8 cpUTF8Value) {
+        deprecatedAttributeName = cpUTF8Value;
     }
 
     public DeprecatedAttribute() {
-        super(attributeName);
+        super(deprecatedAttributeName);
     }
 
     /*

@@ -107,35 +107,35 @@ public class CpBands extends BandSet {
         final String string = cpClass[index];
         final int utf8Index = cpClassInts[index];
         final int globalIndex = classOffset + index;
-        CPClass cpString = stringsToCPClass.get(string);
-        if (cpString == null) {
-            cpString = new CPClass(cpUTF8Value(utf8Index), globalIndex);
-            stringsToCPClass.put(string, cpString);
+        CPClass newCpString = stringsToCPClass.get(string);
+        if (newCpString == null) {
+            newCpString = new CPClass(cpUTF8Value(utf8Index), globalIndex);
+            stringsToCPClass.put(string, newCpString);
         }
-        return cpString;
+        return newCpString;
     }
 
     public CPClass cpClassValue(final String string) {
-        CPClass cpString = stringsToCPClass.get(string);
-        if (cpString == null) {
+        CPClass newCpString = stringsToCPClass.get(string);
+        if (newCpString == null) {
             final Integer index = mapClass.get(string);
             if (index != null) {
                 return cpClassValue(index.intValue());
             }
-            cpString = new CPClass(cpUTF8Value(string, false), -1);
-            stringsToCPClass.put(string, cpString);
+            newCpString = new CPClass(cpUTF8Value(string, false), -1);
+            stringsToCPClass.put(string, newCpString);
         }
-        return cpString;
+        return newCpString;
     }
 
     public CPDouble cpDoubleValue(final int index) {
         final Double dbl = Double.valueOf(cpDouble[index]);
-        CPDouble cpDouble = doublesToCPDoubles.get(dbl);
-        if (cpDouble == null) {
-            cpDouble = new CPDouble(dbl, index + doubleOffset);
-            doublesToCPDoubles.put(dbl, cpDouble);
+        CPDouble newCpDouble = doublesToCPDoubles.get(dbl);
+        if (newCpDouble == null) {
+            newCpDouble = new CPDouble(dbl, index + doubleOffset);
+            doublesToCPDoubles.put(dbl, newCpDouble);
         }
-        return cpDouble;
+        return newCpDouble;
     }
 
     public CPFieldRef cpFieldValue(final int index) {
@@ -145,12 +145,12 @@ public class CpBands extends BandSet {
 
     public CPFloat cpFloatValue(final int index) {
         final Float f = Float.valueOf(cpFloat[index]);
-        CPFloat cpFloat = floatsToCPFloats.get(f);
-        if (cpFloat == null) {
-            cpFloat = new CPFloat(f, index + floatOffset);
-            floatsToCPFloats.put(f, cpFloat);
+        CPFloat newCpFloat = floatsToCPFloats.get(f);
+        if (newCpFloat == null) {
+            newCpFloat = new CPFloat(f, index + floatOffset);
+            floatsToCPFloats.put(f, newCpFloat);
         }
-        return cpFloat;
+        return newCpFloat;
     }
 
     public CPInterfaceMethodRef cpIMethodValue(final int index) {
@@ -170,12 +170,12 @@ public class CpBands extends BandSet {
 
     public CPLong cpLongValue(final int index) {
         final Long l = Long.valueOf(cpLong[index]);
-        CPLong cpLong = longsToCPLongs.get(l);
-        if (cpLong == null) {
-            cpLong = new CPLong(l, index + longOffset);
-            longsToCPLongs.put(l, cpLong);
+        CPLong newCpLong = longsToCPLongs.get(l);
+        if (newCpLong == null) {
+            newCpLong = new CPLong(l, index + longOffset);
+            longsToCPLongs.put(l, newCpLong);
         }
-        return cpLong;
+        return newCpLong;
     }
 
     public CPMethodRef cpMethodValue(final int index) {
@@ -225,24 +225,24 @@ public class CpBands extends BandSet {
             globalIndex = index + signatureOffset;
         }
         final String string = cpSignature[index];
-        CPUTF8 cpUTF8 = stringsToCPUTF8.get(string);
-        if (cpUTF8 == null) {
-            cpUTF8 = new CPUTF8(string, globalIndex);
-            stringsToCPUTF8.put(string, cpUTF8);
+        CPUTF8 newCpUTF8 = stringsToCPUTF8.get(string);
+        if (newCpUTF8 == null) {
+            newCpUTF8 = new CPUTF8(string, globalIndex);
+            stringsToCPUTF8.put(string, newCpUTF8);
         }
-        return cpUTF8;
+        return newCpUTF8;
     }
 
     public CPString cpStringValue(final int index) {
         final String string = cpString[index];
         final int utf8Index = cpStringInts[index];
         final int globalIndex = stringOffset + index;
-        CPString cpString = stringsToCPStrings.get(string);
-        if (cpString == null) {
-            cpString = new CPString(cpUTF8Value(utf8Index), globalIndex);
-            stringsToCPStrings.put(string, cpString);
+        CPString newCpString = stringsToCPStrings.get(string);
+        if (newCpString == null) {
+            newCpString = new CPString(cpUTF8Value(utf8Index), globalIndex);
+            stringsToCPStrings.put(string, newCpString);
         }
-        return cpString;
+        return newCpString;
     }
 
     public CPUTF8 cpUTF8Value(final int index) {

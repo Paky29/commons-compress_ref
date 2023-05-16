@@ -36,6 +36,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 /**
  * Initially based on <a
@@ -96,7 +97,13 @@ public class MultiReadOnlySeekableByteChannelTest {
     @Test
     public void cantWrite() {
         final SeekableByteChannel s = MultiReadOnlySeekableByteChannel.forSeekableByteChannels(makeEmpty(), makeEmpty());
-        assertThrows(NonWritableChannelException.class, () -> s.write(ByteBuffer.allocate(10)));
+        assertThrows(NonWritableChannelException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ByteBuffer buffer = ByteBuffer.allocate(10);
+                s.write(buffer);
+            }
+        });
     }
 
     private void check(final byte[] expected) throws IOException {

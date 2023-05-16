@@ -39,7 +39,8 @@ public class BrotliCompressorInputStream extends CompressorInputStream
     private final BrotliInputStream decIS;
 
     public BrotliCompressorInputStream(final InputStream in) throws IOException {
-        decIS = new BrotliInputStream(countingStream = new CountingInputStream(in));
+        countingStream = new CountingInputStream(in);
+        decIS = new BrotliInputStream(countingStream);
     }
 
     @Override

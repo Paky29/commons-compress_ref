@@ -38,7 +38,7 @@ class MainHeader {
         static final int OS2 = 5;
         static final int APPLE_GS = 6;
         static final int ATARI_ST = 7;
-        static final int NeXT = 8;
+        static final int NEXT = 8;
         static final int VAX_VMS = 9;
         static final int WIN95 = 10;
         static final int WIN32 = 11;

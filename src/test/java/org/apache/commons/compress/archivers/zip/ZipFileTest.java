@@ -60,6 +60,7 @@ import org.junit.Assume;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class ZipFileTest extends AbstractTestCase {
 
@@ -685,7 +686,13 @@ public class ZipFileTest extends AbstractTestCase {
      */
     @Test
     public void testInvalidAlignment() {
-        assertThrows(IllegalArgumentException.class, () -> new ZipArchiveEntry("dummy").setAlignment(3));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ZipArchiveEntry entry = new ZipArchiveEntry("dummy");
+                entry.setAlignment(3);
+            }
+        });
     }
 
     /**

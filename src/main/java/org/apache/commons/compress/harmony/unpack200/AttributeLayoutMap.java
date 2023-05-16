@@ -159,11 +159,11 @@ public class AttributeLayoutMap {
             if (!(c instanceof List)) {
                 c = new ArrayList<>(c);
             }
-            final List<AttributeLayout> layouts = (List<AttributeLayout>) c;
-            for (int j = 0; j < layouts.size(); j++) {
-                final AttributeLayout layout1 = layouts.get(j);
-                for (int j2 = j + 1; j2 < layouts.size(); j2++) {
-                    final AttributeLayout layout2 = layouts.get(j2);
+            final List<AttributeLayout> newLayouts = (List<AttributeLayout>) c;
+            for (int j = 0; j < newLayouts.size(); j++) {
+                final AttributeLayout layout1 = newLayouts.get(j);
+                for (int j2 = j + 1; j2 < newLayouts.size(); j2++) {
+                    final AttributeLayout layout2 = newLayouts.get(j2);
                     if (layout1.getName().equals(layout2.getName())
                         && layout1.getLayout().equals(layout2.getLayout())) {
                         throw new Pack200Exception(

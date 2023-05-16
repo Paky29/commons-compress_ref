@@ -96,6 +96,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
      */
     public static final int BIGNUMBER_POSIX = 2;
     private static final int RECORD_SIZE = 512;
+    private static final String streamFinished = "Stream has already been finished";
 
     private static final ZipEncoding ASCII =
         ZipEncodingHelper.getZipEncoding("ASCII");
@@ -211,8 +212,8 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
         if (realBlockSize <= 0 || realBlockSize % RECORD_SIZE != 0) {
             throw new IllegalArgumentException("Block size must be a multiple of 512 bytes. Attempt to use set size of " + blockSize);
         }
-        out = new FixedLengthBlockOutputStream(countingOut = new CountingOutputStream(os),
-                                               RECORD_SIZE);
+        countingOut = new CountingOutputStream(os);
+        out = new FixedLengthBlockOutputStream(countingOut, RECORD_SIZE);
         this.encoding = encoding;
         this.zipEncoding = ZipEncodingHelper.getZipEncoding(encoding);
 
@@ -336,7 +337,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     @Override
     public void closeArchiveEntry() throws IOException {
         if (finished) {
-            throw new IOException("Stream has already been finished");
+            throw new IOException(streamFinished);
         }
         if (!haveUnclosedEntry) {
             throw new IOException("No current entry to close");
@@ -360,7 +361,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     public ArchiveEntry createArchiveEntry(final File inputFile, final String entryName)
         throws IOException {
         if (finished) {
-            throw new IOException("Stream has already been finished");
+            throw new IOException(streamFinished);
         }
         return new TarArchiveEntry(inputFile, entryName);
     }
@@ -368,7 +369,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     @Override
     public ArchiveEntry createArchiveEntry(final Path inputPath, final String entryName, final LinkOption... options) throws IOException {
         if (finished) {
-            throw new IOException("Stream has already been finished");
+            throw new IOException(streamFinished);
         }
         return new TarArchiveEntry(inputPath, entryName, options);
     }
@@ -563,7 +564,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     @Override
     public void putArchiveEntry(final ArchiveEntry archiveEntry) throws IOException {
         if (finished) {
-            throw new IOException("Stream has already been finished");
+            throw new IOException(streamFinished);
         }
         final TarArchiveEntry entry = (TarArchiveEntry) archiveEntry;
         if (entry.isGlobalPaxHeader()) {
@@ -749,18 +750,18 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     /**
      * Write an archive record to the archive.
      *
-     * @param record The record data to write to the archive.
+     * @param rec The record data to write to the archive.
      * @throws IOException on error
      */
-    private void writeRecord(final byte[] record) throws IOException {
-        if (record.length != RECORD_SIZE) {
+    private void writeRecord(final byte[] rec) throws IOException {
+        if (rec.length != RECORD_SIZE) {
             throw new IOException("Record to write has length '"
-                + record.length
+                + rec.length
                 + "' which is not the record size of '"
                 + RECORD_SIZE + "'");
         }
 
-        out.write(record);
+        out.write(rec);
         recordsWritten++;
     }
 }

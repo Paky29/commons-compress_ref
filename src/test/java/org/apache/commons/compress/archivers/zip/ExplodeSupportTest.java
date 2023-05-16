@@ -35,6 +35,7 @@ import java.util.zip.CheckedOutputStream;
 import org.apache.commons.compress.utils.BoundedInputStream;
 import org.apache.commons.compress.utils.IOUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class ExplodeSupportTest {
 
@@ -67,11 +68,25 @@ public class ExplodeSupportTest {
 
     @Test
     public void testConstructorThrowsExceptions() {
-        assertThrows(IllegalArgumentException.class, () -> new ExplodingInputStream(4095, 2, new ByteArrayInputStream(new byte[]{})),
-                "should have failed with illegal argument exception");
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                int bufferSize = 4095;
+                int explodeCount = 2;
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(new byte[]{});
+                new ExplodingInputStream(bufferSize, explodeCount, inputStream);
+            }
+        }, "should have failed with illegal argument exception");
 
-        assertThrows(IllegalArgumentException.class, () -> new ExplodingInputStream(4096, 4, new ByteArrayInputStream(new byte[]{})),
-                "should have failed with illegal argument exception");
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                int bufferSize = 4096;
+                int explodeCount = 4;
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(new byte[]{});
+                new ExplodingInputStream(bufferSize, explodeCount, inputStream);
+            }
+        }, "should have failed with illegal argument exception");
     }
 
     @Test

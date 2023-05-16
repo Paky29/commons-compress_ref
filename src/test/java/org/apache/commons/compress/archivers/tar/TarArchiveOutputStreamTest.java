@@ -50,6 +50,7 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.output.NullOutputStream;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class TarArchiveOutputStreamTest extends AbstractTestCase {
 
@@ -412,8 +413,16 @@ public class TarArchiveOutputStreamTest extends AbstractTestCase {
 
     @SuppressWarnings("deprecation")
     @Test public void testRecordSize() throws IOException {
-        assertThrows(IllegalArgumentException.class, () -> new TarArchiveOutputStream(new ByteArrayOutputStream(),512,511),
-                "should have rejected recordSize of 511");
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                int blockSize = 512;
+                int recordSize = 511;
+                new TarArchiveOutputStream(outputStream, blockSize, recordSize);
+            }
+        }, "should have rejected recordSize of 511");
+
         try (TarArchiveOutputStream tos = new TarArchiveOutputStream(new ByteArrayOutputStream(),
             512, 512)) {
             assertEquals(512, tos.getRecordSize(), "recordSize");

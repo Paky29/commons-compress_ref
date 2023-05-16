@@ -24,11 +24,11 @@ package org.apache.commons.compress.utils;
  */
 public class OsgiUtils {
 
-    private static final boolean inOsgiEnvironment;
+    private static final boolean IN_OSGI_ENVIRONMENT;
 
     static {
         final Class<?> classloaderClass = OsgiUtils.class.getClassLoader().getClass();
-        inOsgiEnvironment = isBundleReference(classloaderClass);
+        IN_OSGI_ENVIRONMENT = isBundleReference(classloaderClass);
     }
 
     private static boolean isBundleReference(final Class<?> clazz) {
@@ -52,7 +52,7 @@ public class OsgiUtils {
      * @return true if Commons Compress running as an OSGi bundle.
      */
     public static boolean isRunningInOsgiEnvironment() {
-        return inOsgiEnvironment;
+        return IN_OSGI_ENVIRONMENT;
     }
 
 }

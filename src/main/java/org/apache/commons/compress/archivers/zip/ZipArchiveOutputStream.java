@@ -478,25 +478,25 @@ public class ZipArchiveOutputStream extends ArchiveOutputStream {
      */
     public ZipArchiveOutputStream(final Path file, final OpenOption... options) throws IOException {
         def = new Deflater(level, true);
-        OutputStream outputStream = null;
-        SeekableByteChannel channel = null;
-        StreamCompressor streamCompressor = null;
+        OutputStream anOutputStream = null;
+        SeekableByteChannel aChannel = null;
+        StreamCompressor aStreamCompressor = null;
         try {
-            channel = Files.newByteChannel(file,
+            aChannel = Files.newByteChannel(file,
                 EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.WRITE,
                            StandardOpenOption.READ,
                            StandardOpenOption.TRUNCATE_EXISTING));
             // will never get opened properly when an exception is thrown so doesn't need to get closed
-            streamCompressor = StreamCompressor.create(channel, def); //NOSONAR
+            aStreamCompressor = StreamCompressor.create(aChannel, def); //NOSONAR
         } catch (final IOException e) { // NOSONAR
-            IOUtils.closeQuietly(channel);
-            channel = null;
-            outputStream = Files.newOutputStream(file, options);
-            streamCompressor = StreamCompressor.create(outputStream, def);
+            IOUtils.closeQuietly(aChannel);
+            aChannel = null;
+            anOutputStream = Files.newOutputStream(file, options);
+            aStreamCompressor = StreamCompressor.create(anOutputStream, def);
         }
-        this.outputStream = outputStream;
-        this.channel = channel;
-        this.streamCompressor = streamCompressor;
+        this.outputStream = anOutputStream;
+        this.channel = aChannel;
+        this.streamCompressor = aStreamCompressor;
         this.isSplitZip = false;
     }
 
@@ -1761,9 +1761,14 @@ public class ZipArchiveOutputStream extends ArchiveOutputStream {
         final int numberOfEntries = entries.size();
 
         // total number of entries in the central directory on this disk
-        final int numOfEntriesOnThisDisk = isSplitZip
-            ? numberOfCDInDiskData.get(numberOfThisDisk) == null ? 0 : numberOfCDInDiskData.get(numberOfThisDisk)
-            : numberOfEntries;
+        final int numOfEntriesOnThisDisk;
+        if (isSplitZip) {
+            if (numberOfCDInDiskData.get(numberOfThisDisk) == null) numOfEntriesOnThisDisk = 0;
+            else numOfEntriesOnThisDisk = numberOfCDInDiskData.get(numberOfThisDisk);
+        }
+        else numOfEntriesOnThisDisk = 0;
+
+
         final byte[] numOfEntriesOnThisDiskData = ZipShort
                 .getBytes(Math.min(numOfEntriesOnThisDisk, ZipConstants.ZIP64_MAGIC_SHORT));
         writeCounted(numOfEntriesOnThisDiskData);
@@ -1983,9 +1988,14 @@ public class ZipArchiveOutputStream extends ArchiveOutputStream {
         writeOut(ZipLong.getBytes(cdDiskNumberStart));
 
         // total number of entries in the central directory on this disk
-        final int numOfEntriesOnThisDisk = isSplitZip
-            ? numberOfCDInDiskData.get(numberOfThisDisk) == null ? 0 : numberOfCDInDiskData.get(numberOfThisDisk)
-            : entries.size();
+        final int numOfEntriesOnThisDisk;
+        if (isSplitZip) {
+            Integer numberOfCD = numberOfCDInDiskData.get(numberOfThisDisk);
+            if (numberOfCD == null) numOfEntriesOnThisDisk = 0;
+            else numOfEntriesOnThisDisk = numberOfCD;
+        }
+        else numOfEntriesOnThisDisk = entries.size();
+
         final byte[] numOfEntriesOnThisDiskData = ZipEightByteInteger.getBytes(numOfEntriesOnThisDisk);
         writeOut(numOfEntriesOnThisDiskData);
 

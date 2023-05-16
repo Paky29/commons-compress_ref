@@ -81,7 +81,7 @@ public class FixedLengthBlockOutputStreamTest {
         @Override
         public void write(final int b) throws IOException {
             checkIsOpen();
-            assertEquals(requiredWriteSize, 1, "write size");
+            assertEquals(1, requiredWriteSize, "write size");
             bos.write(b);
         }
     }

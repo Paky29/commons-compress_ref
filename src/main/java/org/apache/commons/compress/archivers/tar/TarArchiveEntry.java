@@ -1681,11 +1681,11 @@ public class TarArchiveEntry implements ArchiveEntry, TarConstants, EntryStreamO
                 setUserName(val);
                 break;
             case "size":
-                final long size = Long.parseLong(val);
-                if (size < 0) {
+                final long tempSize = Long.parseLong(val);
+                if (tempSize < 0) {
                     throw new IOException("Corrupted TAR archive. Entry size is negative");
                 }
-                setSize(size);
+                setSize(tempSize);
                 break;
             case "mtime":
                 setLastModifiedTime(FileTime.from(parseInstantFromDecimalSeconds(val)));
@@ -1700,18 +1700,18 @@ public class TarArchiveEntry implements ArchiveEntry, TarConstants, EntryStreamO
                 setCreationTime(FileTime.from(parseInstantFromDecimalSeconds(val)));
                 break;
             case "SCHILY.devminor":
-                final int devMinor = Integer.parseInt(val);
-                if (devMinor < 0) {
+                final int tempDevMinor = Integer.parseInt(val);
+                if (tempDevMinor < 0) {
                     throw new IOException("Corrupted TAR archive. Dev-Minor is negative");
                 }
-                setDevMinor(devMinor);
+                setDevMinor(tempDevMinor);
                 break;
             case "SCHILY.devmajor":
-                final int devMajor = Integer.parseInt(val);
-                if (devMajor < 0) {
+                final int tempDevMajor = Integer.parseInt(val);
+                if (tempDevMajor < 0) {
                     throw new IOException("Corrupted TAR archive. Dev-Major is negative");
                 }
-                setDevMajor(devMajor);
+                setDevMajor(tempDevMajor);
                 break;
             case TarGnuSparseKeys.SIZE:
                 fillGNUSparse0xData(headers);

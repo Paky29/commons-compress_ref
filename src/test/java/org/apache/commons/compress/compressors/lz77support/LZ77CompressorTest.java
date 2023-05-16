@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class LZ77CompressorTest {
 
@@ -236,7 +237,13 @@ public class LZ77CompressorTest {
     public void cantPrefillAfterCompress() throws IOException {
         final LZ77Compressor c = new LZ77Compressor(newParameters(128), block -> {});
         c.compress(Arrays.copyOfRange(BLA, 0, 2));
-        assertThrows(IllegalStateException.class, () -> c.prefill(Arrays.copyOfRange(BLA, 2, 4)));
+        assertThrows(IllegalStateException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                byte[] prefillData = Arrays.copyOfRange(BLA, 2, 4);
+                c.prefill(prefillData);
+            }
+        });
     }
 
     @Test

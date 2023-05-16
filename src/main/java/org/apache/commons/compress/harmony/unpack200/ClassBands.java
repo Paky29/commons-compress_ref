@@ -1007,6 +1007,7 @@ public class ClassBands extends BandSet {
                 case '@':
                     atCount++;
                     break;
+                default: break;
                 }
             }
             mbg[i].caseI_KI = parseCPIntReferences(contextName + "_" + rxa + "_caseI_KI", in, Codec.UNSIGNED5, ICount);
@@ -1217,14 +1218,14 @@ public class ClassBands extends BandSet {
      */
     @Override
     public void read(final InputStream in) throws IOException, Pack200Exception {
-        final int classCount = header.getClassCount();
-        classThisInts = decodeBandInt("class_this", in, Codec.DELTA5, classCount);
+        final int newClassCount = header.getClassCount();
+        classThisInts = decodeBandInt("class_this", in, Codec.DELTA5, newClassCount);
         classThis = getReferences(classThisInts, cpBands.getCpClass());
-        classSuperInts = decodeBandInt("class_super", in, Codec.DELTA5, classCount);
-        final int[] classInterfaceLengths = decodeBandInt("class_interface_count", in, Codec.DELTA5, classCount);
+        classSuperInts = decodeBandInt("class_super", in, Codec.DELTA5, newClassCount);
+        final int[] classInterfaceLengths = decodeBandInt("class_interface_count", in, Codec.DELTA5, newClassCount);
         classInterfacesInts = decodeBandInt("class_interface", in, Codec.DELTA5, classInterfaceLengths);
-        classFieldCount = decodeBandInt("class_field_count", in, Codec.DELTA5, classCount);
-        classMethodCount = decodeBandInt("class_method_count", in, Codec.DELTA5, classCount);
+        classFieldCount = decodeBandInt("class_field_count", in, Codec.DELTA5, newClassCount);
+        classMethodCount = decodeBandInt("class_method_count", in, Codec.DELTA5, newClassCount);
         parseFieldBands(in);
         parseMethodBands(in);
         parseClassAttrBands(in);

@@ -244,9 +244,6 @@ public class CpioArchiveEntry implements CpioConstants, ArchiveEntry {
     public CpioArchiveEntry(final short format) {
         switch (format) {
         case FORMAT_NEW:
-            this.headerSize = 110;
-            this.alignmentBoundary = 4;
-            break;
         case FORMAT_NEW_CRC:
             this.headerSize = 110;
             this.alignmentBoundary = 4;
@@ -647,7 +644,11 @@ public class CpioArchiveEntry implements CpioConstants, ArchiveEntry {
      * @return Returns the number of links.
      */
     public long getNumberOfLinks() {
-        return nlink == 0 ? isDirectory() ? 2 : 1 : nlink;
+        if (nlink == 0) {
+            if (isDirectory()) return 2;
+            else return 1;
+        }
+        else return nlink;
     }
 
     /**

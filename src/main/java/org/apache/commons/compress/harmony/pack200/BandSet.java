@@ -23,12 +23,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 /**
  * Abstract superclass for a set of bands
  */
 public abstract class BandSet {
+
+    private static final Logger LOGGER = Logger.getLogger("BandSetLogger");
 
     /**
      * Results obtained by trying different Codecs to encode a band
@@ -292,7 +296,7 @@ public abstract class BandSet {
             codecFamiliesToTry.add(CanonicalCodecFamilies.deltaUnsignedCodecs5);
         }
         if (name.equalsIgnoreCase("cpint")) {
-            System.out.print("");
+            LOGGER.log(Level.INFO, "");
         }
 
         for (final BHSDCodec[] family : codecFamiliesToTry) {
@@ -612,6 +616,7 @@ public abstract class BandSet {
                     case 252:
                         tdefL = 11;
                         break;
+                    default: break;
                     }
                 }
             }

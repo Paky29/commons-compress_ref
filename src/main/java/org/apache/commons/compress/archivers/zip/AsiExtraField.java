@@ -85,7 +85,7 @@ public class AsiExtraField implements ZipExtraField, UnixStat, Cloneable {
      */
     private CRC32 crc = new CRC32();
 
-    /** Constructor for AsiExtraField. */
+    /* The method is left empty because its instance variable will be set once the object will be initialized */
     public AsiExtraField() {
     }
 

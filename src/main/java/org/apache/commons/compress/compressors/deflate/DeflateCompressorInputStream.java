@@ -36,10 +36,10 @@ public class DeflateCompressorInputStream extends CompressorInputStream
     implements InputStreamStatistics {
 
     private static final int MAGIC_1 = 0x78;
-    private static final int MAGIC_2a = 0x01;
-    private static final int MAGIC_2b = 0x5e;
-    private static final int MAGIC_2c = 0x9c;
-    private static final int MAGIC_2d = 0xda;
+    private static final int MAGIC_2A = 0x01;
+    private static final int MAGIC_2B = 0x5e;
+    private static final int MAGIC_2C = 0x9c;
+    private static final int MAGIC_2D = 0xda;
 
     /**
      * Checks if the signature matches what is expected for a zlib / deflated file
@@ -56,10 +56,10 @@ public class DeflateCompressorInputStream extends CompressorInputStream
      */
     public static boolean matches(final byte[] signature, final int length) {
         return length > 3 && signature[0] == MAGIC_1 && (
-                signature[1] == (byte) MAGIC_2a ||
-                signature[1] == (byte) MAGIC_2b ||
-                signature[1] == (byte) MAGIC_2c ||
-                signature[1] == (byte) MAGIC_2d);
+                signature[1] == (byte) MAGIC_2A ||
+                signature[1] == (byte) MAGIC_2B ||
+                signature[1] == (byte) MAGIC_2C ||
+                signature[1] == (byte) MAGIC_2D);
     }
     private final CountingInputStream countingStream;
     private final InputStream in;
@@ -87,7 +87,8 @@ public class DeflateCompressorInputStream extends CompressorInputStream
     public DeflateCompressorInputStream(final InputStream inputStream,
                                         final DeflateParameters parameters) {
         inflater = new Inflater(!parameters.withZlibHeader());
-        in = new InflaterInputStream(countingStream = new CountingInputStream(inputStream), inflater);
+        countingStream = new CountingInputStream(inputStream);
+        in = new InflaterInputStream(countingStream, inflater);
     }
 
     /** {@inheritDoc} */

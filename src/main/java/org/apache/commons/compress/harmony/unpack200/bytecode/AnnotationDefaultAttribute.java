@@ -26,16 +26,16 @@ import java.util.List;
  */
 public class AnnotationDefaultAttribute extends AnnotationsAttribute {
 
-    private static CPUTF8 attributeName;
+    private static CPUTF8 annotationDefaultAttributeName;
 
-    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
-        attributeName = cpUTF8Value;
+    public static void setAnnotationDefaultAttributeName(final CPUTF8 cpUTF8Value) {
+        annotationDefaultAttributeName = cpUTF8Value;
     }
 
     private final ElementValue elementValue;
 
     public AnnotationDefaultAttribute(final ElementValue elementValue) {
-        super(attributeName);
+        super(annotationDefaultAttributeName);
         this.elementValue = elementValue;
     }
 
@@ -52,7 +52,7 @@ public class AnnotationDefaultAttribute extends AnnotationsAttribute {
     @Override
     protected ClassFileEntry[] getNestedClassFileEntries() {
         final List<Object> nested = new ArrayList<>();
-        nested.add(attributeName);
+        nested.add(annotationDefaultAttributeName);
         nested.addAll(elementValue.getClassFileEntries());
         final ClassFileEntry[] nestedEntries = new ClassFileEntry[nested.size()];
         for (int i = 0; i < nestedEntries.length; i++) {

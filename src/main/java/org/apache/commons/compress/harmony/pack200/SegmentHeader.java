@@ -65,8 +65,8 @@ public class SegmentHeader extends BandSet {
     }
 
     private static final int[] magic = {0xCA, 0xFE, 0xD0, 0x0D};
-    private static final int archive_minver = 7;
-    private static final int archive_majver = 150;
+    private static final int ARCHIVE_MINVER = 7;
+    private static final int ARCHIVE_MAJVER = 150;
 
     private int archive_options;
 
@@ -208,8 +208,8 @@ public class SegmentHeader extends BandSet {
     @Override
     public void pack(final OutputStream out) throws IOException, Pack200Exception {
         out.write(encodeScalar(magic, Codec.BYTE1));
-        out.write(encodeScalar(archive_minver, Codec.UNSIGNED5));
-        out.write(encodeScalar(archive_majver, Codec.UNSIGNED5));
+        out.write(encodeScalar(ARCHIVE_MINVER, Codec.UNSIGNED5));
+        out.write(encodeScalar(ARCHIVE_MAJVER, Codec.UNSIGNED5));
         calculateArchiveOptions();
         out.write(encodeScalar(archive_options, Codec.UNSIGNED5));
         writeArchiveFileCounts(out);

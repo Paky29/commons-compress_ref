@@ -25,10 +25,10 @@ import java.util.Objects;
  */
 public class ConstantValueAttribute extends Attribute {
 
-    private static CPUTF8 attributeName;
+    private static CPUTF8 constantValueAttributeName;
 
-    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
-        attributeName = cpUTF8Value;
+    public static void setConstantValueAttributeName(final CPUTF8 cpUTF8Value) {
+        constantValueAttributeName = cpUTF8Value;
     }
 
     private int constantIndex;
@@ -36,7 +36,7 @@ public class ConstantValueAttribute extends Attribute {
     private final ClassFileEntry entry;
 
     public ConstantValueAttribute(final ClassFileEntry entry) {
-        super(attributeName);
+        super(constantValueAttributeName);
         this.entry = Objects.requireNonNull(entry, "entry");
     }
 

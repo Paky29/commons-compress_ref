@@ -46,6 +46,7 @@ import java.util.zip.ZipException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class X5455_ExtendedTimestampTest {
     private final static ZipShort X5455 = new ZipShort(0x5455);
@@ -216,8 +217,15 @@ public class X5455_ExtendedTimestampTest {
 
         // set too big
         // Java time is 1000 x larger (milliseconds).
-        assertThrows(IllegalArgumentException.class, () -> xf.setModifyJavaTime(new Date(1000L * (MAX_TIME_SECONDS.getValue() + 1L))),
-                "Time too big for 32 bits!");
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                long maxTimeSeconds = MAX_TIME_SECONDS.getValue();
+                long timeValue = 1000L * (maxTimeSeconds + 1L);
+                xf.setModifyJavaTime(new Date(timeValue));
+            }
+        }, "Time too big for 32 bits!");
+
 
         // get/set modify time
         xf.setModifyTime(time);

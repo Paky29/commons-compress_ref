@@ -89,10 +89,10 @@ public class Pack200PackerAdapter extends Pack200Adapter implements Packer {
             throw new IllegalArgumentException("Must specify both input and output streams");
         }
         completed(0);
-        final PackingOptions options = new PackingOptions();
+        final PackingOptions newOptions = new PackingOptions();
 
         try {
-            new org.apache.commons.compress.harmony.pack200.Archive(in, out, options).pack();
+            new org.apache.commons.compress.harmony.pack200.Archive(in, out, newOptions).pack();
         } catch (final Pack200Exception e) {
             throw new IOException("Failed to pack Jar:" + e);
         }

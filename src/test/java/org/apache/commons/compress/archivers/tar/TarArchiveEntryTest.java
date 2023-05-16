@@ -41,10 +41,12 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.compress.AbstractTestCase;
+import org.apache.commons.compress.archivers.zip.ZipEncoding;
 import org.apache.commons.compress.archivers.zip.ZipEncodingHelper;
 import org.apache.commons.compress.utils.CharsetNames;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.function.Executable;
 
 public class TarArchiveEntryTest implements TarConstants {
 
@@ -140,12 +142,28 @@ public class TarArchiveEntryTest implements TarConstants {
                 "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
                 "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000").getBytes(UTF_8);
         // @formatter:on
-        assertThrows(IllegalArgumentException.class, () -> new TarArchiveEntry(entryContent, ZipEncodingHelper.getZipEncoding(CharsetNames.ISO_8859_1), false, -1));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ZipEncoding zipEncoding = ZipEncodingHelper.getZipEncoding(CharsetNames.ISO_8859_1);
+                boolean isDirectory = false;
+                long size = -1;
+
+                new TarArchiveEntry(entryContent, zipEncoding, isDirectory, size);
+            }
+        });
     }
 
     @Test
     public void negativeOffsetInSetterNotAllowed() {
-        assertThrows(IllegalArgumentException.class, () -> new TarArchiveEntry("test").setDataOffset(-1));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                String name = "test";
+                TarArchiveEntry entry = new TarArchiveEntry(name);
+                entry.setDataOffset(-1);
+            }
+        });
     }
 
     @Test
@@ -204,7 +222,7 @@ public class TarArchiveEntryTest implements TarConstants {
         assertNull(entry.getExtraPaxHeader("atime"), "atime");
         assertNull(entry.getExtraPaxHeader("ctime"), "ctime");
         assertNull(entry.getExtraPaxHeader("LIBARCHIVE.creationtime"), "birthtime");
-        assertEquals(entry.getSize(), 1, "size");
+        assertEquals(1, entry.getSize(), "size");
         assertEquals(toFileTime("2022-03-14T01:25:03.599853900Z"), entry.getLastModifiedTime(), "mtime");
         assertEquals(toFileTime("2022-03-14T01:31:00.706927200Z"), entry.getLastAccessTime(), "atime");
         assertEquals(toFileTime("2022-03-14T01:28:59.700505300Z"), entry.getStatusChangeTime(), "ctime");
@@ -317,7 +335,7 @@ public class TarArchiveEntryTest implements TarConstants {
         assertEquals(2, entry.getExtraPaxHeaders().size(), "extra header count");
         assertEquals("true", entry.getExtraPaxHeader("APACHE.mustelida"), "APACHE.mustelida");
         assertEquals("maximum weasels", entry.getExtraPaxHeader("SCHILY.xattr.user.org.apache.weasels"), "SCHILY.xattr.user.org.apache.weasels");
-        assertEquals(entry.getSize(), 1, "size");
+        assertEquals(1, entry.getSize(), "size");
 
         tos.putArchiveEntry(entry);
         tos.write('W');

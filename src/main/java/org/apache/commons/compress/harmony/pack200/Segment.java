@@ -40,6 +40,8 @@ import org.objectweb.asm.Type;
  */
 public class Segment extends ClassVisitor {
 
+    private static final String unknownAttribute = "Unknown attribute encountered";
+
     public class ArrayVisitor extends AnnotationVisitor {
 
         private final int indexInCaseArrayN;
@@ -84,6 +86,7 @@ public class Segment extends ClassVisitor {
             return new ArrayVisitor(caseArrayN, tags, nameRU, values);
         }
 
+        /* To implement with operations to execute when ending a visit or after a compress data analysis */
         @Override
         public void visitEnd() {
         }
@@ -186,6 +189,7 @@ public class Segment extends ClassVisitor {
 //                    return null;
                 }
 
+                /* To implement with operations to execute when ending a visit or after a compress data analysis */
                 @Override
                 public void visitEnd() {
                 }
@@ -260,7 +264,7 @@ public class Segment extends ClassVisitor {
                 if (action.equals(PackingOptions.PASS)) {
                     passCurrentClass();
                 } else if (action.equals(PackingOptions.ERROR)) {
-                    throw new Error("Unknown attribute encountered");
+                    throw new Error(unknownAttribute);
                 } // else skip
             } else if (attribute instanceof NewAttribute) {
                 final NewAttribute newAttribute = (NewAttribute) attribute;
@@ -269,7 +273,7 @@ public class Segment extends ClassVisitor {
                     if (action.equals(PackingOptions.PASS)) {
                         passCurrentClass();
                     } else if (action.equals(PackingOptions.ERROR)) {
-                        throw new Error("Unknown attribute encountered");
+                        throw new Error(unknownAttribute);
                     } // else skip
                 }
                 classBands.addFieldAttribute(newAttribute);
@@ -278,6 +282,7 @@ public class Segment extends ClassVisitor {
             }
         }
 
+        /* To implement with operations to execute when ending a visit or after a compress data analysis */
         @Override
         public void visitEnd() {
         }
@@ -310,7 +315,7 @@ public class Segment extends ClassVisitor {
                 if (action.equals(PackingOptions.PASS)) {
                     passCurrentClass();
                 } else if (action.equals(PackingOptions.ERROR)) {
-                    throw new Error("Unknown attribute encountered");
+                    throw new Error(unknownAttribute);
                 } // else skip
             } else if (attribute instanceof NewAttribute) {
                 final NewAttribute newAttribute = (NewAttribute) attribute;
@@ -320,7 +325,7 @@ public class Segment extends ClassVisitor {
                         if (action.equals(PackingOptions.PASS)) {
                             passCurrentClass();
                         } else if (action.equals(PackingOptions.ERROR)) {
-                            throw new Error("Unknown attribute encountered");
+                            throw new Error(unknownAttribute);
                         } // else skip
                     }
                     classBands.addCodeAttribute(newAttribute);
@@ -330,7 +335,7 @@ public class Segment extends ClassVisitor {
                         if (action.equals(PackingOptions.PASS)) {
                             passCurrentClass();
                         } else if (action.equals(PackingOptions.ERROR)) {
-                            throw new Error("Unknown attribute encountered");
+                            throw new Error(unknownAttribute);
                         } // else skip
                     }
                     classBands.addMethodAttribute(newAttribute);
@@ -364,8 +369,8 @@ public class Segment extends ClassVisitor {
         }
 
         @Override
-        public void visitIincInsn(final int var, final int increment) {
-            bcBands.visitIincInsn(var, increment);
+        public void visitIincInsn(final int variable, final int increment) {
+            bcBands.visitIincInsn(variable, increment);
         }
 
         @Override
@@ -450,8 +455,8 @@ public class Segment extends ClassVisitor {
         }
 
         @Override
-        public void visitVarInsn(final int opcode, final int var) {
-            bcBands.visitVarInsn(opcode, var);
+        public void visitVarInsn(final int opcode, final int variable) {
+            bcBands.visitVarInsn(opcode, variable);
         }
 
     }
@@ -686,7 +691,7 @@ public class Segment extends ClassVisitor {
             if (action.equals(PackingOptions.PASS)) {
                 passCurrentClass();
             } else if (action.equals(PackingOptions.ERROR)) {
-                throw new Error("Unknown attribute encountered");
+                throw new Error(unknownAttribute);
             } // else skip
         } else if (attribute instanceof NewAttribute) {
             final NewAttribute newAttribute = (NewAttribute) attribute;
@@ -695,7 +700,7 @@ public class Segment extends ClassVisitor {
                 if (action.equals(PackingOptions.PASS)) {
                     passCurrentClass();
                 } else if (action.equals(PackingOptions.ERROR)) {
-                    throw new Error("Unknown attribute encountered");
+                    throw new Error(unknownAttribute);
                 } // else skip
             }
             classBands.addClassAttribute(newAttribute);

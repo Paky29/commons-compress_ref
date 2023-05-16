@@ -21,12 +21,7 @@ package org.apache.commons.compress.archivers.dump;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -302,7 +297,7 @@ public class DumpArchiveInputStream extends ArchiveInputStream {
     private String getPath(final DumpArchiveEntry entry) {
         // build the stack of elements. It's possible that we're
         // still missing an intermediate value and if so we
-        final Stack<String> elements = new Stack<>();
+        final ArrayDeque<String> elements = new ArrayDeque<>();
         Dirent dirent = null;
 
         for (int i = entry.getIno();; i = dirent.getParentIno()) {

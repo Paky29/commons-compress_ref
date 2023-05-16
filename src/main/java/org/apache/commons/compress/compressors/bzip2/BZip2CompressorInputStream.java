@@ -737,7 +737,7 @@ public class BZip2CompressorInputStream extends CompressorInputStream
     }
 
     private void recvDecodingTables() throws IOException {
-        final BitInputStream bin = this.bin;
+        final BitInputStream aBin = this.bin;
         final Data dataShadow = this.data;
         final boolean[] inUse = dataShadow.inUse;
         final byte[] pos = dataShadow.recvDecodingTables_pos;
@@ -748,7 +748,7 @@ public class BZip2CompressorInputStream extends CompressorInputStream
 
         /* Receive the mapping table */
         for (int i = 0; i < 16; i++) {
-            if (bsGetBit(bin)) {
+            if (bsGetBit(aBin)) {
                 inUse16 |= 1 << i;
             }
         }
@@ -758,7 +758,7 @@ public class BZip2CompressorInputStream extends CompressorInputStream
             if ((inUse16 & (1 << i)) != 0) {
                 final int i16 = i << 4;
                 for (int j = 0; j < 16; j++) {
-                    if (bsGetBit(bin)) {
+                    if (bsGetBit(aBin)) {
                         inUse[i16 + j] = true;
                     }
                 }
@@ -768,8 +768,8 @@ public class BZip2CompressorInputStream extends CompressorInputStream
         makeMaps();
         final int alphaSize = this.nInUse + 2;
         /* Now the selectors */
-        final int nGroups = bsR(bin, 3);
-        final int selectors = bsR(bin, 15);
+        final int nGroups = bsR(aBin, 3);
+        final int selectors = bsR(aBin, 15);
         if (selectors < 0) {
             throw new IOException("Corrupted input, nSelectors value negative");
         }
@@ -782,7 +782,7 @@ public class BZip2CompressorInputStream extends CompressorInputStream
 
         for (int i = 0; i < selectors; i++) {
             int j = 0;
-            while (bsGetBit(bin)) {
+            while (bsGetBit(aBin)) {
                 j++;
             }
             if (i < MAX_SELECTORS) {
@@ -813,11 +813,11 @@ public class BZip2CompressorInputStream extends CompressorInputStream
 
         /* Now the coding tables */
         for (int t = 0; t < nGroups; t++) {
-            int curr = bsR(bin, 5);
+            int curr = bsR(aBin, 5);
             final char[] len_t = len[t];
             for (int i = 0; i < alphaSize; i++) {
-                while (bsGetBit(bin)) {
-                    curr += bsGetBit(bin) ? -1 : 1;
+                while (bsGetBit(aBin)) {
+                    curr += bsGetBit(aBin) ? -1 : 1;
                 }
                 len_t[i] = (char) curr;
             }

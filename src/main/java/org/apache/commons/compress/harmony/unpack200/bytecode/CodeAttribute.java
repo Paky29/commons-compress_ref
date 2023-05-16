@@ -25,9 +25,9 @@ import org.apache.commons.compress.harmony.unpack200.Segment;
 
 public class CodeAttribute extends BCIRenumberedAttribute {
 
-    private static CPUTF8 attributeName;
-    public static void setAttributeName(final CPUTF8 attributeName) {
-        CodeAttribute.attributeName = attributeName;
+    private static CPUTF8 codeAttributeName;
+    public static void setCodeAttributeName(final CPUTF8 codeAttributeName) {
+        CodeAttribute.codeAttributeName = codeAttributeName;
     }
     public List<Attribute> attributes = new ArrayList<>();
     // instances
@@ -41,7 +41,7 @@ public class CodeAttribute extends BCIRenumberedAttribute {
 
     public CodeAttribute(final int maxStack, final int maxLocals, final byte[] codePacked, final Segment segment,
         final OperandManager operandManager, final List<ExceptionTableEntry> exceptionTable) {
-        super(attributeName);
+        super(codeAttributeName);
         this.maxLocals = maxLocals;
         this.maxStack = maxStack;
         this.codeLength = 0;

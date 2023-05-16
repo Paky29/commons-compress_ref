@@ -764,8 +764,12 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
 
         /* Decide how many coding tables to use */
         // assert (this.nMTF > 0) : this.nMTF;
-        final int nGroups = (this.nMTF < 200) ? 2 : (this.nMTF < 600) ? 3
-            : (this.nMTF < 1200) ? 4 : (this.nMTF < 2400) ? 5 : 6;
+        final int nGroups;
+        if (this.nMTF < 200) nGroups = 2;
+        else if (this.nMTF < 600) nGroups = 3;
+        else if (this.nMTF < 1200) nGroups = 4;
+        else if (this.nMTF < 2400) nGroups = 5;
+        else nGroups = 6;
 
         /* Generate an initial set of coding tables */
         sendMTFValues0(nGroups, alphaSize);

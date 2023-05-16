@@ -69,7 +69,8 @@ public class LZMACompressorInputStream extends CompressorInputStream
      */
     public LZMACompressorInputStream(final InputStream inputStream)
             throws IOException {
-        in = new LZMAInputStream(countingStream = new CountingInputStream(inputStream), -1);
+        countingStream = new CountingInputStream(inputStream);
+        in = new LZMAInputStream(countingStream, -1);
     }
 
     /**
@@ -92,7 +93,8 @@ public class LZMACompressorInputStream extends CompressorInputStream
     public LZMACompressorInputStream(final InputStream inputStream, final int memoryLimitInKb)
             throws IOException {
         try {
-            in = new LZMAInputStream(countingStream = new CountingInputStream(inputStream), memoryLimitInKb);
+            countingStream = new CountingInputStream(inputStream);
+            in = new LZMAInputStream(countingStream, memoryLimitInKb);
         } catch (final org.tukaani.xz.MemoryLimitException e) {
             //convert to commons-compress exception
             throw new MemoryLimitException(e.getMemoryNeeded(), e.getMemoryLimit(), e);

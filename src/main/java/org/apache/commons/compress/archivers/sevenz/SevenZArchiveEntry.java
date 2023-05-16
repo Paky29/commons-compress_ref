@@ -81,6 +81,7 @@ public class SevenZArchiveEntry implements ArchiveEntry {
 
     private Iterable<? extends SevenZMethodConfiguration> contentMethods;
 
+    /* The method is left empty because its instance variable will be set once the object will be initialized */
     public SevenZArchiveEntry() {
     }
 

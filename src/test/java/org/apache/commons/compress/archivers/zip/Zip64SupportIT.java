@@ -476,7 +476,7 @@ public class Zip64SupportIT {
                     // file name length
                     1, 0,
                     // extra field length
-                    (byte) (mode == Zip64Mode.Always? 32 : 12), 0,
+                    (byte) (mode == Zip64Mode.Always ? 32 : 12), 0,
                     // comment length
                     0, 0,
                     // disk number
@@ -653,7 +653,7 @@ public class Zip64SupportIT {
                     // file name length
                     1, 0,
                     // extra field length
-                    (byte) (mode == Zip64Mode.Always? 32 : 20), 0,
+                    (byte) (mode == Zip64Mode.Always ? 32 : 20), 0,
                     // comment length
                     0, 0,
                     // disk number
@@ -681,7 +681,7 @@ public class Zip64SupportIT {
                     // Header-ID
                     1, 0,
                     // size of extra
-                    (byte) (mode == Zip64Mode.Always? 28 : 16), 0,
+                    (byte) (mode == Zip64Mode.Always ? 28 : 16), 0,
                     // original size
                     0, (byte) 0xF2, 5, (byte) 0x2A,
                     1, 0, 0, 0,
@@ -839,7 +839,7 @@ public class Zip64SupportIT {
                     // file name length
                     1, 0,
                     // extra field length
-                    (byte) (mode == Zip64Mode.Always? 32 : 20), 0,
+                    (byte) (mode == Zip64Mode.Always ? 32 : 20), 0,
                     // comment length
                     0, 0,
                     // disk number
@@ -867,7 +867,7 @@ public class Zip64SupportIT {
                     // Header-ID
                     1, 0,
                     // size of extra
-                    (byte) (mode == Zip64Mode.Always? 28 : 16), 0,
+                    (byte) (mode == Zip64Mode.Always ? 28 : 16), 0,
                     // original size
                     0, (byte) 0xF2, 5, (byte) 0x2A,
                     1, 0, 0, 0,
@@ -1039,7 +1039,7 @@ public class Zip64SupportIT {
                     // file name length
                     1, 0,
                     // extra field length
-                    (byte) (mode == Zip64Mode.Always? 32 : 20), 0,
+                    (byte) (mode == Zip64Mode.Always ? 32 : 20), 0,
                     // comment length
                     0, 0,
                     // disk number
@@ -1067,7 +1067,7 @@ public class Zip64SupportIT {
                     // Header-ID
                     1, 0,
                     // size of extra
-                    (byte) (mode == Zip64Mode.Always? 28 : 16), 0,
+                    (byte) (mode == Zip64Mode.Always ? 28 : 16), 0,
                     // original size
                     0, (byte) 0xF2, 5, (byte) 0x2A,
                     1, 0, 0, 0,

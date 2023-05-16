@@ -94,6 +94,7 @@ public final class GeneralPurposeBit implements Cloneable {
 
     private int numberOfShannonFanoTrees;
 
+    /* The method is left empty because its instance variable will be set once the object will be initialized */
     public GeneralPurposeBit() {
     }
 

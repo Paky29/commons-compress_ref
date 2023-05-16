@@ -407,7 +407,7 @@ public class ZipMemoryFileSystemTest {
                             .peek(path -> println("Found: " + path.toAbsolutePath()))
                             .collect(Collectors.toList());
                 }
-                assertEquals(splitZips.size(), 2);
+                assertEquals(2, splitZips.size());
                 assertEquals(Files.size(splitZips.get(0)) +
                         Files.size(splitZips.get(1)) - 4, zipOut.getBytesWritten());
             }
@@ -503,7 +503,7 @@ public class ZipMemoryFileSystemTest {
                             .peek(path -> println("Found: " + path.toAbsolutePath()))
                             .collect(Collectors.toList());
                 }
-                assertEquals(splitZips.size(), 2);
+                assertEquals(2, splitZips.size());
                 assertEquals(Files.size(splitZips.get(0)) +
                         Files.size(splitZips.get(1)) - 4, zipOut.getBytesWritten());
             }

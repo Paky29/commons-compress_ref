@@ -44,10 +44,11 @@ public class ClassFile {
         dos.writeShort(pool.size() + 1);
         for (int i = 1; i <= pool.size(); i++) {
             ConstantPoolEntry entry;
-            (entry = (ConstantPoolEntry) pool.get(i)).doWrite(dos);
+            entry = (ConstantPoolEntry) pool.get(i);
+            entry.doWrite(dos);
             // Doubles and longs take up two spaces in the pool, but only one
             // gets written
-            if (entry.getTag() == ConstantPoolEntry.CP_Double || entry.getTag() == ConstantPoolEntry.CP_Long) {
+            if (entry.getTag() == ConstantPoolEntry.CP_DOUBLE || entry.getTag() == ConstantPoolEntry.CP_LONG) {
                 i++;
             }
         }

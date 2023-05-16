@@ -27,6 +27,7 @@ import java.nio.file.Files;
 
 import org.apache.commons.compress.AbstractTestCase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class ZipSplitOutputStreamTest extends AbstractTestCase {
 
@@ -81,12 +82,24 @@ public class ZipSplitOutputStreamTest extends AbstractTestCase {
 
     @Test
     public void throwsExceptionIfSplitSizeIsTooLarge() {
-        assertThrows(IllegalArgumentException.class, () -> new ZipSplitOutputStream(File.createTempFile("temp", "zip"), (4 * 1024 * 1024 * 1024L)));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                File tempFile = File.createTempFile("temp", "zip");
+                ZipSplitOutputStream outputStream = new ZipSplitOutputStream(tempFile, (4 * 1024 * 1024 * 1024L));
+            }
+        });
     }
 
     @Test
     public void throwsExceptionIfSplitSizeIsTooSmall() {
-        assertThrows(IllegalArgumentException.class, () -> new ZipSplitOutputStream(File.createTempFile("temp", "zip"), (64 * 1024 - 1)));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                File tempFile = File.createTempFile("temp", "zip");
+                ZipSplitOutputStream outputStream = new ZipSplitOutputStream(tempFile, (64 * 1024 - 1));
+            }
+        });
     }
 
     @Test

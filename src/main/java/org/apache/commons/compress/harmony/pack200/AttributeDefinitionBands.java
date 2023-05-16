@@ -142,6 +142,7 @@ public class AttributeDefinitionBands extends BandSet {
                 break;
             case CONTEXT_CODE:
                 codeAttributeLayouts.add(definition);
+            default: break;
             }
         });
     }

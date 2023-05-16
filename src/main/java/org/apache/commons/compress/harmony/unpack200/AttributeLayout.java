@@ -91,6 +91,7 @@ public class AttributeLayout implements IMatcher {
                 return pool.getValue(SegmentConstantPool.CP_LONG, value);
             case 'D': // Double
                 return pool.getValue(SegmentConstantPool.CP_DOUBLE, value);
+            default: break;
             }
         }
         throw new Pack200Exception("Unknown layout encoding: " + layout);

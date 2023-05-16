@@ -59,6 +59,7 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.compress.utils.InputStreamStatistics;
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public final class ZipTestCase extends AbstractTestCase {
 
@@ -187,7 +188,11 @@ public final class ZipTestCase extends AbstractTestCase {
     public void buildSplitZipWithTooSmallSizeThrowsException() throws IOException {
         final Path file = Files.createTempFile("temp", "zip");
         try {
-            assertThrows(IllegalArgumentException.class, () -> new ZipArchiveOutputStream(File.createTempFile("temp", "zip"), 64 * 1024 - 1));
+            File tempFile = File.createTempFile("temp", "zip");
+            int bufferSize = 64 * 1024 - 1;
+
+            Executable executable = () -> new ZipArchiveOutputStream(tempFile, bufferSize);
+            assertThrows(IllegalArgumentException.class, executable);
         } finally {
             Files.delete(file);
         }
@@ -756,7 +761,7 @@ public final class ZipTestCase extends AbstractTestCase {
             }
         }
 
-        assertEquals(results.size(), 2);
+        assertEquals(2, results.size());
         File result = results.get(0);
         assertEquals(file1.length(), result.length());
         result = results.get(1);

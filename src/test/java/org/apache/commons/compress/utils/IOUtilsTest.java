@@ -32,6 +32,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class IOUtilsTest {
 
@@ -65,13 +66,27 @@ public class IOUtilsTest {
 
     @Test
     public void copyRangeThrowsOnZeroBufferSize() {
-        assertThrows(IllegalArgumentException.class,
-            () -> IOUtils.copyRange(new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY), 5, new ByteArrayOutputStream(), 0));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ByteArrayInputStream input = new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY);
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                IOUtils.copyRange(input, 5, output, 0);
+            }
+        });
+
     }
 
     @Test
     public void copyThrowsOnZeroBufferSize() {
-        assertThrows(IllegalArgumentException.class, () -> IOUtils.copy(new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY), new ByteArrayOutputStream(), 0));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ByteArrayInputStream input = new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY);
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                IOUtils.copy(input, output, 0);
+            }
+        });
     }
 
     @Test

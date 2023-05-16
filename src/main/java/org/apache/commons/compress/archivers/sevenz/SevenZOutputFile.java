@@ -309,8 +309,8 @@ public class SevenZOutputFile implements Closeable {
         final byte[] headerBytes = headerBaos.toByteArray();
         channel.write(ByteBuffer.wrap(headerBytes));
 
-        final CRC32 crc32 = new CRC32();
-        crc32.update(headerBytes);
+        final CRC32 new_crc32 = new CRC32();
+        new_crc32.update(headerBytes);
 
         final ByteBuffer bb = ByteBuffer.allocate(SevenZFile.sevenZSignature.length
                                             + 2 /* version */
@@ -331,10 +331,10 @@ public class SevenZOutputFile implements Closeable {
         // start header
         bb.putLong(headerPosition - SevenZFile.SIGNATURE_HEADER_SIZE)
             .putLong(0xffffFFFFL & headerBytes.length)
-            .putInt((int) crc32.getValue());
-        crc32.reset();
-        crc32.update(bb.array(), SevenZFile.sevenZSignature.length + 6, 20);
-        bb.putInt(SevenZFile.sevenZSignature.length + 2, (int) crc32.getValue());
+            .putInt((int) new_crc32.getValue());
+        new_crc32.reset();
+        new_crc32.update(bb.array(), SevenZFile.sevenZSignature.length + 6, 20);
+        bb.putInt(SevenZFile.sevenZSignature.length + 2, (int) new_crc32.getValue());
         bb.flip();
         channel.write(bb);
     }
@@ -544,7 +544,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
         if (hasAntiItems) {
-            header.write(NID.kAnti);
+            header.write(NID.K_ANTI);
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             final DataOutputStream out = new DataOutputStream(baos);
             writeBits(out, antiItems, antiItemCounter);
@@ -563,7 +563,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
         if (numAccessDates > 0) {
-            header.write(NID.kATime);
+            header.write(NID.K_A_TIME);
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             final DataOutputStream out = new DataOutputStream(baos);
@@ -599,7 +599,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
         if (numCreationDates > 0) {
-            header.write(NID.kCTime);
+            header.write(NID.K_C_TIME);
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             final DataOutputStream out = new DataOutputStream(baos);
@@ -639,7 +639,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
         if (hasEmptyFiles) {
-            header.write(NID.kEmptyFile);
+            header.write(NID.K_EMPTY_FILE);
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             final DataOutputStream out = new DataOutputStream(baos);
             writeBits(out, emptyFiles, emptyStreamCounter);
@@ -653,7 +653,7 @@ public class SevenZOutputFile implements Closeable {
     private void writeFileEmptyStreams(final DataOutput header) throws IOException {
         final boolean hasEmptyStreams = files.stream().anyMatch(entry -> !entry.hasStream());
         if (hasEmptyStreams) {
-            header.write(NID.kEmptyStream);
+            header.write(NID.K_EMPTY_STREAM);
             final BitSet emptyStreams = new BitSet(files.size());
             for (int i = 0; i < files.size(); i++) {
                 emptyStreams.set(i, !files.get(i).hasStream());
@@ -676,7 +676,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
         if (numLastModifiedDates > 0) {
-            header.write(NID.kMTime);
+            header.write(NID.K_M_TIME);
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             final DataOutputStream out = new DataOutputStream(baos);
@@ -705,7 +705,7 @@ public class SevenZOutputFile implements Closeable {
     }
 
     private void writeFileNames(final DataOutput header) throws IOException {
-        header.write(NID.kName);
+        header.write(NID.K_NAME);
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final DataOutputStream out = new DataOutputStream(baos);
@@ -721,7 +721,7 @@ public class SevenZOutputFile implements Closeable {
     }
 
     private void writeFilesInfo(final DataOutput header) throws IOException {
-        header.write(NID.kFilesInfo);
+        header.write(NID.K_FILES_INFO);
 
         writeUint64(header, files.size());
 
@@ -733,7 +733,7 @@ public class SevenZOutputFile implements Closeable {
         writeFileATimes(header);
         writeFileMTimes(header);
         writeFileWindowsAttributes(header);
-        header.write(NID.kEnd);
+        header.write(NID.K_END);
     }
 
     private void writeFileWindowsAttributes(final DataOutput header) throws IOException {
@@ -744,7 +744,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
         if (numWindowsAttributes > 0) {
-            header.write(NID.kWinAttributes);
+            header.write(NID.K_WIN_ATTRIBUTES);
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             final DataOutputStream out = new DataOutputStream(baos);
@@ -788,28 +788,28 @@ public class SevenZOutputFile implements Closeable {
     }
 
     private void writeHeader(final DataOutput header) throws IOException {
-        header.write(NID.kHeader);
+        header.write(NID.K_HEADER);
 
-        header.write(NID.kMainStreamsInfo);
+        header.write(NID.K_MAIN_STREAMS_INFO);
         writeStreamsInfo(header);
         writeFilesInfo(header);
-        header.write(NID.kEnd);
+        header.write(NID.K_END);
     }
 
     private void writePackInfo(final DataOutput header) throws IOException {
-        header.write(NID.kPackInfo);
+        header.write(NID.K_PACK_INFO);
 
         writeUint64(header, 0);
         writeUint64(header, 0xffffFFFFL & numNonEmptyStreams);
 
-        header.write(NID.kSize);
+        header.write(NID.K_SIZE);
         for (final SevenZArchiveEntry entry : files) {
             if (entry.hasStream()) {
                 writeUint64(header, entry.getCompressedSize());
             }
         }
 
-        header.write(NID.kCRC);
+        header.write(NID.K_CRC);
         header.write(1); // "allAreDefined" == true
         for (final SevenZArchiveEntry entry : files) {
             if (entry.hasStream()) {
@@ -817,7 +817,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
 
-        header.write(NID.kEnd);
+        header.write(NID.K_END);
     }
 
     private void writeSingleCodec(final SevenZMethodConfiguration m, final OutputStream bos) throws IOException {
@@ -846,11 +846,11 @@ public class SevenZOutputFile implements Closeable {
 
         writeSubStreamsInfo(header);
 
-        header.write(NID.kEnd);
+        header.write(NID.K_END);
     }
 
     private void writeSubStreamsInfo(final DataOutput header) throws IOException {
-        header.write(NID.kSubStreamsInfo);
+        header.write(NID.K_SUB_STREAMS_INFO);
         //
         //        header.write(NID.kCRC);
         //        header.write(1);
@@ -860,7 +860,7 @@ public class SevenZOutputFile implements Closeable {
         //            }
         //        }
         //
-        header.write(NID.kEnd);
+        header.write(NID.K_END);
     }
 
     private void writeUint64(final DataOutput header, long value) throws IOException {
@@ -868,7 +868,7 @@ public class SevenZOutputFile implements Closeable {
         int mask = 0x80;
         int i;
         for (i = 0; i < 8; i++) {
-            if (value < ((1L << ( 7  * (i + 1))))) {
+            if (value < (1L << ( 7  * (i + 1)))) {
                 firstByte |= (value >>> (8 * i));
                 break;
             }
@@ -883,9 +883,9 @@ public class SevenZOutputFile implements Closeable {
     }
 
     private void writeUnpackInfo(final DataOutput header) throws IOException {
-        header.write(NID.kUnpackInfo);
+        header.write(NID.K_UNPACK_INFO);
 
-        header.write(NID.kFolder);
+        header.write(NID.K_FOLDER);
         writeUint64(header, numNonEmptyStreams);
         header.write(0);
         for (final SevenZArchiveEntry entry : files) {
@@ -894,7 +894,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
 
-        header.write(NID.kCodersUnpackSize);
+        header.write(NID.K_CODERS_UNPACK_SIZE);
         for (final SevenZArchiveEntry entry : files) {
             if (entry.hasStream()) {
                 final long[] moreSizes = additionalSizes.get(entry);
@@ -907,7 +907,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
 
-        header.write(NID.kCRC);
+        header.write(NID.K_CRC);
         header.write(1); // "allAreDefined" == true
         for (final SevenZArchiveEntry entry : files) {
             if (entry.hasStream()) {
@@ -915,7 +915,7 @@ public class SevenZOutputFile implements Closeable {
             }
         }
 
-        header.write(NID.kEnd);
+        header.write(NID.K_END);
     }
 
 }

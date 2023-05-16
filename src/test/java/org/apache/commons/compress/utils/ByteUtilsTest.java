@@ -36,6 +36,7 @@ import java.util.Arrays;
 import org.apache.commons.compress.utils.ByteUtils.InputStreamByteSupplier;
 import org.apache.commons.compress.utils.ByteUtils.OutputStreamByteConsumer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class ByteUtilsTest {
 
@@ -105,7 +106,13 @@ public class ByteUtilsTest {
 
     @Test
     public void fromLittleEndianFromStreamThrowsForLengthTooBig() {
-        assertThrows(IllegalArgumentException.class, () -> fromLittleEndian(new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY), 9));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY);
+                fromLittleEndian(inputStream, 9);
+            }
+        });
     }
 
     @Test
@@ -128,7 +135,14 @@ public class ByteUtilsTest {
 
     @Test
     public void fromLittleEndianFromSupplierThrowsForLengthTooBig() {
-        assertThrows(IllegalArgumentException.class, () -> fromLittleEndian(new InputStreamByteSupplier(new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY)), 9));
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(ByteUtils.EMPTY_BYTE_ARRAY);
+                InputStreamByteSupplier inputStreamByteSupplier = new InputStreamByteSupplier(byteArrayInputStream);
+                fromLittleEndian(inputStreamByteSupplier, 9);
+            }
+        });
     }
 
     @Test

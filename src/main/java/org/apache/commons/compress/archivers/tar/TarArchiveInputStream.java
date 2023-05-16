@@ -330,8 +330,8 @@ public class TarArchiveInputStream extends ArchiveInputStream {
     public void close() throws IOException {
         // Close all the input streams in sparseInputStreams
         if (sparseInputStreams != null) {
-            for (final InputStream inputStream : sparseInputStreams) {
-                inputStream.close();
+            for (final InputStream anInputStream : sparseInputStreams) {
+                anInputStream.close();
             }
         }
 
@@ -570,11 +570,11 @@ public class TarArchiveInputStream extends ArchiveInputStream {
      * Determine if an archive record indicate End of Archive. End of
      * archive is indicated by a record that consists entirely of null bytes.
      *
-     * @param record The record data to check.
+     * @param rec The record data to check.
      * @return true if the record data is an End of Archive
      */
-    protected boolean isEOFRecord(final byte[] record) {
-        return record == null || ArchiveUtils.isArrayZero(record, recordSize);
+    protected boolean isEOFRecord(final byte[] rec) {
+        return rec == null || ArchiveUtils.isArrayZero(rec, recordSize);
     }
 
     /**

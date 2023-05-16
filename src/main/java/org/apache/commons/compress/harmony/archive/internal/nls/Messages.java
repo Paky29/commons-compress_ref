@@ -55,7 +55,7 @@ public class Messages {
         try {
             bundle = setLocale(Locale.getDefault(),
                 "org.apache.commons.compress.harmony.archive.internal.nls.messages"); //$NON-NLS-1$
-        } catch (final Throwable e) {
+        } catch (final Exception e) {
             logger.log(Level.SEVERE, "Unable to load the messages", e);
         }
     }
