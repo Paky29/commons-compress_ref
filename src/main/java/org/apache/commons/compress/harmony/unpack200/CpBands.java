@@ -336,7 +336,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool class names, using {@link #cpClassCount} to populate {@link #cpClass} from
+     * Parses the constant pool class names, using  to populate {@link #cpClass} from
      * {@link #cpUTF8}.
      *
      * @param in the input stream to read from
@@ -355,7 +355,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool descriptor definitions, using {@link #cpDescriptorCount} to populate
+     * Parses the constant pool descriptor definitions, using  to populate
      * {@link #cpDescriptor}. For ease of use, the cpDescriptor is stored as a string of the form <i>name:type</i>,
      * largely to make it easier for representing field and method descriptors (e.g.
      * {@code out:java.lang.PrintStream}) in a way that is compatible with passing String arrays.
@@ -386,7 +386,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool field definitions, using {@link #cpFieldCount} to populate {@link #cpFieldClass} and
+     * Parses the constant pool field definitions, using  to populate {@link #cpFieldClass} and
      * {@link #cpFieldDescriptor}.
      *
      * @param in the input stream to read from
@@ -415,7 +415,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool interface method definitions, using {@link #cpIMethodCount} to populate
+     * Parses the constant pool interface method definitions, using cpIMethodCount to populate
      * {@link #cpIMethodClass} and {@link #cpIMethodDescriptor}.
      *
      * @param in the input stream to read from
@@ -445,7 +445,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool method definitions, using {@link #cpMethodCount} to populate {@link #cpMethodClass} and
+     * Parses the constant pool method definitions, using cpMethodCount to populate {@link #cpMethodClass} and
      * {@link #cpMethodDescriptor}.
      *
      * @param in the input stream to read from
@@ -465,7 +465,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool signature classes, using {@link #cpSignatureCount} to populate {@link #cpSignature}. A
+     * Parses the constant pool signature classes, using cpSignatureCount to populate {@link #cpSignature}. A
      * signature form is akin to the bytecode representation of a class; Z for boolean, I for int, [ for array etc.
      * However, although classes are started with L, the classname does not follow the form; instead, there is a
      * separate array of classes. So an array corresponding to {@code public static void main(String args[])} has a
@@ -522,7 +522,7 @@ public class CpBands extends BandSet {
     }
 
     /**
-     * Parses the constant pool strings, using {@link #cpStringCount} to populate {@link #cpString} from indexes into
+     * Parses the constant pool strings, using cpStringCount to populate {@link #cpString} from indexes into
      * {@link #cpUTF8}.
      *
      * @param in the input stream to read from

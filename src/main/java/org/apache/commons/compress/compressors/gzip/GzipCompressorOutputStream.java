@@ -137,9 +137,9 @@ public class GzipCompressorOutputStream extends CompressorOutputStream {
     }
 
     /**
-     * Gets the bytes encoded in the {@value GzipUtils#GZIP_ENCODING} Charset.
+     * Gets the bytes encoded in the {GzipUtils#GZIP_ENCODING Charset.
      * <p>
-     * If the string cannot be encoded directly with {@value GzipUtils#GZIP_ENCODING}, then use URI-style percent encoding.
+     * If the string cannot be encoded directly with GzipUtils#GZIP_ENCODING, then use URI-style percent encoding.
      * </p>
      *
      * @param string The string to encode.
