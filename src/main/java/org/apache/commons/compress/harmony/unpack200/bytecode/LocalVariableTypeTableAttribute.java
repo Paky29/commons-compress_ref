@@ -30,7 +30,7 @@ import org.apache.commons.compress.harmony.pack200.Pack200Exception;
 public class LocalVariableTypeTableAttribute extends BCIRenumberedAttribute {
 
     private static CPUTF8 localVariableTypeTableAttributeName;
-    public static void setLocalVariableTypeTableAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         localVariableTypeTableAttributeName = cpUTF8Value;
     }
     private final int localVariableTypeTableLength;

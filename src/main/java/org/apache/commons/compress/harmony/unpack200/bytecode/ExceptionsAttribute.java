@@ -39,7 +39,7 @@ public class ExceptionsAttribute extends Attribute {
         return result;
     }
 
-    public static void setExceptionsAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         exceptionsAttributeName = cpUTF8Value;
     }
 

@@ -25,15 +25,15 @@ import org.apache.commons.compress.harmony.unpack200.bytecode.OperandManager;
  */
 public class LabelForm extends ByteCodeForm {
 
-    protected boolean isWidened;
+    protected boolean widened;
 
     public LabelForm(final int opcode, final String name, final int[] rewrite) {
         super(opcode, name, rewrite);
     }
 
-    public LabelForm(final int opcode, final String name, final int[] rewrite, final boolean isWidened) {
+    public LabelForm(final int opcode, final String name, final int[] rewrite, final boolean widened) {
         this(opcode, name, rewrite);
-        this.isWidened = isWidened;
+        this.widened = widened;
     }
 
     /*
@@ -56,7 +56,7 @@ public class LabelForm extends ByteCodeForm {
         // The operand is the difference between the source instruction
         // and the destination instruction.
         byteCode.setOperandSigned2Bytes(targetValue - sourceValue, 0);
-        if (isWidened) {
+        if (widened) {
             byteCode.setNestedPositions(new int[][] {{0, 4}});
         } else {
             byteCode.setNestedPositions(new int[][] {{0, 2}});

@@ -26,7 +26,7 @@ import org.apache.commons.compress.harmony.unpack200.Segment;
 public class CodeAttribute extends BCIRenumberedAttribute {
 
     private static CPUTF8 codeAttributeName;
-    public static void setCodeAttributeName(final CPUTF8 codeAttributeName) {
+    public static void setAttributeName(final CPUTF8 codeAttributeName) {
         CodeAttribute.codeAttributeName = codeAttributeName;
     }
     public List<Attribute> attributes = new ArrayList<>();

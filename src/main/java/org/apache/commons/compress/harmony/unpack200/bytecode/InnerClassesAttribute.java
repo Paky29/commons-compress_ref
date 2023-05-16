@@ -84,7 +84,7 @@ public class InnerClassesAttribute extends Attribute {
 
     private static CPUTF8 innerClassesAttributeName;
 
-    public static void setInnerClassesAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         innerClassesAttributeName = cpUTF8Value;
     }
 

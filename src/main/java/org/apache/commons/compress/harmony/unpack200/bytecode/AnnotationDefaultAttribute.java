@@ -28,7 +28,7 @@ public class AnnotationDefaultAttribute extends AnnotationsAttribute {
 
     private static CPUTF8 annotationDefaultAttributeName;
 
-    public static void setAnnotationDefaultAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         annotationDefaultAttributeName = cpUTF8Value;
     }
 

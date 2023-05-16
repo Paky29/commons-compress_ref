@@ -26,7 +26,7 @@ import java.util.Objects;
 public class SourceFileAttribute extends Attribute {
 
     private static CPUTF8 sourceFileAttributeName;
-    public static void setSourceFileAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         sourceFileAttributeName = cpUTF8Value;
     }
     private final CPUTF8 name;

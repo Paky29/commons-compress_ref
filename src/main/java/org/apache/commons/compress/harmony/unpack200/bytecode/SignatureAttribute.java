@@ -25,7 +25,7 @@ import java.io.IOException;
 public class SignatureAttribute extends Attribute {
 
     private static CPUTF8 signatureAttributeName;
-    public static void setSignatureAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         signatureAttributeName = cpUTF8Value;
     }
 

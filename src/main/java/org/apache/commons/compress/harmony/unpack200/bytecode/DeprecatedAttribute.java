@@ -26,7 +26,7 @@ public class DeprecatedAttribute extends Attribute {
 
     private static CPUTF8 deprecatedAttributeName;
 
-    public static void setDeprecatedAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         deprecatedAttributeName = cpUTF8Value;
     }
 

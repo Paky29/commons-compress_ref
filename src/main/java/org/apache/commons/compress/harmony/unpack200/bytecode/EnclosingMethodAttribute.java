@@ -25,7 +25,7 @@ import java.io.IOException;
 public class EnclosingMethodAttribute extends Attribute {
 
     private static CPUTF8 enclosingMethodAttributeName;
-    public static void setEnclosingMethodAttributeName(final CPUTF8 cpUTF8Value) {
+    public static void setAttributeName(final CPUTF8 cpUTF8Value) {
         enclosingMethodAttributeName = cpUTF8Value;
     }
     private int classIndex;

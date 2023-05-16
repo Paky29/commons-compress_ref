@@ -94,18 +94,18 @@ public class AttrDefinitionBands extends BandSet {
     }
 
     private void setupDefaultAttributeNames() {
-        AnnotationDefaultAttribute.setAnnotationDefaultAttributeName(segment.getCpBands().cpUTF8Value("AnnotationDefault")); //$NON-NLS-1$
-        CodeAttribute.setCodeAttributeName(segment.getCpBands().cpUTF8Value("Code")); //$NON-NLS-1$
-        ConstantValueAttribute.setConstantValueAttributeName(segment.getCpBands().cpUTF8Value("ConstantValue")); //$NON-NLS-1$
-        DeprecatedAttribute.setDeprecatedAttributeName(segment.getCpBands().cpUTF8Value("Deprecated")); //$NON-NLS-1$
-        EnclosingMethodAttribute.setEnclosingMethodAttributeName(segment.getCpBands().cpUTF8Value("EnclosingMethod")); //$NON-NLS-1$
-        ExceptionsAttribute.setExceptionsAttributeName(segment.getCpBands().cpUTF8Value("Exceptions")); //$NON-NLS-1$
-        InnerClassesAttribute.setInnerClassesAttributeName(segment.getCpBands().cpUTF8Value("InnerClasses")); //$NON-NLS-1$
+        AnnotationDefaultAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("AnnotationDefault")); //$NON-NLS-1$
+        CodeAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("Code")); //$NON-NLS-1$
+        ConstantValueAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("ConstantValue")); //$NON-NLS-1$
+        DeprecatedAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("Deprecated")); //$NON-NLS-1$
+        EnclosingMethodAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("EnclosingMethod")); //$NON-NLS-1$
+        ExceptionsAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("Exceptions")); //$NON-NLS-1$
+        InnerClassesAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("InnerClasses")); //$NON-NLS-1$
         LineNumberTableAttribute.setLineNumberTableAttributeName(segment.getCpBands().cpUTF8Value("LineNumberTable")); //$NON-NLS-1$
-        LocalVariableTableAttribute.setLocalVariableAttributeName(segment.getCpBands().cpUTF8Value("LocalVariableTable")); //$NON-NLS-1$
-        LocalVariableTypeTableAttribute.setLocalVariableTypeTableAttributeName(segment.getCpBands().cpUTF8Value("LocalVariableTypeTable")); //$NON-NLS-1$
-        SignatureAttribute.setSignatureAttributeName(segment.getCpBands().cpUTF8Value("Signature")); //$NON-NLS-1$
-        SourceFileAttribute.setSourceFileAttributeName(segment.getCpBands().cpUTF8Value("SourceFile")); //$NON-NLS-1$
+        LocalVariableTableAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("LocalVariableTable")); //$NON-NLS-1$
+        LocalVariableTypeTableAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("LocalVariableTypeTable")); //$NON-NLS-1$
+        SignatureAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("Signature")); //$NON-NLS-1$
+        SourceFileAttribute.setAttributeName(segment.getCpBands().cpUTF8Value("SourceFile")); //$NON-NLS-1$
         MetadataBandGroup.setRvaAttributeName(segment.getCpBands().cpUTF8Value("RuntimeVisibleAnnotations"));
         MetadataBandGroup.setRiaAttributeName(segment.getCpBands().cpUTF8Value("RuntimeInvisibleAnnotations"));
         MetadataBandGroup.setRvpaAttributeName(segment.getCpBands().cpUTF8Value("RuntimeVisibleParameterAnnotations"));
