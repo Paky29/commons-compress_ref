@@ -113,6 +113,9 @@ public class AttrDefinitionBands extends BandSet {
             .setRipaAttributeName(segment.getCpBands().cpUTF8Value("RuntimeInvisibleParameterAnnotations"));
     }
 
+    /*
+    Defined in other classes
+     */
     @Override
     public void unpack() throws Pack200Exception, IOException {
 

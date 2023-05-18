@@ -214,6 +214,7 @@ public class MetadataBandGroup {
             final int numPairs = nestpair_N[nestpair_N_Index++];
 
             return getAnnotation(aType, numPairs, nestname_RU_Iterator);
+        default: break;
         }
         return null;
     }

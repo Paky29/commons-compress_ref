@@ -237,8 +237,7 @@ public class NewAttributeBands extends BandSet {
                 case 2:
                     value = (short) value;
                     break;
-                default:
-                    break;
+                default: break;
                 }
                 attribute.addBCLength(length, value);
             } else if (tag.startsWith("O")) {
@@ -818,6 +817,7 @@ public class NewAttributeBands extends BandSet {
                 string.append((char) stream.read());
             }
             return new Reference(string.toString());
+        default: break;
         }
         return null;
     }
@@ -1006,6 +1006,9 @@ public class NewAttributeBands extends BandSet {
         }
     }
 
+    /*
+    Defined in other classes
+    */
     @Override
     public void unpack() throws IOException, Pack200Exception {
 

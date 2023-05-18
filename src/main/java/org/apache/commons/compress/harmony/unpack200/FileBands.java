@@ -116,6 +116,10 @@ public class FileBands extends BandSet {
         // later
     }
 
+
+    /*
+    Defined in other classes
+    */
     @Override
     public void unpack() {
 

@@ -49,18 +49,22 @@ public class CLI {
             @Override
             public void takeAction(final SevenZFile archive, final SevenZArchiveEntry entry) {
                 LOGGER.log(Level.INFO, entry.getName());
+                String toPrint;
                 if (entry.isDirectory()) {
                     LOGGER.log(Level.INFO, " dir");
                 } else {
-                    LOGGER.log(Level.INFO, " " + entry.getCompressedSize() + "/" + entry.getSize());
+                    toPrint = " " + entry.getCompressedSize() + "/" + entry.getSize();
+                    LOGGER.log(Level.INFO, toPrint);
                 }
                 if (entry.getHasLastModifiedDate()) {
-                    LOGGER.log(Level.INFO, " " + entry.getLastModifiedDate());
+                    toPrint = " " + entry.getLastModifiedDate();
+                    LOGGER.log(Level.INFO, toPrint);
                 } else {
                     LOGGER.log(Level.INFO, " no last modified date");
                 }
                 if (!entry.isDirectory()) {
-                    LOGGER.log(Level.INFO, " " + getContentMethods(entry) + "\n");
+                    toPrint = " " + getContentMethods(entry) + "\n";
+                    LOGGER.log(Level.INFO, toPrint);
                 } else {
                     LOGGER.log(Level.INFO,"\n");
                 }

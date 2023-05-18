@@ -623,6 +623,9 @@ public class CpBands extends BandSet {
         imethodOffset = methodOffset + cpMethodClass.length;
     }
 
+    /*
+    Defined in other classes
+     */
     @Override
     public void unpack() {
 

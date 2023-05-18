@@ -1233,6 +1233,9 @@ public class ClassBands extends BandSet {
 
     }
 
+    /*
+    Defined in other classes
+     */
     @Override
     public void unpack() {
 
