@@ -254,7 +254,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      * @see <a href="https://issues.apache.org/jira/browse/COMPRESS-93"
      *        >COMPRESS-93</a>
      */
-    private int zipArchiveEntryMethod = ZipMethod.UNKNOWN_CODE;
+    private int method = ZipMethod.UNKNOWN_CODE;
     /**
      * The {@link java.util.zip.ZipEntry#setSize} method in the base
      * class throws an IllegalArgumentException if the size is bigger
@@ -264,7 +264,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      *
      * <p>We need to keep our own size information for Zip64 support.</p>
      */
-    private long zipArchiveEntrySize = SIZE_UNKNOWN;
+    private long size = SIZE_UNKNOWN;
     private int internalAttributes;
     private int versionRequired;
     private int versionMadeBy;
@@ -274,7 +274,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
     private int alignment;
     private ZipExtraField[] extraFields;
     private UnparseableExtraFieldData unparseableExtra;
-    private String zipArchiveEntryName;
+    private String name;
     private byte[] rawName;
     private GeneralPurposeBit gpb = new GeneralPurposeBit();
     private long localHeaderOffset = OFFSET_UNKNOWN;
@@ -331,7 +331,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      */
     public ZipArchiveEntry(final java.util.zip.ZipEntry entry) throws ZipException {
         super(entry);
-        setZipArchiveEntryName(entry.getName());
+        setName(entry.getName());
         final byte[] extra = entry.getExtra();
         if (extra != null) {
             setExtraFields(ExtraFieldUtils.parse(extra, true, ExtraFieldParsingMode.BEST_EFFORT));
@@ -340,7 +340,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
             setExtra();
         }
         setMethod(entry.getMethod());
-        this.zipArchiveEntrySize = entry.getSize();
+        this.size = entry.getSize();
     }
 
     /**
@@ -369,11 +369,11 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      * <p>Assumes the entry represents a directory if and only if the
      * name ends with a forward slash "/".</p>
      *
-     * @param zipArchiveEntryName the name of the entry
+     * @param name the name of the entry
      */
-    public ZipArchiveEntry(final String zipArchiveEntryName) {
-        super(zipArchiveEntryName);
-        setZipArchiveEntryName(zipArchiveEntryName);
+    public ZipArchiveEntry(final String name) {
+        super(name);
+        setName(name);
     }
 
     /**
@@ -764,7 +764,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      */
     @Override
     public int getMethod() {
-        return zipArchiveEntryMethod;
+        return method;
     }
 
     /**
@@ -776,7 +776,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      */
     @Override
     public String getName() {
-        return zipArchiveEntryName == null ? super.getName() : zipArchiveEntryName;
+        return name == null ? super.getName() : name;
     }
 
     /**
@@ -849,7 +849,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      */
     @Override
     public long getSize() {
-        return zipArchiveEntrySize;
+        return size;
     }
 
     /**
@@ -1276,19 +1276,19 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
             throw new IllegalArgumentException(
                     "ZIP compression method can not be negative: " + method);
         }
-        this.zipArchiveEntryMethod = method;
+        this.method = method;
     }
 
     /**
      * Set the name of the entry.
-     * @param zipArchiveEntryName the name to use
+     * @param name the name to use
      */
-    protected void setZipArchiveEntryName(String zipArchiveEntryName) {
-        if (zipArchiveEntryName != null && getPlatform() == PLATFORM_FAT
-            && !zipArchiveEntryName.contains("/")) {
-            zipArchiveEntryName = zipArchiveEntryName.replace('\\', '/');
+    protected void setName(String name) {
+        if (name != null && getPlatform() == PLATFORM_FAT
+            && !name.contains("/")) {
+            name = name.replace('\\', '/');
         }
-        this.zipArchiveEntryName = zipArchiveEntryName;
+        this.name = name;
     }
 
     /**
@@ -1301,7 +1301,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
      * @since 1.2
      */
     protected void setName(final String name, final byte[] rawName) {
-        setZipArchiveEntryName(name);
+        setName(name);
         this.rawName = rawName;
     }
 
@@ -1342,7 +1342,7 @@ public class ZipArchiveEntry extends java.util.zip.ZipEntry implements ArchiveEn
         if (size < 0) {
             throw new IllegalArgumentException("Invalid entry size");
         }
-        this.zipArchiveEntrySize = size;
+        this.size = size;
     }
 
     protected void setStreamContiguous(final boolean isStreamContiguous) {
