@@ -78,7 +78,7 @@ public class AttrDefinitionBands extends BandSet {
         if (segment.getSegmentHeader().getOptions().hasClassFlagsHi()) {
             overflowIndex = 63;
         }
-        for (int i = 0; i < attributeDefinitionCount; i++) {
+        for (int i = 0; i < attributeDefinitionCount; ++i) {
             final int context = attributeDefinitionHeader[i] & 0x03;
             int index = (attributeDefinitionHeader[i] >> 2) - 1;
             if (index == -1) {

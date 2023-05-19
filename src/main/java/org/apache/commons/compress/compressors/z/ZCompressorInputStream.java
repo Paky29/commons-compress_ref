@@ -162,7 +162,7 @@ public class ZCompressorInputStream extends LZWInputStream {
         if (codeReadsToThrowAway == 8) {
             codeReadsToThrowAway = 0;
         }
-        for (long i = 0; i < codeReadsToThrowAway; i++) {
+        for (long i = 0; i < codeReadsToThrowAway; ++i) {
             readNextCode();
         }
         in.clearBitCache();

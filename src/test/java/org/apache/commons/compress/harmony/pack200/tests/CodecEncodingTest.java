@@ -215,7 +215,7 @@ public class CodecEncodingTest {
         assertTrue(specifiers[0] > 140);
         assertTrue(specifiers[0] < 189);
         final byte[] bytes = new byte[specifiers.length - 1];
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; ++i) {
             bytes[i] = (byte) specifiers[i+1];
         }
         final InputStream in = new ByteArrayInputStream(bytes);
@@ -232,7 +232,7 @@ public class CodecEncodingTest {
         assertTrue(specifiers[0] > 116);
         assertTrue(specifiers[0] < 141);
         byte[] bytes = new byte[specifiers.length - 1];
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; ++i) {
             bytes[i] = (byte) specifiers[i+1];
         }
         InputStream in = new ByteArrayInputStream(bytes);
@@ -247,7 +247,7 @@ public class CodecEncodingTest {
         assertTrue(specifiers[0] > 116);
         assertTrue(specifiers[0] < 141);
         bytes = new byte[specifiers.length - 1];
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; ++i) {
             bytes[i] = (byte) specifiers[i+1];
         }
         in = new ByteArrayInputStream(bytes);
@@ -262,7 +262,7 @@ public class CodecEncodingTest {
         assertTrue(specifiers[0] > 116);
         assertTrue(specifiers[0] < 141);
         bytes = new byte[specifiers.length - 1];
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; ++i) {
             bytes[i] = (byte) specifiers[i+1];
         }
         in = new ByteArrayInputStream(bytes);
@@ -281,7 +281,7 @@ public class CodecEncodingTest {
         assertTrue(specifiers[0] > 116);
         assertTrue(specifiers[0] < 141);
         bytes = new byte[specifiers.length - 1];
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; ++i) {
             bytes[i] = (byte) specifiers[i+1];
         }
         in = new ByteArrayInputStream(bytes);

@@ -260,7 +260,7 @@ public class MultiReadOnlySeekableByteChannelTest {
 
     private SeekableByteChannel makeMulti(final byte[][] arr) {
         final SeekableByteChannel[] s = new SeekableByteChannel[arr.length];
-        for (int i = 0; i < s.length; i++) {
+        for (int i = 0; i < s.length; ++i) {
             s[i] = makeSingle(arr[i]);
         }
         return MultiReadOnlySeekableByteChannel.forSeekableByteChannels(s);

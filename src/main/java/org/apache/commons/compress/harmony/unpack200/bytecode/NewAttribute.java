@@ -137,7 +137,7 @@ public class NewAttribute extends BCIRenumberedAttribute {
         for (final Object element : body) {
             if (element instanceof ClassFileEntry) {
                 nested[i] = (ClassFileEntry) element;
-                i++;
+                ++i;
             }
         }
         return nested;
@@ -213,7 +213,7 @@ public class NewAttribute extends BCIRenumberedAttribute {
      */
     @Override
     protected void writeBody(final DataOutputStream dos) throws IOException {
-        for (int i = 0; i < lengths.size(); i++) {
+        for (int i = 0; i < lengths.size(); ++i) {
             final int length = lengths.get(i).intValue();
             final Object obj = body.get(i);
             long value = 0;

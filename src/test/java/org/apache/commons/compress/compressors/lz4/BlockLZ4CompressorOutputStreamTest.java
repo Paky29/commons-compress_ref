@@ -96,9 +96,9 @@ public class BlockLZ4CompressorOutputStreamTest {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              BlockLZ4CompressorOutputStream lo = new BlockLZ4CompressorOutputStream(baos)) {
             lo.write(input);
-            for (int i = 0; i < lengthOfTrailers.length; i++) {
+            for (int i = 0; i < lengthOfTrailers.length; ++i) {
                 final int lengthOfTrailer = lengthOfTrailers[i];
-                for (int j = 0; j < lengthOfTrailer; j++) {
+                for (int j = 0; j < lengthOfTrailer; ++j) {
                     lo.write(i + 1);
                 }
             }
@@ -142,7 +142,7 @@ public class BlockLZ4CompressorOutputStreamTest {
 
     @Test
     public void rewritingOfFinalBlockWithoutTrailingLZ77Literals() throws IOException {
-        for (int i = 1; i < 13; i++) {
+        for (int i = 1; i < 13; ++i) {
             // according to the spec these are all too short be compressed
             // LZ77Compressor will create a single byte literal
             // followed by a back-reference starting with i = 5,
@@ -154,7 +154,7 @@ public class BlockLZ4CompressorOutputStreamTest {
             assertArrayEquals(expected, compressed, "input length is " + i);
         }
 
-        for (int i = 13; i < 17; i++) {
+        for (int i = 13; i < 17; ++i) {
             // LZ77Compressor will still create a single byte literal
             // followed by a back-reference
             // according to the spec the back-reference could be split
@@ -173,7 +173,7 @@ public class BlockLZ4CompressorOutputStreamTest {
             assertArrayEquals(expected, compressed, "input length is " + i);
         }
 
-        for (int i = 17; i < 20; i++) {
+        for (int i = 17; i < 20; ++i) {
             // LZ77Compressor will still create a single byte literal
             // followed by a back-reference
             // this time even our algorithm is willing to break up the
@@ -191,7 +191,7 @@ public class BlockLZ4CompressorOutputStreamTest {
 
     @Test
     public void rewritingOfFinalBlockWithTrailingLZ77Literals() throws IOException {
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 5; ++i) {
             // LZ77Compressor will create a single byte literal
             // followed by a back-reference of length 15 followed by a
             // literal of length i
@@ -203,12 +203,12 @@ public class BlockLZ4CompressorOutputStreamTest {
             expected[2] = 1;
             expected[3] = 0;
             expected[4] = (byte) (12<<4);
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; ++j) {
                 expected[expected.length - 1 - j] = 1;
             }
             assertArrayEquals(expected, compressed, "trailer length is " + i);
         }
-        for (int i = 5; i < 12; i++) {
+        for (int i = 5; i < 12; ++i) {
             // LZ77Compressor will create a single byte literal
             // followed by a back-reference of length 15 followed by
             // another single byte literal and another back-reference
@@ -223,12 +223,12 @@ public class BlockLZ4CompressorOutputStreamTest {
             expected[2] = 1;
             expected[3] = 0;
             expected[4] = (byte) (12<<4);
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; ++j) {
                 expected[expected.length - 1 - j] = 1;
             }
             assertArrayEquals(expected, compressed, "trailer length is " + i);
         }
-        for (int i = 12; i < 15; i++) {
+        for (int i = 12; i < 15; ++i) {
             // LZ77Compressor will create a single byte literal
             // followed by a back-reference of length 15 followed by
             // another single byte literal and another back-reference
@@ -242,7 +242,7 @@ public class BlockLZ4CompressorOutputStreamTest {
             expected[2] = 1;
             expected[3] = 0;
             expected[4] = (byte) (i<<4);
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; ++j) {
                 expected[expected.length - 1 - j] = 1;
             }
             assertArrayEquals(expected, compressed, "trailer length is " + i);
@@ -264,10 +264,10 @@ public class BlockLZ4CompressorOutputStreamTest {
         expected[2] = 1;
         expected[3] = 0;
         expected[4] = (byte) (12<<4);
-        for (int i = 6; i < 11; i++) {
+        for (int i = 6; i < 11; ++i) {
             expected[i] = 1;
         }
-        for (int i = 11; i < 16; i++) {
+        for (int i = 11; i < 16; ++i) {
             expected[i] = 2;
         }
         expected[16] = 3;
@@ -335,7 +335,7 @@ public class BlockLZ4CompressorOutputStreamTest {
     public void writesCorrectSizeFor269ByteLengthLiteral() throws IOException {
         final BlockLZ4CompressorOutputStream.Pair p = new BlockLZ4CompressorOutputStream.Pair();
         final byte[] b = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < 26; ++i) {
             p.addLiteral(new LZ77Compressor.LiteralBlock(b, 0, 10));
         }
         p.addLiteral(new LZ77Compressor.LiteralBlock(b, 0, 9));
@@ -349,7 +349,7 @@ public class BlockLZ4CompressorOutputStreamTest {
     public void writesCorrectSizeFor270ByteLengthLiteral() throws IOException {
         final BlockLZ4CompressorOutputStream.Pair p = new BlockLZ4CompressorOutputStream.Pair();
         final byte[] b = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        for (int i = 0; i < 27; i++) {
+        for (int i = 0; i < 27; ++i) {
             p.addLiteral(new LZ77Compressor.LiteralBlock(b, 0, 10));
         }
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();

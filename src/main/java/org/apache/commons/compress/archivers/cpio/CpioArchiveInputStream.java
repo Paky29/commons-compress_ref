@@ -114,15 +114,21 @@ public class CpioArchiveInputStream extends ArchiveInputStream implements
             return false;
         }
         // Check last byte
-        if (signature[5] == 0x31) {
-            return true;
+        switch(signature[5]){
+            case 0x31:
+            case 0x37:
+            case 0x32:
+                return true;
         }
-        if (signature[5] == 0x32) {
-            return true;
-        }
-        if (signature[5] == 0x37) {
-            return true;
-        }
+//        if (signature[5] == 0x31) {
+//            return true;
+//        }
+//        if (signature[5] == 0x32) {
+//            return true;
+//        }
+//        if (signature[5] == 0x37) {
+//            return true;
+//        }
 
         return false;
     }

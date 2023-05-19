@@ -271,7 +271,7 @@ public class ZipArchiveInputStream extends ArchiveInputStream implements InputSt
     private static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
 
     private static boolean checksig(final byte[] signature, final byte[] expected) {
-        for (int i = 0; i < expected.length; i++) {
+        for (int i = 0; i < expected.length; ++i) {
             if (signature[i] != expected[i]) {
                 return false;
             }
@@ -451,7 +451,7 @@ public class ZipArchiveInputStream extends ArchiveInputStream implements InputSt
             throws IOException {
 
         boolean done = false;
-        for (int i = 0; !done && i < offset + lastRead - 4; i++) {
+        for (int i = 0; !done && i < offset + lastRead - 4; ++i) {
             if (buf.array()[i] == LFH[0] && buf.array()[i + 1] == LFH[1]) {
                 int expectDDPos = i;
                 if (i >= expectedDDLen &&

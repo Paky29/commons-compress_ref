@@ -96,7 +96,7 @@ public class ClassBandsTest extends AbstractBandsTestCase {
     private byte[] encodeBandInt(final int[] data, final BHSDCodec codec)
             throws IOException, Pack200Exception {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < data.length; ++i) {
             baos.write(codec.encode(data[i], i == 0 ? 0 : data[i - 1]));
         }
         return baos.toByteArray();

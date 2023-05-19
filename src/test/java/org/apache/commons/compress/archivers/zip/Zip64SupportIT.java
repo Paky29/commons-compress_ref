@@ -198,7 +198,7 @@ public class Zip64SupportIT {
             while ((readNow = zin.read(buf, 0, buf.length)) > 0) {
                 // testing all bytes for a value of 0 is going to take
                 // too long, just pick a few ones randomly
-                for (int i = 0; i < 1024; i++) {
+                for (int i = 0; i < 1024; ++i) {
                     final int idx = r.nextInt(readNow);
                     assertEquals(0, buf[idx], "testing byte " + (read + idx));
                 }
@@ -232,7 +232,7 @@ public class Zip64SupportIT {
                 while ((readNow = zin.read(buf, 0, buf.length)) > 0) {
                     // testing all bytes for a value of 0 is going to take
                     // too long, just pick a few ones randomly
-                    for (int i = 0; i < 1024; i++) {
+                    for (int i = 0; i < 1024; ++i) {
                         final int idx = r.nextInt(readNow);
                         assertEquals(0, buf[idx], "testing byte " + (read + idx));
                     }
@@ -397,7 +397,7 @@ public class Zip64SupportIT {
 
     private static void write100KFilesToStream(final ZipArchiveOutputStream zos)
         throws IOException {
-        for (int i = 0; i < ONE_HUNDRED_THOUSAND; i++) {
+        for (int i = 0; i < ONE_HUNDRED_THOUSAND; ++i) {
             final ZipArchiveEntry zae = new ZipArchiveEntry(String.valueOf(i));
             zae.setSize(0);
             zos.putArchiveEntry(zae);
@@ -533,14 +533,14 @@ public class Zip64SupportIT {
         throws IOException {
         final byte[] buf = new byte[ONE_MILLION];
         ZipArchiveEntry zae = null;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; ++i) {
             zae = new ZipArchiveEntry(String.valueOf(i));
             zae.setSize(FIVE_BILLION / 2);
             zae.setMethod(ZipEntry.STORED);
             zae.setCrc(0x8a408f16L);
             zos.putArchiveEntry(zae);
             for (int j = 0; j < FIVE_BILLION / 2 / 1000 / 1000;
-                 j++) {
+                 ++j) {
                 zos.write(buf);
             }
             zos.closeArchiveEntry();
@@ -566,7 +566,7 @@ public class Zip64SupportIT {
             zae.setMethod(ZipEntry.DEFLATED);
             zae.setCrc(0x8a408f16L);
             zos.putArchiveEntry(zae);
-            for (int j = 0; j < FIVE_BILLION / 1000 / 1000; j++) {
+            for (int j = 0; j < FIVE_BILLION / 1000 / 1000; ++j) {
                 zos.write(buf);
             }
             zos.closeArchiveEntry();
@@ -612,7 +612,7 @@ public class Zip64SupportIT {
         zos.putArchiveEntry(zae);
         for (int j = 0;
              j < FIVE_BILLION / 1000 / 1000;
-             j++) {
+             ++j) {
             zos.write(buf);
         }
         zos.closeArchiveEntry();
@@ -765,7 +765,7 @@ public class Zip64SupportIT {
                 }
                 zae.setMethod(ZipEntry.DEFLATED);
                 zos.putArchiveEntry(zae);
-                for (int j = 0; j < FIVE_BILLION / 1000 / 1000; j++) {
+                for (int j = 0; j < FIVE_BILLION / 1000 / 1000; ++j) {
                     zos.write(buf);
                 }
                 zos.closeArchiveEntry();
@@ -797,7 +797,7 @@ public class Zip64SupportIT {
         }
         zae.setMethod(ZipEntry.DEFLATED);
         zos.putArchiveEntry(zae);
-        for (int j = 0; j < FIVE_BILLION / 1000 / 1000; j++) {
+        for (int j = 0; j < FIVE_BILLION / 1000 / 1000; ++j) {
             zos.write(buf);
         }
         zos.closeArchiveEntry();
@@ -963,7 +963,7 @@ public class Zip64SupportIT {
                 final ZipArchiveEntry zae = new ZipArchiveEntry("0");
                 zae.setMethod(ZipEntry.DEFLATED);
                 zos.putArchiveEntry(zae);
-                for (int j = 0; j < FIVE_BILLION / 1000 / 1000; j++) {
+                for (int j = 0; j < FIVE_BILLION / 1000 / 1000; ++j) {
                     zos.write(buf);
                 }
                 zos.closeArchiveEntry();
@@ -999,7 +999,7 @@ public class Zip64SupportIT {
         }
         zae.setMethod(ZipEntry.STORED);
         zos.putArchiveEntry(zae);
-        for (int j = 0; j < FIVE_BILLION / 1000 / 1000; j++) {
+        for (int j = 0; j < FIVE_BILLION / 1000 / 1000; ++j) {
             zos.write(buf);
         }
         zos.closeArchiveEntry();
@@ -1146,7 +1146,7 @@ public class Zip64SupportIT {
                 }
                 zae.setMethod(ZipEntry.STORED);
                 zos.putArchiveEntry(zae);
-                for (int j = 0; j < FIVE_BILLION / 1000 / 1000; j++) {
+                for (int j = 0; j < FIVE_BILLION / 1000 / 1000; ++j) {
                     zos.write(buf);
                 }
                 zos.closeArchiveEntry();

@@ -97,7 +97,7 @@ public class BlockSortTest {
     private void assertFixtureSorted(final BZip2CompressorOutputStream.Data data,
                                      final byte[] fixture, final byte[] fixtureBwt) {
         assertEquals(fixture[fixture.length - 1], data.block[0]);
-        for (int i = 0; i < fixture.length; i++) {
+        for (int i = 0; i < fixture.length; ++i) {
             assertEquals(fixtureBwt[i], data.block[data.fmap[i]]);
         }
     }

@@ -83,7 +83,7 @@ public class PackingOptionsTest {
                     assertEquals(line2, line1, "Unpacked files differ for " + name);
                     line1 = reader1.readLine();
                     line2 = reader2.readLine();
-                    i++;
+                    ++i;
                 }
                 reader1.close();
                 reader2.close();

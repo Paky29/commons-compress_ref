@@ -95,7 +95,7 @@ public class ExceptionsAttribute extends Attribute {
     protected void resolve(final ClassConstantPool pool) {
         super.resolve(pool);
         exceptionIndexes = new int[exceptions.length];
-        for (int i = 0; i < exceptions.length; i++) {
+        for (int i = 0; i < exceptions.length; ++i) {
             exceptions[i].resolve(pool);
             exceptionIndexes[i] = pool.indexOf(exceptions[i]);
         }

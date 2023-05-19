@@ -212,14 +212,14 @@ public class BcBands extends BandSet {
             bciRenumbering.add(0);
         }
         renumberedOffset++;
-        for (int i = bciRenumbering.size(); i < byteCodeOffset; i++) {
+        for (int i = bciRenumbering.size(); i < byteCodeOffset; ++i) {
             bciRenumbering.add(-1);
         }
         bciRenumbering.add(renumberedOffset);
     }
 
     public void visitEnd() {
-        for (int i = 0; i < bciRenumbering.size(); i++) {
+        for (int i = 0; i < bciRenumbering.size(); ++i) {
             if (bciRenumbering.get(i) == -1) {
                 bciRenumbering.remove(i);
                 bciRenumbering.add(i, ++renumberedOffset);
@@ -385,7 +385,7 @@ public class BcBands extends BandSet {
         bcLabel.add(dflt);
         bcLabelRelativeOffsets.add(byteCodeOffset);
         bcCaseCount.add(keys.length);
-        for (int i = 0; i < labels.length; i++) {
+        for (int i = 0; i < labels.length; ++i) {
             bcCaseValue.add(keys[i]);
             bcLabel.add(labels[i]);
             bcLabelRelativeOffsets.add(byteCodeOffset);
@@ -469,7 +469,7 @@ public class BcBands extends BandSet {
         bcCaseValue.add(min);
         final int count = labels.length;
         bcCaseCount.add(count);
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; ++i) {
             bcLabel.add(labels[i]);
             bcLabelRelativeOffsets.add(byteCodeOffset);
         }

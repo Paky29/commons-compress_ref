@@ -46,11 +46,11 @@ class AES256SHA256Decoder extends AbstractCoder {
             throw new IllegalStateException("SHA-256 is unsupported by your Java implementation", noSuchAlgorithmException);
         }
         final byte[] extra = new byte[8];
-        for (long j = 0; j < (1L << numCyclesPower); j++) {
+        for (long j = 0; j < (1L << numCyclesPower); ++j) {
             digest.update(salt);
             digest.update(password);
             digest.update(extra);
-            for (int k = 0; k < extra.length; k++) {
+            for (int k = 0; k < extra.length; ++k) {
                 ++extra[k];
                 if (extra[k] != 0) {
                     break;

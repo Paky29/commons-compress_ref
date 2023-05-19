@@ -364,7 +364,7 @@ public class NewAttributeBands extends BandSet {
         public void addAttributeToBand(final NewAttribute attribute, final InputStream inputStream) {
             countElement.addAttributeToBand(attribute, inputStream);
             final int count = countElement.latestValue();
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; ++i) {
                 for (final AttributeLayoutElement layoutElement : layoutElements) {
                     layoutElement.addAttributeToBand(attribute, inputStream);
                 }
@@ -646,7 +646,7 @@ public class NewAttributeBands extends BandSet {
 
     private int readInteger(final int i, final InputStream inputStream) {
         int result = 0;
-        for (int j = 0; j < i; j++) {
+        for (int j = 0; j < i; ++j) {
             try {
                 result = result << 8 | inputStream.read();
             } catch (final IOException e) {
@@ -881,7 +881,7 @@ public class NewAttributeBands extends BandSet {
      * Resolve calls in the attribute layout and returns the number of backwards callables
      */
     private void resolveCalls() {
-        for (int i = 0; i < attributeLayoutElements.size(); i++) {
+        for (int i = 0; i < attributeLayoutElements.size(); ++i) {
             final AttributeLayoutElement element = attributeLayoutElements.get(i);
             if (element instanceof Callable) {
                 final Callable callable = (Callable) element;
@@ -913,7 +913,7 @@ public class NewAttributeBands extends BandSet {
             if (index == 0) { // Calls the parent callable
                 call.setCallable(currentCallable);
             } else if (index > 0) { // Forwards call
-                for (int k = i + 1; k < attributeLayoutElements.size(); k++) {
+                for (int k = i + 1; k < attributeLayoutElements.size(); ++k) {
                     final AttributeLayoutElement el = attributeLayoutElements.get(k);
                     if (el instanceof Callable) {
                         index--;

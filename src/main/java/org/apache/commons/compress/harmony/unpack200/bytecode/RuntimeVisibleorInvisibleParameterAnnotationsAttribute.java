@@ -84,7 +84,7 @@ public class RuntimeVisibleorInvisibleParameterAnnotationsAttribute extends Anno
     @Override
     protected int getLength() {
         int length = 1;
-        for (int i = 0; i < numParameters; i++) {
+        for (int i = 0; i < numParameters; ++i) {
             length += parameterAnnotations[i].getLength();
         }
         return length;
@@ -116,7 +116,7 @@ public class RuntimeVisibleorInvisibleParameterAnnotationsAttribute extends Anno
     @Override
     protected void writeBody(final DataOutputStream dos) throws IOException {
         dos.writeByte(numParameters);
-        for (int i = 0; i < numParameters; i++) {
+        for (int i = 0; i < numParameters; ++i) {
             parameterAnnotations[i].writeBody(dos);
         }
     }

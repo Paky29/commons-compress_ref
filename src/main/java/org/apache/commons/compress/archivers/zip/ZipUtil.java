@@ -306,7 +306,7 @@ public abstract class ZipUtil {
      */
     public static byte[] reverse(final byte[] array) {
         final int z = array.length - 1; // position of last element
-        for (int i = 0; i < array.length / 2; i++) {
+        for (int i = 0; i < array.length / 2; ++i) {
             final byte x = array[i];
             array[i] = array[z - i];
             array[z - i] = x;

@@ -50,7 +50,7 @@ public class BigFilesIT extends AbstractTestCase {
             while ((readNow = tin.read(buf, 0, buf.length)) > 0) {
                 // testing all bytes for a value of 0 is going to take
                 // too long, just pick a few ones randomly
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 100; ++i) {
                     final int idx = r.nextInt(readNow);
                     assertEquals(0, buf[idx], "testing byte " + (read + idx));
                 }

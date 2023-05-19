@@ -99,7 +99,7 @@ public class CodecTest {
 
     @Test
     public void testByte1() throws Exception {
-        for (int i = 0; i < 255; i++) {
+        for (int i = 0; i < 255; ++i) {
             decode(Codec.BYTE1, new byte[] { (byte) i }, i, 0);
         }
     }
@@ -108,7 +108,7 @@ public class CodecTest {
     public void testByte1Delta() throws Exception {
         final Codec BYTE1D = new BHSDCodec(1, 256, 0, 1);
         long last = 0;
-        for (int i = 1; i < 255; i++) {
+        for (int i = 1; i < 255; ++i) {
             last = decode(BYTE1D, new byte[] { (byte) 1 }, i, last);
         }
     }
@@ -198,7 +198,7 @@ public class CodecTest {
     @ParameterizedTest
     @MethodSource("codecFamily")
     public void testCodecFamilies(final BHSDCodec[] family) {
-        for (int i = 1; i < family.length; i++) {
+        for (int i = 1; i < family.length; ++i) {
             final BHSDCodec previous = family[i-1];
             final BHSDCodec codec = family[i];
             assertTrue(codec.largest() >= previous.largest());

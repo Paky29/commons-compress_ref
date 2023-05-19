@@ -332,7 +332,7 @@ public abstract class AbstractLZ77CompressorInputStream extends CompressorInputS
             // like go back two bytes and then copy six (by copying
             // the last two bytes three time).
             final int fullRots = copy / backReferenceOffset;
-            for (int i = 0; i < fullRots; i++) {
+            for (int i = 0; i < fullRots; ++i) {
                 System.arraycopy(buf, writeIndex - backReferenceOffset, buf, writeIndex, backReferenceOffset);
                 writeIndex += backReferenceOffset;
             }

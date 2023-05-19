@@ -154,7 +154,7 @@ public class IcBands extends BandSet {
         final int outerClasses = SegmentUtils.countBit16(icFlags);
         final int[] icOuterClassInts = decodeBandInt("ic_outer_class", in, Codec.DELTA5, outerClasses);
         final String[] icOuterClass = new String[outerClasses];
-        for (int i = 0; i < icOuterClass.length; i++) {
+        for (int i = 0; i < icOuterClass.length; ++i) {
             if (icOuterClassInts[i] == 0) {
                 icOuterClass[i] = null;
             } else {
@@ -163,7 +163,7 @@ public class IcBands extends BandSet {
         }
         final int[] icNameInts = decodeBandInt("ic_name", in, Codec.DELTA5, outerClasses);
         final String[] icName = new String[outerClasses];
-        for (int i = 0; i < icName.length; i++) {
+        for (int i = 0; i < icName.length; ++i) {
             if (icNameInts[i] == 0) {
                 icName[i] = null;
             } else {
@@ -174,7 +174,7 @@ public class IcBands extends BandSet {
         // Construct IC tuples
         icAll = new IcTuple[icThisClass.length];
         int index = 0;
-        for (int i = 0; i < icThisClass.length; i++) {
+        for (int i = 0; i < icThisClass.length; ++i) {
             final String icTupleC = icThisClass[i];
             final int icTupleF = icFlags[i];
             String icTupleC2 = null;

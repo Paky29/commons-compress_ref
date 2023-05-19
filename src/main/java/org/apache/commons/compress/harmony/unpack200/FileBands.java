@@ -78,7 +78,7 @@ public class FileBands extends BandSet {
         // now read in the bytes
         final int numberOfFiles = header.getNumberOfFiles();
         fileBits = new byte[numberOfFiles][];
-        for (int i = 0; i < numberOfFiles; i++) {
+        for (int i = 0; i < numberOfFiles; ++i) {
             final int size = (int) fileSize[i];
             // TODO This breaks if file_size > 2^32. Probably an array is
             // not the right choice, and we should just serialize it here?

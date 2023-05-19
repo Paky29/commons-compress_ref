@@ -200,7 +200,7 @@ public final class DetectCompressorTestCase {
 
     @Test
     public void testMultiples() throws Exception {
-        for(int i=0; i <tests.length; i++) {
+        for(int i=0; i <tests.length; ++i) {
             final TestData test = tests[i];
             final CompressorStreamFactory fac = test.factory;
             assertNotNull(fac, "Test entry " + i);

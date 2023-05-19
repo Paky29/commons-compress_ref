@@ -93,7 +93,7 @@ public class IOUtilsTest {
     public void readFullyOnChannelReadsFully() throws IOException {
         final ByteBuffer b = ByteBuffer.allocate(20);
         final byte[] source = new byte[20];
-        for (byte i = 0; i < 20; i++) {
+        for (byte i = 0; i < 20; ++i) {
             source[i] = i;
         }
         readFully(source, b);
@@ -104,7 +104,7 @@ public class IOUtilsTest {
     public void readFullyOnChannelThrowsEof() {
         final ByteBuffer b = ByteBuffer.allocate(21);
         final byte[] source = new byte[20];
-        for (byte i = 0; i < 20; i++) {
+        for (byte i = 0; i < 20; ++i) {
             source[i] = i;
         }
         assertThrows(EOFException.class, () -> readFully(source, b));

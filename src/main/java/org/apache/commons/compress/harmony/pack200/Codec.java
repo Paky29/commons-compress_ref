@@ -128,7 +128,7 @@ public abstract class Codec {
         lastBandLength = 0;
         final int[] result = new int[n];
         int last = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; ++i) {
             result[i] = last = decode(in, last);
         }
         return result;
@@ -150,7 +150,7 @@ public abstract class Codec {
         final int[] result = new int[n + 1];
         result[0] = firstValue;
         int last = firstValue;
-        for (int i = 1; i < n + 1; i++) {
+        for (int i = 1; i < n + 1; ++i) {
             result[i] = last = decode(in, last);
         }
         return result;
@@ -185,7 +185,7 @@ public abstract class Codec {
     public byte[] encode(final int[] ints) throws Pack200Exception {
         int total = 0;
         final byte[][] bytes = new byte[ints.length][];
-        for (int i = 0; i < ints.length; i++) {
+        for (int i = 0; i < ints.length; ++i) {
             bytes[i] = encode(ints[i], i > 0 ? ints[i - 1] : 0);
             total += bytes[i].length;
         }

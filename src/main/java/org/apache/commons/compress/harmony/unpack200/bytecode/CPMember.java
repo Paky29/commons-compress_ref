@@ -57,7 +57,7 @@ public class CPMember extends ClassFileEntry {
         dos.writeShort(descriptorIndex);
         final int attributeCount = attributes.size();
         dos.writeShort(attributeCount);
-        for (int i = 0; i < attributeCount; i++) {
+        for (int i = 0; i < attributeCount; ++i) {
             final Attribute attribute = attributes.get(i);
             attribute.doWrite(dos);
         }
@@ -96,7 +96,7 @@ public class CPMember extends ClassFileEntry {
         final ClassFileEntry[] entries = new ClassFileEntry[attributeCount + 2];
         entries[0] = name;
         entries[1] = descriptor;
-        for (int i = 0; i < attributeCount; i++) {
+        for (int i = 0; i < attributeCount; ++i) {
             entries[i + 2] = attributes.get(i);
         }
         return entries;

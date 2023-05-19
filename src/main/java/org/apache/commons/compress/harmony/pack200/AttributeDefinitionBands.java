@@ -150,9 +150,9 @@ public class AttributeDefinitionBands extends BandSet {
     private int[] addHighIndices(final int[] availableIndices) {
         final int[] temp = Arrays.copyOf(availableIndices, availableIndices.length + 32);
         int j = 32;
-        for (int i = availableIndices.length; i < temp.length; i++) {
+        for (int i = availableIndices.length; i < temp.length; ++i) {
             temp[i] = j;
-            j++;
+            ++j;
         }
         return temp;
     }
@@ -207,7 +207,7 @@ public class AttributeDefinitionBands extends BandSet {
         final int[] attributeDefinitionHeader = new int[attributeDefinitions.size()];
         final int[] attributeDefinitionName = new int[attributeDefinitions.size()];
         final int[] attributeDefinitionLayout = new int[attributeDefinitions.size()];
-        for (int i = 0; i < attributeDefinitionLayout.length; i++) {
+        for (int i = 0; i < attributeDefinitionLayout.length; ++i) {
             final AttributeDefinition def = attributeDefinitions.get(i);
             attributeDefinitionHeader[i] = def.contextType | (def.index + 1 << 2);
             attributeDefinitionName[i] = def.name.getIndex();

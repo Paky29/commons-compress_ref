@@ -83,7 +83,7 @@ public final class FramedSnappyTestCase
         final Random r = new Random();
         final File input = new File(dir, "bigChunkTest");
         try (OutputStream fs = Files.newOutputStream(input.toPath())) {
-            for (int i = 0 ; i < 1 << 17; i++) {
+            for (int i = 0 ; i < 1 << 17; ++i) {
                 fs.write(r.nextInt(256));
             }
         }

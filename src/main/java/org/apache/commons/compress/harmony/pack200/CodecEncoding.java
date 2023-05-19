@@ -181,7 +181,7 @@ public class CodecEncoding {
         // lazy initialization
         if (canonicalCodecsToSpecifiers == null) {
             final HashMap<BHSDCodec, Integer> reverseMap = new HashMap<>(canonicalCodec.length);
-            for (int i = 0; i < canonicalCodec.length; i++) {
+            for (int i = 0; i < canonicalCodec.length; ++i) {
                 reverseMap.put(canonicalCodec[i], Integer.valueOf(i));
             }
             canonicalCodecsToSpecifiers = reverseMap;

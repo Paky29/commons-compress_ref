@@ -519,7 +519,7 @@ public class SevenZOutputFile implements Closeable {
     private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {
         int cache = 0;
         int shift = 7;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             cache |= ((bits.get(i) ? 1 : 0) << shift);
             if (--shift < 0) {
                 header.write(cache);
@@ -570,7 +570,7 @@ public class SevenZOutputFile implements Closeable {
             if (numAccessDates != files.size()) {
                 out.write(0);
                 final BitSet aTimes = new BitSet(files.size());
-                for (int i = 0; i < files.size(); i++) {
+                for (int i = 0; i < files.size(); ++i) {
                     aTimes.set(i, files.get(i).getHasAccessDate());
                 }
                 writeBits(out, aTimes, files.size());
@@ -606,7 +606,7 @@ public class SevenZOutputFile implements Closeable {
             if (numCreationDates != files.size()) {
                 out.write(0);
                 final BitSet cTimes = new BitSet(files.size());
-                for (int i = 0; i < files.size(); i++) {
+                for (int i = 0; i < files.size(); ++i) {
                     cTimes.set(i, files.get(i).getHasCreationDate());
                 }
                 writeBits(out, cTimes, files.size());
@@ -655,7 +655,7 @@ public class SevenZOutputFile implements Closeable {
         if (hasEmptyStreams) {
             header.write(NID.K_EMPTY_STREAM);
             final BitSet emptyStreams = new BitSet(files.size());
-            for (int i = 0; i < files.size(); i++) {
+            for (int i = 0; i < files.size(); ++i) {
                 emptyStreams.set(i, !files.get(i).hasStream());
             }
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -683,7 +683,7 @@ public class SevenZOutputFile implements Closeable {
             if (numLastModifiedDates != files.size()) {
                 out.write(0);
                 final BitSet mTimes = new BitSet(files.size());
-                for (int i = 0; i < files.size(); i++) {
+                for (int i = 0; i < files.size(); ++i) {
                     mTimes.set(i, files.get(i).getHasLastModifiedDate());
                 }
                 writeBits(out, mTimes, files.size());
@@ -751,7 +751,7 @@ public class SevenZOutputFile implements Closeable {
             if (numWindowsAttributes != files.size()) {
                 out.write(0);
                 final BitSet attributes = new BitSet(files.size());
-                for (int i = 0; i < files.size(); i++) {
+                for (int i = 0; i < files.size(); ++i) {
                     attributes.set(i, files.get(i).getHasWindowsAttributes());
                 }
                 writeBits(out, attributes, files.size());
@@ -781,7 +781,7 @@ public class SevenZOutputFile implements Closeable {
 
         writeUint64(header, numCoders);
         header.write(bos.toByteArray());
-        for (long i = 0; i < numCoders - 1; i++) {
+        for (long i = 0; i < numCoders - 1; ++i) {
             writeUint64(header, i + 1);
             writeUint64(header, i);
         }
@@ -867,7 +867,7 @@ public class SevenZOutputFile implements Closeable {
         int firstByte = 0;
         int mask = 0x80;
         int i;
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < 8; ++i) {
             if (value < (1L << ( 7  * (i + 1)))) {
                 firstByte |= (value >>> (8 * i));
                 break;

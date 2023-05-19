@@ -60,7 +60,7 @@ public class BandSetTest {
         final byte[] bytes = { (byte) 3, (byte) 56, (byte) 122, (byte) 78 };
         final InputStream in = new ByteArrayInputStream(bytes);
         final int[] ints = bandSet.decodeBandInt("Test Band", in, codec, 4);
-        for (int i = 0; i < ints.length; i++) {
+        for (int i = 0; i < ints.length; ++i) {
             assertEquals(ints[i], bytes[i], "Wrong value in position " + i);
         }
     }

@@ -44,7 +44,7 @@ class UnshrinkingInputStream extends LZWInputStream {
         setClearCode(DEFAULT_CODE_SIZE);
         initializeTables(MAX_CODE_SIZE);
         isUsed = new boolean[getPrefixesLength()];
-        for (int i = 0; i < (1 << 8); i++) {
+        for (int i = 0; i < (1 << 8); ++i) {
             isUsed[i] = true;
         }
         setTableSize(getClearCode() + 1);
@@ -95,28 +95,38 @@ class UnshrinkingInputStream extends LZWInputStream {
         if (subCode < 0) {
             throw new IOException("Unexpected EOF;");
         }
-        if (subCode == 1) {
-            if (getCodeSize() >= MAX_CODE_SIZE) {
-                throw new IOException("Attempt to increase code size beyond maximum");
-            }
-            incrementCodeSize();
-        } else if (subCode == 2) {
-            partialClear();
-            setTableSize(getClearCode() + 1);
-        } else {
-            throw new IOException("Invalid clear code subcode " + subCode);
+        switch(subCode){
+            case 1:
+                if (getCodeSize() >= MAX_CODE_SIZE) {
+                    throw new IOException("Attempt to increase code size beyond maximum");
+                }
+                incrementCodeSize();
+                break;
+            case 2:
+                partialClear();
+                setTableSize(getClearCode() + 1);
+                break;
+            default:
+                throw new IOException("Invalid clear code subcode " + subCode);
         }
+//        if (subCode == 1) {
+//
+//        } else if (subCode == 2) {
+//
+//        } else {
+//
+//        }
         return 0;
     }
 
     private void partialClear() {
         final boolean[] isParent = new boolean[MAX_TABLE_SIZE];
-        for (int i = 0; i < isUsed.length; i++) {
+        for (int i = 0; i < isUsed.length; ++i) {
             if (isUsed[i] && getPrefix(i) != UNUSED_PREFIX) {
                 isParent[getPrefix(i)] = true;
             }
         }
-        for (int i = getClearCode() + 1; i < isParent.length; i++) {
+        for (int i = getClearCode() + 1; i < isParent.length; ++i) {
             if (!isParent[i]) {
                 isUsed[i] = false;
                 setPrefix(i, UNUSED_PREFIX);

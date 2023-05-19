@@ -147,7 +147,7 @@ public final class SnappyRoundtripTest extends AbstractTestCase {
             fs.write(0);
             final int cnt = 1 << 16 + 5;
             final Random r = new Random();
-            for (int i = 0 ; i < cnt; i++) {
+            for (int i = 0 ; i < cnt; ++i) {
                 fs.write(r.nextInt(255) + 1);
             }
             fs.write(0);
@@ -177,7 +177,7 @@ public final class SnappyRoundtripTest extends AbstractTestCase {
         try (OutputStream fs = Files.newOutputStream(f.toPath())) {
             final int cnt = 1 << 19;
             final Random r = new Random();
-            for (int i = 0 ; i < cnt; i++) {
+            for (int i = 0 ; i < cnt; ++i) {
                 fs.write(r.nextInt(256));
             }
         }

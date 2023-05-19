@@ -126,7 +126,7 @@ public class FixedLengthBlockOutputStreamTest {
     private static void assertContainsAtOffset(final String msg, final byte[] expected, final int offset,
         final byte[] actual) {
         assertThat(actual.length, greaterThanOrEqualTo(offset + expected.length));
-        for (int i = 0; i < expected.length; i++) {
+        for (int i = 0; i < expected.length; ++i) {
             assertEquals(expected[i], actual[i + offset], String.format("%s ([%d])", msg, i));
         }
     }
@@ -165,7 +165,7 @@ public class FixedLengthBlockOutputStreamTest {
         final byte[] output = bos.toByteArray();
         final String l = new String(output, 0, msg.length);
         assertEquals(text, l);
-        for (int i = msg.length; i < bos.size(); i++) {
+        for (int i = msg.length; i < bos.size(); ++i) {
             assertEquals(0, output[i], String.format("output[%d]", i));
 
         }
@@ -180,7 +180,7 @@ public class FixedLengthBlockOutputStreamTest {
         final int reps = 17;
 
         try (FixedLengthBlockOutputStream out = new FixedLengthBlockOutputStream(mock, blockSize)) {
-            for (int i = 0; i < reps; i++) {
+            for (int i = 0; i < reps; ++i) {
                 final ByteBuffer buf = getByteBuffer(msg);
                 out.write(buf);
             }
@@ -192,11 +192,11 @@ public class FixedLengthBlockOutputStreamTest {
         final byte[] output = bos.toByteArray();
         final String l = new String(output, 0, strLen);
         final StringBuilder buf = new StringBuilder(strLen);
-        for (int i = 0; i < reps; i++) {
+        for (int i = 0; i < reps; ++i) {
             buf.append(testString);
         }
         assertEquals(buf.toString(), l);
-        for (int i = strLen; i < output.length; i++) {
+        for (int i = strLen; i < output.length; ++i) {
             assertEquals(0, output[i]);
         }
     }
@@ -240,7 +240,7 @@ public class FixedLengthBlockOutputStreamTest {
         try (FixedLengthBlockOutputStream out = new FixedLengthBlockOutputStream(
             os, blockSize)) {
             final DataOutputStream dos = new DataOutputStream(out);
-            for (int i = 0; i < reps; i++) {
+            for (int i = 0; i < reps; ++i) {
                dos.writeInt(i);
             }
         }
@@ -248,10 +248,10 @@ public class FixedLengthBlockOutputStreamTest {
         final long expectedFileSize = (long)Math.ceil(expectedDataSize/(double)blockSize)*blockSize;
         assertEquals(expectedFileSize, Files.size(tempFile), "file size");
         final DataInputStream din = new DataInputStream(Files.newInputStream(tempFile));
-        for (int i = 0; i < reps; i++) {
+        for (int i = 0; i < reps; ++i) {
             assertEquals(i, din.readInt(), "file int");
         }
-        for (int i = 0; i < expectedFileSize - expectedDataSize; i++) {
+        for (int i = 0; i < expectedFileSize - expectedDataSize; ++i) {
             assertEquals(0, din.read());
         }
         assertEquals(-1,din.read());
@@ -338,7 +338,7 @@ public class FixedLengthBlockOutputStreamTest {
         final byte[] msg = text.getBytes();
         final int len = msg.length;
         try (FixedLengthBlockOutputStream out = new FixedLengthBlockOutputStream(mock, blockSize)) {
-            for (int i = 0; i < len; i++) {
+            for (int i = 0; i < len; ++i) {
                 out.write(msg[i]);
             }
         }
@@ -351,7 +351,7 @@ public class FixedLengthBlockOutputStreamTest {
         final double v = Math.ceil(expectedBytes.length / (double) blockSize) * blockSize;
         assertEquals((long) v, actualBytes.length, "wrong size");
         assertContainsAtOffset("output", expectedBytes, 0, actualBytes);
-        for (int i = expectedBytes.length; i < actualBytes.length; i++) {
+        for (int i = expectedBytes.length; i < actualBytes.length; ++i) {
             assertEquals(0, actualBytes[i], String.format("output[%d]", i));
 
         }

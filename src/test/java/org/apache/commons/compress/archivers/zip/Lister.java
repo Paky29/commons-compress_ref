@@ -98,7 +98,7 @@ public final class Lister {
         final CommandLine cl = new CommandLine();
         boolean error = false;
         final int argsLength = args.length;
-        for (int i = 0; i < argsLength; i++) {
+        for (int i = 0; i < argsLength; ++i) {
             if (args[i].equals("-enc")) {
                 if (argsLength > i + 1) {
                     cl.encoding = args[++i];

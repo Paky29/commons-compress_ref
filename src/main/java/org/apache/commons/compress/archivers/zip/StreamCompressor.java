@@ -321,7 +321,7 @@ public abstract class StreamCompressor implements Closeable {
                 deflateUntilInputIsNeeded();
             } else {
                 final int fullblocks = length / DEFLATER_BLOCK_SIZE;
-                for (int i = 0; i < fullblocks; i++) {
+                for (int i = 0; i < fullblocks; ++i) {
                     def.setInput(b, offset + i * DEFLATER_BLOCK_SIZE,
                             DEFLATER_BLOCK_SIZE);
                     deflateUntilInputIsNeeded();

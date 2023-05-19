@@ -115,7 +115,7 @@ public class LongPathTest extends AbstractTestCase {
             } else if (name.endsWith(".cpio")) {
                 assertTrue(ais instanceof CpioArchiveInputStream);
                 // Hack: cpio does not add trailing "/" to directory names
-                for (int i = 0; i < expected.size(); i++) {
+                for (int i = 0; i < expected.size(); ++i) {
                     final String ent = expected.get(i);
                     if (ent.endsWith("/")) {
                         expected.set(i, ent.substring(0, ent.length() - 1));

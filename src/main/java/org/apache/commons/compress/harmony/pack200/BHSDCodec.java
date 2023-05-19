@@ -235,7 +235,7 @@ public final class BHSDCodec extends Codec {
             x = in.read();
             lastBandLength++;
             z += x * powers[n];
-            n++;
+            ++n;
         } while (x >= l && n < b);
 
         if (x == -1) {
@@ -282,7 +282,7 @@ public final class BHSDCodec extends Codec {
     public int[] decodeInts(final int n, final InputStream in) throws IOException, Pack200Exception {
         final int[] band = super.decodeInts(n, in);
         if (isDelta()) {
-            for (int i = 0; i < band.length; i++) {
+            for (int i = 0; i < band.length; ++i) {
                 while (band[i] > largest) {
                     band[i] -= cardinality;
                 }
@@ -299,7 +299,7 @@ public final class BHSDCodec extends Codec {
         throws IOException, Pack200Exception {
         final int[] band = super.decodeInts(n, in, firstValue);
         if (isDelta()) {
-            for (int i = 0; i < band.length; i++) {
+            for (int i = 0; i < band.length; ++i) {
                 while (band[i] > largest) {
                     band[i] -= cardinality;
                 }
@@ -349,7 +349,7 @@ public final class BHSDCodec extends Codec {
         }
 
         final List<Byte> byteList = new ArrayList<>();
-        for (int n = 0; n < b; n++) {
+        for (int n = 0; n < b; ++n) {
             long byteN;
             if (z < l) {
                 byteN = z;
@@ -367,7 +367,7 @@ public final class BHSDCodec extends Codec {
             z /= h;
         }
         final byte[] bytes = new byte[byteList.size()];
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; ++i) {
             bytes[i] = byteList.get(i).byteValue();
         }
         return bytes;

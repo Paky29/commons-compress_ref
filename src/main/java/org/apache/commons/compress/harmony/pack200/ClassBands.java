@@ -82,7 +82,7 @@ public class ClassBands extends BandSet {
 		boolean inType = false;
 		boolean consumingNextType = false;
 		int count = 0;
-		for (int i = bra + 1; i < ket; i++) {
+		for (int i = bra + 1; i < ket; ++i) {
 			final char charAt = descriptor.charAt(i);
 			if (inType && charAt == ';') {
 				inType = false;
@@ -226,7 +226,7 @@ public class ClassBands extends BandSet {
 		field_flags = new long[numClasses][];
 		method_descr = new CPNameAndType[numClasses][];
 		method_flags = new long[numClasses][];
-		for (int i = 0; i < numClasses; i++) {
+		for (int i = 0; i < numClasses; ++i) {
 			field_flags[i] = new long[0];
 			method_flags[i] = new long[0];
 		}
@@ -639,7 +639,7 @@ public class ClassBands extends BandSet {
 		class_field_count[index] = numFields;
 		field_descr[index] = new CPNameAndType[numFields];
 		field_flags[index] = new long[numFields];
-		for (int i = 0; i < numFields; i++) {
+		for (int i = 0; i < numFields; ++i) {
 			field_descr[index][i] = tempFieldDesc.get(i);
 			field_flags[index][i] = tempFieldFlags.get(i).longValue();
 		}
@@ -647,7 +647,7 @@ public class ClassBands extends BandSet {
 		class_method_count[index] = numMethods;
 		method_descr[index] = new CPNameAndType[numMethods];
 		method_flags[index] = new long[numMethods];
-		for (int i = 0; i < numMethods; i++) {
+		for (int i = 0; i < numMethods; ++i) {
 			method_descr[index][i] = tempMethodDesc.get(i);
 			method_flags[index][i] = tempMethodFlags.get(i).longValue();
 		}
@@ -691,7 +691,7 @@ public class ClassBands extends BandSet {
 	 */
 	public void finaliseBands() {
 		final int defaultMajorVersion = segmentHeader.getDefaultMajorVersion();
-		for (int i = 0; i < class_flags.length; i++) {
+		for (int i = 0; i < class_flags.length; ++i) {
 			final int major = major_versions[i];
 			if (major != defaultMajorVersion) {
 				class_flags[i] |= 1 << 24;
@@ -702,7 +702,7 @@ public class ClassBands extends BandSet {
 		// Calculate code headers
 		codeHeaders = new int[codeHandlerCount.size()];
 		int removed = 0;
-		for (int i = 0; i < codeHeaders.length; i++) {
+		for (int i = 0; i < codeHeaders.length; ++i) {
 			final int numHandlers = codeHandlerCount.get(i - removed);
 			final int maxLocals = codeMaxLocals.get(i - removed);
 			final int maxStack = codeMaxStack.get(i - removed);
@@ -746,7 +746,7 @@ public class ClassBands extends BandSet {
 		// Compute any required IcLocals
 		final IntList innerClassesN = new IntList();
 		final List<IcTuple> icLocal = new ArrayList<>();
-		for (int i = 0; i < class_this.length; i++) {
+		for (int i = 0; i < class_this.length; ++i) {
 			final CPClass cpClass = class_this[i];
 			final Set<CPClass> referencedInnerClasses = classReferencesInnerClass.get(cpClass);
 			if (referencedInnerClasses != null) {
@@ -776,7 +776,7 @@ public class ClassBands extends BandSet {
 		class_InnerClasses_F = new int[icLocal.size()];
 		classInnerClassesOuterRCN = new ArrayList<>();
 		classInnerClassesNameRUN = new ArrayList<>();
-		for (int i = 0; i < class_InnerClasses_RC.length; i++) {
+		for (int i = 0; i < class_InnerClasses_RC.length; ++i) {
 			final IcTuple icTuple = icLocal.get(i);
 			class_InnerClasses_RC[i] = (icTuple.C);
 			if (icTuple.C2 == null && icTuple.N == null) {
@@ -869,7 +869,7 @@ public class ClassBands extends BandSet {
 
 	private int[] getInts(final CPClass[] cpClasses) {
 		final int[] ints = new int[cpClasses.length];
-		for (int i = 0; i < ints.length; i++) {
+		for (int i = 0; i < ints.length; ++i) {
 			if (cpClasses[i] != null) {
 				ints[i] = cpClasses[i].getIndex();
 			}
@@ -932,7 +932,7 @@ public class ClassBands extends BandSet {
 			if (element != null) {
 				for (final CPClass cpClass : element) {
 					classInterface[k] = cpClass.getIndex();
-					k++;
+					++k;
 				}
 			}
 		}
@@ -954,11 +954,11 @@ public class ClassBands extends BandSet {
 		final int totalFields = sum(class_field_count);
 		final int[] fieldDescr = new int[totalFields];
 		k = 0;
-		for (int i = 0; i < index; i++) {
-			for (int j = 0; j < field_descr[i].length; j++) {
+		for (int i = 0; i < index; ++i) {
+			for (int j = 0; j < field_descr[i].length; ++j) {
 				final CPNameAndType descr = field_descr[i][j];
 				fieldDescr[k] = descr.getIndex();
-				k++;
+				++k;
 			}
 		}
 
@@ -971,11 +971,11 @@ public class ClassBands extends BandSet {
 		final int totalMethods = sum(class_method_count);
 		final int[] methodDescr = new int[totalMethods];
 		k = 0;
-		for (int i = 0; i < index; i++) {
-			for (int j = 0; j < method_descr[i].length; j++) {
+		for (int i = 0; i < index; ++i) {
+			for (int j = 0; j < method_descr[i].length; ++j) {
 				final CPNameAndType descr = method_descr[i][j];
 				methodDescr[k] = descr.getIndex();
-				k++;
+				++k;
 			}
 		}
 
@@ -1032,7 +1032,7 @@ public class ClassBands extends BandSet {
 			}
 			if ((flags & (1 << 18)) != 0) {
 				final int exceptions = methodExceptionNumber.remove(methodExceptionNumber.size() - 1);
-				for (int i = 0; i < exceptions; i++) {
+				for (int i = 0; i < exceptions; ++i) {
 					methodExceptionClasses.remove(methodExceptionClasses.size() - 1);
 				}
 			}
@@ -1040,7 +1040,7 @@ public class ClassBands extends BandSet {
 				codeMaxLocals.remove(codeMaxLocals.size() - 1);
 				codeMaxStack.remove(codeMaxStack.size() - 1);
 				final int handlers = codeHandlerCount.remove(codeHandlerCount.size() - 1);
-				for (int i = 0; i < handlers; i++) {
+				for (int i = 0; i < handlers; ++i) {
 					final int newIndex = codeHandlerStartP.size() - 1;
 					codeHandlerStartP.remove(newIndex);
 					codeHandlerEndPO.remove(newIndex);
@@ -1050,7 +1050,7 @@ public class ClassBands extends BandSet {
 				if (!stripDebug) {
 					final long cdeFlags = codeFlags.remove(codeFlags.size() - 1).longValue();
 					final int numLocalVariables = codeLocalVariableTableN.remove(codeLocalVariableTableN.size() - 1);
-					for (int i = 0; i < numLocalVariables; i++) {
+					for (int i = 0; i < numLocalVariables; ++i) {
 						final int location = codeLocalVariableTableBciP.size() - 1;
 						codeLocalVariableTableBciP.remove(location);
 						codeLocalVariableTableSpanO.remove(location);
@@ -1061,7 +1061,7 @@ public class ClassBands extends BandSet {
 					if ((cdeFlags & (1 << 3)) != 0) {
 						final int numLocalVariablesInTypeTable = codeLocalVariableTypeTableN
 								.remove(codeLocalVariableTypeTableN.size() - 1);
-						for (int i = 0; i < numLocalVariablesInTypeTable; i++) {
+						for (int i = 0; i < numLocalVariablesInTypeTable; ++i) {
 							final int location = codeLocalVariableTypeTableBciP.size() - 1;
 							codeLocalVariableTypeTableBciP.remove(location);
 							codeLocalVariableTypeTableSpanO.remove(location);
@@ -1072,7 +1072,7 @@ public class ClassBands extends BandSet {
 					}
 					if ((cdeFlags & (1 << 1)) != 0) {
 						final int numLineNumbers = codeLineNumberTableN.remove(codeLineNumberTableN.size() - 1);
-						for (int i = 0; i < numLineNumbers; i++) {
+						for (int i = 0; i < numLineNumbers; ++i) {
 							final int location = codeLineNumberTableBciP.size() - 1;
 							codeLineNumberTableBciP.remove(location);
 							codeLineNumberTableLine.remove(location);

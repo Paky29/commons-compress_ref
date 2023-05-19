@@ -315,12 +315,12 @@ public class TarArchiveInputStreamTest extends AbstractTestCase {
         final int count = 100;
         final File root = new File(rootPath + "/" + dirDirectory);
         root.mkdirs();
-        for (int i = 1; i < count; i++) {
+        for (int i = 1; i < count; ++i) {
             // -----------------------
             // create empty dirs with incremental length
             // -----------------------
             String subDir = "";
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; ++j) {
                 subDir += "a";
             }
             final File dir = new File(rootPath + "/" + dirDirectory, "/" + subDir);

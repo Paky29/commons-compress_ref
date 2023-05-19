@@ -141,7 +141,7 @@ public class ZipFileTest extends AbstractTestCase {
 
         String tempLineInFile1;
         String tempLineInFile2;
-        for(int i = 0;i < linesOfFile1.size();i++) {
+        for(int i = 0;i < linesOfFile1.size();++i) {
             tempLineInFile1 = linesOfFile1.get(i).replace("\r\n", "\n");
             tempLineInFile2 = linesOfFile2.get(i).replace("\r\n", "\n");
             assertEquals(tempLineInFile1, tempLineInFile2);

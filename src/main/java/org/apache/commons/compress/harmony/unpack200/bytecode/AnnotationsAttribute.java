@@ -50,7 +50,7 @@ public abstract class AnnotationsAttribute extends Attribute {
 
         public List<Object> getClassFileEntries() {
             final List<Object> entries = new ArrayList<>();
-            for (int i = 0; i < elementNames.length; i++) {
+            for (int i = 0; i < elementNames.length; ++i) {
                 entries.add(elementNames[i]);
                 entries.addAll(elementValues[i].getClassFileEntries());
             }
@@ -60,7 +60,7 @@ public abstract class AnnotationsAttribute extends Attribute {
 
         public int getLength() {
             int length = 4;
-            for (int i = 0; i < numPairs; i++) {
+            for (int i = 0; i < numPairs; ++i) {
                 length += 2;
                 length += elementValues[i].getLength();
             }
@@ -71,7 +71,7 @@ public abstract class AnnotationsAttribute extends Attribute {
             type.resolve(pool);
             typeIndex = pool.indexOf(type);
             nameIndexes = new int[numPairs];
-            for (int i = 0; i < elementNames.length; i++) {
+            for (int i = 0; i < elementNames.length; ++i) {
                 elementNames[i].resolve(pool);
                 nameIndexes[i] = pool.indexOf(elementNames[i]);
                 elementValues[i].resolve(pool);
@@ -81,7 +81,7 @@ public abstract class AnnotationsAttribute extends Attribute {
         public void writeBody(final DataOutputStream dos) throws IOException {
             dos.writeShort(typeIndex);
             dos.writeShort(numPairs);
-            for (int i = 0; i < numPairs; i++) {
+            for (int i = 0; i < numPairs; ++i) {
                 dos.writeShort(nameIndexes[i]);
                 elementValues[i].writeBody(dos);
             }

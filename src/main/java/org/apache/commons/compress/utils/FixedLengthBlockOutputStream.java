@@ -177,7 +177,7 @@ public class FixedLengthBlockOutputStream extends OutputStream implements Writab
             final int align = buffer.position() & 7;
             if (align != 0) {
                 final int limit = 8 - align;
-                for (int i = 0; i < limit; i++) {
+                for (int i = 0; i < limit; ++i) {
                     buffer.put((byte) 0);
                 }
                 bytesToWrite -= limit;

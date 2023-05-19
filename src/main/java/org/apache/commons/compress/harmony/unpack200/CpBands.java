@@ -348,7 +348,7 @@ public class CpBands extends BandSet {
         cpClassInts = decodeBandInt("cp_Class", in, Codec.UDELTA5, cpClassCount);
         cpClass = new String[cpClassCount];
         mapClass = new HashMap<>(cpClassCount);
-        for (int i = 0; i < cpClassCount; i++) {
+        for (int i = 0; i < cpClassCount; ++i) {
             cpClass[i] = cpUTF8[cpClassInts[i]];
             mapClass.put(cpClass[i], Integer.valueOf(i));
         }
@@ -372,7 +372,7 @@ public class CpBands extends BandSet {
         final String[] cpDescriptorTypes = getReferences(cpDescriptorTypeInts, cpSignature);
         cpDescriptor = new String[cpDescriptorCount];
         mapDescriptor = new HashMap<>(cpDescriptorCount);
-        for (int i = 0; i < cpDescriptorCount; i++) {
+        for (int i = 0; i < cpDescriptorCount; ++i) {
             cpDescriptor[i] = cpDescriptorNames[i] + ":" + cpDescriptorTypes[i]; //$NON-NLS-1$
             mapDescriptor.put(cpDescriptor[i], Integer.valueOf(i));
         }
@@ -399,7 +399,7 @@ public class CpBands extends BandSet {
         cpFieldDescriptorInts = decodeBandInt("cp_Field_desc", in, Codec.UDELTA5, cpFieldCount);
         cpFieldClass = new String[cpFieldCount];
         cpFieldDescriptor = new String[cpFieldCount];
-        for (int i = 0; i < cpFieldCount; i++) {
+        for (int i = 0; i < cpFieldCount; ++i) {
             cpFieldClass[i] = cpClass[cpFieldClassInts[i]];
             cpFieldDescriptor[i] = cpDescriptor[cpFieldDescriptorInts[i]];
         }
@@ -409,7 +409,7 @@ public class CpBands extends BandSet {
         final int cpFloatCount = header.getCpFloatCount();
         cpFloat = new float[cpFloatCount];
         final int[] floatBits = decodeBandInt("cp_Float", in, Codec.UDELTA5, cpFloatCount);
-        for (int i = 0; i < cpFloatCount; i++) {
+        for (int i = 0; i < cpFloatCount; ++i) {
             cpFloat[i] = Float.intBitsToFloat(floatBits[i]);
         }
     }
@@ -428,7 +428,7 @@ public class CpBands extends BandSet {
         cpIMethodDescriptorInts = decodeBandInt("cp_Imethod_desc", in, Codec.UDELTA5, cpIMethodCount);
         cpIMethodClass = new String[cpIMethodCount];
         cpIMethodDescriptor = new String[cpIMethodCount];
-        for (int i = 0; i < cpIMethodCount; i++) {
+        for (int i = 0; i < cpIMethodCount; ++i) {
             cpIMethodClass[i] = cpClass[cpIMethodClassInts[i]];
             cpIMethodDescriptor[i] = cpDescriptor[cpIMethodDescriptorInts[i]];
         }
@@ -458,7 +458,7 @@ public class CpBands extends BandSet {
         cpMethodDescriptorInts = decodeBandInt("cp_Method_desc", in, Codec.UDELTA5, cpMethodCount);
         cpMethodClass = new String[cpMethodCount];
         cpMethodDescriptor = new String[cpMethodCount];
-        for (int i = 0; i < cpMethodCount; i++) {
+        for (int i = 0; i < cpMethodCount; ++i) {
             cpMethodClass[i] = cpClass[cpMethodClassInts[i]];
             cpMethodDescriptor[i] = cpDescriptor[cpMethodDescriptorInts[i]];
         }
@@ -484,7 +484,7 @@ public class CpBands extends BandSet {
         cpSignature = new String[cpSignatureCount];
         mapSignature = new HashMap<>();
         int lCount = 0;
-        for (int i = 0; i < cpSignatureCount; i++) {
+        for (int i = 0; i < cpSignatureCount; ++i) {
             final String form = cpSignatureForm[i];
             final char[] chars = form.toCharArray();
             for (final char element : chars) {
@@ -496,12 +496,12 @@ public class CpBands extends BandSet {
         }
         final String[] cpSignatureClasses = parseReferences("cp_Signature_classes", in, Codec.UDELTA5, lCount, cpClass);
         int index = 0;
-        for (int i = 0; i < cpSignatureCount; i++) {
+        for (int i = 0; i < cpSignatureCount; ++i) {
             final String form = cpSignatureForm[i];
             final int len = form.length();
             final StringBuilder signature = new StringBuilder(64);
             final ArrayList<String> list = new ArrayList<>();
-            for (int j = 0; j < len; j++) {
+            for (int j = 0; j < len; ++j) {
                 final char c = form.charAt(j);
                 signature.append(c);
                 if (c == 'L') {
@@ -514,7 +514,7 @@ public class CpBands extends BandSet {
             cpSignature[i] = signature.toString();
             mapSignature.put(signature.toString(), Integer.valueOf(i));
         }
-//        for (int i = 0; i < cpSignatureInts.length; i++) {
+//        for (int i = 0; i < cpSignatureInts.length; ++i) {
 //            if (cpSignatureInts[i] == -1) {
 //                cpSignatureInts[i] = search(cpUTF8, cpSignature[i]);
 //            }
@@ -556,29 +556,29 @@ public class CpBands extends BandSet {
         }
         final char[] data = new char[charCount];
         final int[] dataBand = decodeBandInt("cp_Utf8_chars", in, Codec.CHAR3, charCount);
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < data.length; ++i) {
             data[i] = (char) dataBand[i];
         }
 
         // Read in the big suffix data
         final int[] bigSuffixCounts = decodeBandInt("cp_Utf8_big_suffix", in, Codec.DELTA5, bigSuffixCount);
         final int[][] bigSuffixDataBand = new int[bigSuffixCount][];
-        for (int i = 0; i < bigSuffixDataBand.length; i++) {
+        for (int i = 0; i < bigSuffixDataBand.length; ++i) {
             bigSuffixDataBand[i] = decodeBandInt("cp_Utf8_big_chars " + i, in, Codec.DELTA5, bigSuffixCounts[i]);
         }
 
         // Convert big suffix data to characters
         final char[][] bigSuffixData = new char[bigSuffixCount][];
-        for (int i = 0; i < bigSuffixDataBand.length; i++) {
+        for (int i = 0; i < bigSuffixDataBand.length; ++i) {
             bigSuffixData[i] = new char[bigSuffixDataBand[i].length];
-            for (int j = 0; j < bigSuffixDataBand[i].length; j++) {
+            for (int j = 0; j < bigSuffixDataBand[i].length; ++j) {
                 bigSuffixData[i][j] = (char) bigSuffixDataBand[i][j];
             }
         }
         // Go through the strings
         charCount = 0;
         bigSuffixCount = 0;
-        for (int i = 1; i < cpUTF8Count; i++) {
+        for (int i = 1; i < cpUTF8Count; ++i) {
             final String lastString = cpUTF8[i - 1];
             if (suffix[i - 1] == 0) {
                 // The big suffix stuff hasn't been tested, and I'll be

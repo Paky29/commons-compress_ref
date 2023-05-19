@@ -96,7 +96,7 @@ public class IntList {
 
     public void addAll(final IntList list) {
         growAtEnd(list.size());
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); ++i) {
             add(list.get(i));
         }
     }

@@ -155,7 +155,7 @@ class NioZipEncoding implements ZipEncoding, CharsetAccessor {
                     // unmappable character makes it likely that there will be more. Find all the
                     // un-encoded characters and allocate space based on those estimates.
                     int charCount = 0;
-                    for (int i = cb.position() ; i < cb.limit(); i++) {
+                    for (int i = cb.position() ; i < cb.limit(); ++i) {
                         charCount += !enc.canEncode(cb.get(i)) ? 6 : 1;
                     }
                     final int totalExtraSpace = estimateIncrementalEncodingSize(enc, charCount);

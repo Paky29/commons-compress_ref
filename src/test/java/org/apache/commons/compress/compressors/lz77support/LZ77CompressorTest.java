@@ -101,7 +101,7 @@ public class LZ77CompressorTest {
 
     private static final byte[][] stagger(final byte[] data) {
         final byte[][] r = new byte[data.length][1];
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < data.length; ++i) {
             r[i][0] = data[i];
         }
         return r;

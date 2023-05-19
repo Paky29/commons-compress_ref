@@ -120,7 +120,7 @@ public final class ByteUtils {
     public static long fromLittleEndian(final byte[] bytes, final int off, final int length) {
         checkReadLength(length);
         long l = 0;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             l |= (bytes[off + i] & 0xffL) << (8 * i);
         }
         return l;
@@ -142,7 +142,7 @@ public final class ByteUtils {
     public static long fromLittleEndian(final ByteSupplier supplier, final int length) throws IOException {
         checkReadLength(length);
         long l = 0;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             final long b = supplier.getAsByte();
             if (b == -1) {
                 throw new IOException("Premature end of data");
@@ -165,7 +165,7 @@ public final class ByteUtils {
         // somewhat duplicates the ByteSupplier version in order to save the creation of a wrapper object
         checkReadLength(length);
         long l = 0;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             final long b = in.readUnsignedByte();
             l |= (b << (i * 8));
         }
@@ -185,7 +185,7 @@ public final class ByteUtils {
         // somewhat duplicates the ByteSupplier version in order to save the creation of a wrapper object
         checkReadLength(length);
         long l = 0;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             final long b = in.read();
             if (b == -1) {
                 throw new IOException("Premature end of data");
@@ -205,7 +205,7 @@ public final class ByteUtils {
      */
     public static void toLittleEndian(final byte[] b, final long value, final int off, final int length) {
         long num = value;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             b[off + i] = (byte) (num & 0xff);
             num >>= 8;
         }
@@ -222,7 +222,7 @@ public final class ByteUtils {
     public static void toLittleEndian(final ByteConsumer consumer, final long value, final int length)
         throws IOException {
         long num = value;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             consumer.accept((int) (num & 0xff));
             num >>= 8;
         }
@@ -240,7 +240,7 @@ public final class ByteUtils {
         throws IOException {
         // somewhat duplicates the ByteConsumer version in order to save the creation of a wrapper object
         long num = value;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             out.write((int) (num & 0xff));
             num >>= 8;
         }
@@ -258,7 +258,7 @@ public final class ByteUtils {
         throws IOException {
         // somewhat duplicates the ByteConsumer version in order to save the creation of a wrapper object
         long num = value;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             out.write((int) (num & 0xff));
             num >>= 8;
         }

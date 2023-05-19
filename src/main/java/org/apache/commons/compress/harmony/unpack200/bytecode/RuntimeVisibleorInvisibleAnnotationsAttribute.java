@@ -39,7 +39,7 @@ public class RuntimeVisibleorInvisibleAnnotationsAttribute extends AnnotationsAt
     @Override
     protected int getLength() {
         int length = 2;
-        for (int i = 0; i < numAnnotations; i++) {
+        for (int i = 0; i < numAnnotations; ++i) {
             length += annotations[i].getLength();
         }
         return length;
@@ -72,7 +72,7 @@ public class RuntimeVisibleorInvisibleAnnotationsAttribute extends AnnotationsAt
     protected void writeBody(final DataOutputStream dos) throws IOException {
         final int size = dos.size();
         dos.writeShort(numAnnotations);
-        for (int i = 0; i < numAnnotations; i++) {
+        for (int i = 0; i < numAnnotations; ++i) {
             annotations[i].writeBody(dos);
         }
         if (dos.size() - size != getLength()) {

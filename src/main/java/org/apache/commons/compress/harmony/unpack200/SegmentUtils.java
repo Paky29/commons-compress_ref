@@ -44,7 +44,7 @@ public final class SegmentUtils {
         boolean inType = false;
         boolean consumingNextType = false;
         int count = 0;
-        for (int i = bra + 1; i < ket; i++) {
+        for (int i = bra + 1; i < ket; ++i) {
             final char charAt = descriptor.charAt(i);
             if (inType && charAt == ';') {
                 inType = false;

@@ -134,7 +134,7 @@ public class TarUtils {
         final int off = offset + length - len;
         System.arraycopy(b, 0, buf, off, len);
         final byte fill = (byte) (negative ? 0xff : 0);
-        for (int i = offset + 1; i < off; i++) {
+        for (int i = offset + 1; i < off; ++i) {
             buf[i] = fill;
         }
     }
@@ -403,7 +403,7 @@ public class TarUtils {
                                                + " value");
         }
         long val = 0;
-        for (int i = 1; i < length; i++) {
+        for (int i = 1; i < length; ++i) {
             val = (val << 8) + (buffer[offset + i] & 0xff);
         }
         if (negative) {
@@ -517,7 +517,7 @@ public class TarUtils {
         throws IOException {
 
         int len = 0;
-        for (int i = offset; len < length && buffer[i] != 0; i++) {
+        for (int i = offset; len < length && buffer[i] != 0; ++i) {
             len++;
         }
         if (len > 0) {
@@ -914,7 +914,7 @@ public class TarUtils {
     static List<TarArchiveStructSparse> readSparseStructs(final byte[] buffer, final int offset, final int entries)
         throws IOException {
         final List<TarArchiveStructSparse> sparseHeaders = new ArrayList<>();
-        for (int i = 0; i < entries; i++) {
+        for (int i = 0; i < entries; ++i) {
             try {
                 final TarArchiveStructSparse sparseHeader =
                     parseSparse(buffer, offset + i * (TarConstants.SPARSE_OFFSET_LEN + TarConstants.SPARSE_NUMBYTES_LEN));
@@ -964,7 +964,7 @@ public class TarUtils {
         long unsignedSum = 0;
         long signedSum = 0;
 
-        for (int i = 0; i < header.length; i++) {
+        for (int i = 0; i < header.length; ++i) {
             byte b = header[i];
             if (TarConstants.CHKSUM_OFFSET <= i && i < TarConstants.CHKSUM_OFFSET + TarConstants.CHKSUMLEN) {
                 b = ' ';

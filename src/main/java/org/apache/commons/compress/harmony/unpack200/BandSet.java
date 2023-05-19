@@ -100,7 +100,7 @@ public abstract class BandSet {
             final PopulationCodec popCodec = (PopulationCodec) codecUsed;
             final int[] favoured = popCodec.getFavoured().clone();
             Arrays.sort(favoured);
-            for (int i = 0; i < band.length; i++) {
+            for (int i = 0; i < band.length; ++i) {
                 final boolean favouredValue = Arrays.binarySearch(favoured, band[i]) > -1;
                 final Codec theCodec = favouredValue ? popCodec.getFavouredCodec() : popCodec.getUnfavouredCodec();
                 if (theCodec instanceof BHSDCodec && ((BHSDCodec) theCodec).isDelta()) {
@@ -138,9 +138,9 @@ public abstract class BandSet {
         }
         final int[] twoDResult = decodeBandInt(name, in, defaultCodec, totalCount);
         int index = 0;
-        for (int i = 0; i < result.length; i++) {
+        for (int i = 0; i < result.length; ++i) {
             result[i] = new int[counts[i]];
-            for (int j = 0; j < result[i].length; j++) {
+            for (int j = 0; j < result[i].length; ++j) {
                 result[i][j] = twoDResult[index];
                 index++;
             }
@@ -156,9 +156,9 @@ public abstract class BandSet {
 
     protected String[][] getReferences(final int[][] ints, final String[] reference) {
         final String[][] result = new String[ints.length][];
-        for (int i = 0; i < result.length; i++) {
+        for (int i = 0; i < result.length; ++i) {
             result[i] = new String[ints[i].length];
-            for (int j = 0; j < result[i].length; j++) {
+            for (int j = 0; j < result[i].length; ++j) {
                 result[i][j] = reference[ints[i][j]];
             }
         }
@@ -287,7 +287,7 @@ public abstract class BandSet {
         final int[] counts) throws IOException, Pack200Exception {
         final CPUTF8[][] result = new CPUTF8[counts.length][];
         int sum = 0;
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             result[i] = new CPUTF8[counts[i]];
             sum += counts[i];
         }
@@ -297,7 +297,7 @@ public abstract class BandSet {
             result1[i1] = segment.getCpBands().cpSignatureValue(indices[i1]);
         }
         int pos = 0;
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             final int num = counts[i];
             result[i] = new CPUTF8[num];
             System.arraycopy(result1, pos, result[i], 0, num);
@@ -331,7 +331,7 @@ public abstract class BandSet {
         final int[] counts) throws IOException, Pack200Exception {
         final CPUTF8[][] result = new CPUTF8[counts.length][];
         int sum = 0;
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             result[i] = new CPUTF8[counts[i]];
             sum += counts[i];
         }
@@ -342,7 +342,7 @@ public abstract class BandSet {
             result1[i1] = segment.getCpBands().cpUTF8Value(index);
         }
         int pos = 0;
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             final int num = counts[i];
             result[i] = new CPUTF8[num];
             System.arraycopy(result1, pos, result[i], 0, num);
@@ -369,7 +369,7 @@ public abstract class BandSet {
         }
         int sum = 0;
         final long[][] result = new long[count][];
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; ++i) {
             result[i] = new long[counts[i]];
             sum += counts[i];
         }
@@ -381,8 +381,8 @@ public abstract class BandSet {
         lo = decodeBandInt(name, in, loCodec, sum);
 
         int index = 0;
-        for (int i = 0; i < result.length; i++) {
-            for (int j = 0; j < result[i].length; j++) {
+        for (int i = 0; i < result.length; ++i) {
+            for (int j = 0; j < result[i].length; ++j) {
                 if (hi != null) {
                     result[i][j] = ((long) hi[index] << 32) | (lo[index] & 4294967295L);
                 } else {
@@ -443,7 +443,7 @@ public abstract class BandSet {
         }
         final String[][] result = new String[count][];
         int sum = 0;
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; ++i) {
             result[i] = new String[counts[i]];
             sum += counts[i];
         }
@@ -460,7 +460,7 @@ public abstract class BandSet {
         }
         // TODO Merge the decode and parsing of a multiple structure into one
         int pos = 0;
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; ++i) {
             final int num = counts[i];
             result[i] = new String[num];
             System.arraycopy(result1, pos, result[i], 0, num);

@@ -39,7 +39,7 @@ public class CircularBufferTest {
         // copy uninitialized data
         buffer.copy(6, 8);
 
-        for (int i = 2; i < 6; i++) {
+        for (int i = 2; i < 6; ++i) {
             assertEquals(0, buffer.get(), "buffer[" + i + "]");
         }
         assertEquals(1, buffer.get(), "buffer[" + 6 + "]");
@@ -47,7 +47,7 @@ public class CircularBufferTest {
         assertEquals(0, buffer.get(), "buffer[" + 8 + "]");
         assertEquals(0, buffer.get(), "buffer[" + 9 + "]");
 
-        for (int i = 10; i < 14; i++) {
+        for (int i = 10; i < 14; ++i) {
             buffer.put(i);
             buffer.get();
         }
@@ -57,7 +57,7 @@ public class CircularBufferTest {
         // copy data and wrap
         buffer.copy(2, 8);
 
-        for (int i = 14; i < 18; i++) {
+        for (int i = 14; i < 18; ++i) {
             assertEquals(i % 2 == 0 ? 12 : 13, buffer.get(), "buffer[" + i + "]");
         }
     }
@@ -66,13 +66,13 @@ public class CircularBufferTest {
     public void testPutAndGet() {
         final int size = 16;
         final CircularBuffer buffer = new CircularBuffer(size);
-        for (int i = 0; i < size / 2; i++) {
+        for (int i = 0; i < size / 2; ++i) {
             buffer.put(i);
         }
 
         assertTrue(buffer.available(), "available");
 
-        for (int i = 0; i < size / 2; i++) {
+        for (int i = 0; i < size / 2; ++i) {
             assertEquals(i, buffer.get(), "buffer[" + i + "]");
         }
 

@@ -537,7 +537,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     private void padAsNeeded() throws IOException {
         final int start = Math.toIntExact(recordsWritten % recordsPerBlock);
         if (start != 0) {
-            for (int i = start; i < recordsPerBlock; i++) {
+            for (int i = start; i < recordsPerBlock; ++i) {
                 writeEOFRecord();
             }
         }
@@ -670,7 +670,7 @@ public class TarArchiveOutputStream extends ArchiveOutputStream {
     private String stripTo7Bits(final String name) {
         final int length = name.length();
         final StringBuilder result = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             final char stripped = (char) (name.charAt(i) & 0x7F);
             if (shouldBeReplaced(stripped)) {
                 result.append("_");

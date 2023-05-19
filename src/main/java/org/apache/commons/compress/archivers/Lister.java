@@ -130,13 +130,23 @@ public final class Lister {
         final String format = args.length > 1 ? args[1] : detectFormat(f);
         if (ArchiveStreamFactory.SEVEN_Z.equalsIgnoreCase(format)) {
             list7z(f);
-        } else if ("zipfile".equals(format)) {
-            listZipUsingZipFile(f);
-        } else if ("tarfile".equals(format)) {
-            listZipUsingTarFile(f);
-        } else {
-            listStream(f, args);
+        } else{
+            switch(format){
+                case "zipfile":
+                    listZipUsingZipFile(f);
+                case "tarfile":
+                    listZipUsingTarFile(f);
+                default:
+                    listStream(f, args);
+            }
         }
+//            if ("zipfile".equals(format)) {
+//            listZipUsingZipFile(f);
+//        } else if ("tarfile".equals(format)) {
+//            listZipUsingTarFile(f);
+//        } else {
+//            listStream(f, args);
+//        }
     }
 
     private static void usage() {

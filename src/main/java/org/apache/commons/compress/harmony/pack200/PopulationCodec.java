@@ -110,7 +110,7 @@ public class PopulationCodec extends Codec {
         result = tokenCodec.decodeInts(n, in);
         // read unfavorites
         last = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; ++i) {
             final int index = result[i];
             if (index == 0) {
                 lastBandLength++;

@@ -272,12 +272,12 @@ public class TarFileTest extends AbstractTestCase {
         final int count = 100;
         final File root = new File(rootPath + "/" + dirDirectory);
         root.mkdirs();
-        for (int i = 1; i < count; i++) {
+        for (int i = 1; i < count; ++i) {
             // -----------------------
             // create empty dirs with incremental length
             // -----------------------
             final StringBuilder subDirBuilder = new StringBuilder();
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; ++j) {
                 subDirBuilder.append("a");
             }
             final String subDir = subDirBuilder.toString();

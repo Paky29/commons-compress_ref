@@ -36,7 +36,7 @@ public class SegmentHeader extends BandSet {
 
         public void add(final int obj) {
             boolean found = false;
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < length; ++i) {
                 if (objs[i] == obj) {
                     counts[i]++;
                     found = true;
@@ -55,7 +55,7 @@ public class SegmentHeader extends BandSet {
 
         public int getMostCommon() {
             int returnIndex = 0;
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < length; ++i) {
                 if (counts[i] > counts[returnIndex]) {
                     returnIndex = i;
                 }

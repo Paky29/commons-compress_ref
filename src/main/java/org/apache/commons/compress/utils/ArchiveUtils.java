@@ -40,7 +40,7 @@ public class ArchiveUtils {
      * @return true if the first N bytes are zero
      */
     public static boolean isArrayZero(final byte[] a, final int size) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             if (a[i] != 0) {
                 return false;
             }
@@ -105,7 +105,7 @@ public class ArchiveUtils {
             final byte[] buffer2, final int offset2, final int length2,
             final boolean ignoreTrailingNulls){
         final int minLen= Math.min(length1, length2);
-        for (int i=0; i < minLen; i++){
+        for (int i=0; i < minLen; ++i){
             if (buffer1[offset1+i] != buffer2[offset2+i]){
                 return false;
             }
@@ -115,13 +115,13 @@ public class ArchiveUtils {
         }
         if (ignoreTrailingNulls){
             if (length1 > length2){
-                for(int i = length2; i < length1; i++){
+                for(int i = length2; i < length1; ++i){
                     if (buffer1[offset1+i] != 0){
                         return false;
                     }
                 }
             } else {
-                for(int i = length1; i < length2; i++){
+                for(int i = length1; i < length2; ++i){
                     if (buffer2[offset2+i] != 0){
                         return false;
                     }

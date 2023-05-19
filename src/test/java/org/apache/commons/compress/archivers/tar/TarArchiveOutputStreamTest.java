@@ -400,7 +400,7 @@ public class TarArchiveOutputStreamTest extends AbstractTestCase {
         assertEquals(TarConstants.LF_NORMAL, entryIn.getLinkFlag());
 		assertEquals("global-weasels", entryIn.getExtraPaxHeader("SCHILLY.xattr.user.org.apache.weasels"));
         final Reader reader = new InputStreamReader(in);
-		for (int i = 0; i < x.length(); i++) {
+		for (int i = 0; i < x.length(); ++i) {
 			assertEquals(x.charAt(i), reader.read());
 		}
 		assertEquals(-1, reader.read());
@@ -775,7 +775,7 @@ public class TarArchiveOutputStreamTest extends AbstractTestCase {
         tos.putArchiveEntry(t);
 
         byte[] bytes = new byte[TarConstants.DEFAULT_RCDSIZE];
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+        for (int i = 0; i < Integer.MAX_VALUE; ++i) {
             tos.write(bytes);
         }
         tos.write(bytes);

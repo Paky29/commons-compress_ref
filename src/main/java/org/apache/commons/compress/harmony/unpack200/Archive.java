@@ -154,7 +154,7 @@ public class Archive {
             final int[] magic = {0xCA, 0xFE, 0xD0, 0x0D}; // Magic word for
             // pack200
             final int[] word = new int[4];
-            for (int i = 0; i < word.length; i++) {
+            for (int i = 0; i < word.length; ++i) {
                 word[i] = inputStream.read();
             }
             boolean compressedWithE0 = false;
@@ -181,7 +181,7 @@ public class Archive {
             } else {
                 int i = 0;
                 while (available(inputStream)) {
-                    i++;
+                    ++i;
                     final Segment segment = new Segment();
                     segment.setLogLevel(logLevel);
                     segment.setLogStream(logFile != null ? (OutputStream) logFile : (OutputStream) System.out);

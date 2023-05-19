@@ -48,7 +48,7 @@ public class UTF8ZipFilesTest extends AbstractTestCase {
         assertNotNull(b);
         final int len = ASCII_TXT.length();
         assertEquals(len, b.length);
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; ++i) {
             assertEquals((byte) ASCII_TXT.charAt(i), b[i], "Byte " + i);
         }
         assertNotSame(b, ze.getRawName());

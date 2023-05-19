@@ -231,7 +231,7 @@ public class ParallelScatterZipCreatorTest {
         final String fileContent = "A";
         final int NUM_OF_FILES = 100;
         final LinkedList<InputStream> inputStreams = new LinkedList<>();
-        for (int i = 0; i < NUM_OF_FILES; i++) {
+        for (int i = 0; i < NUM_OF_FILES; ++i) {
             inputStreams.add(new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8)));
         }
 
@@ -269,7 +269,7 @@ public class ParallelScatterZipCreatorTest {
 
     private Map<String, byte[]> writeEntries(final ParallelScatterZipCreator zipCreator) {
         final Map<String, byte[]> entries = new HashMap<>();
-        for (int i = 0; i < NUMITEMS; i++){
+        for (int i = 0; i < NUMITEMS; ++i){
             final byte[] payloadBytes = ("content" + i).getBytes();
             final ZipArchiveEntry za = createZipArchiveEntry(entries, i, payloadBytes);
             final InputStreamSupplier iss = () -> new ByteArrayInputStream(payloadBytes);
@@ -286,7 +286,7 @@ public class ParallelScatterZipCreatorTest {
     private Map<String, byte[]> writeEntriesAsCallable(final ParallelScatterZipCreator zipCreator,
                                                        final CallableConsumer consumer) {
         final Map<String, byte[]> entries = new HashMap<>();
-        for (int i = 0; i < NUMITEMS; i++){
+        for (int i = 0; i < NUMITEMS; ++i){
             final byte[] payloadBytes = ("content" + i).getBytes();
             final ZipArchiveEntry za = createZipArchiveEntry(entries, i, payloadBytes);
             final InputStreamSupplier iss = () -> new ByteArrayInputStream(payloadBytes);

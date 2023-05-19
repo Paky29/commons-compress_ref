@@ -346,7 +346,7 @@ public class ArchiveStreamFactoryTest extends AbstractTestCase {
     @Test
     public void testEncodingInputStream() throws Exception {
         int failed = 0;
-        for (int i = 1; i <= TESTS.length; i++) {
+        for (int i = 1; i <= TESTS.length; ++i) {
             final TestData test = TESTS[i - 1];
             try (final ArchiveInputStream ais = getInputStreamFor(test.type, test.testFile, test.fac)) {
                 final String field = getField(ais, test.fieldName);
@@ -365,7 +365,7 @@ public class ArchiveStreamFactoryTest extends AbstractTestCase {
     @Test
     public void testEncodingInputStreamAutodetect() throws Exception {
         int failed = 0;
-        for (int i = 1; i <= TESTS.length; i++) {
+        for (int i = 1; i <= TESTS.length; ++i) {
             final TestData test = TESTS[i - 1];
             try (final ArchiveInputStream ais = getInputStreamFor(test.testFile, test.fac)) {
                 final String field = getField(ais, test.fieldName);
@@ -384,7 +384,7 @@ public class ArchiveStreamFactoryTest extends AbstractTestCase {
     @Test
     public void testEncodingOutputStream() throws Exception {
         int failed = 0;
-        for(int i = 1; i <= TESTS.length; i++) {
+        for(int i = 1; i <= TESTS.length; ++i) {
             final TestData test = TESTS[i-1];
             if (test.hasOutputStream) {
                 try (final ArchiveOutputStream ais = getOutputStreamFor(test.type, test.fac)) {

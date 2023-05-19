@@ -752,7 +752,7 @@ public class TarArchiveEntry implements ArchiveEntry, TarConstants, EntryStreamO
     }
 
     private int fill(final byte value, final int offset, final byte[] outbuf, final int length) {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; ++i) {
             outbuf[offset + i] = value;
         }
         return offset + length;
@@ -1038,7 +1038,7 @@ public class TarArchiveEntry implements ArchiveEntry, TarConstants, EntryStreamO
             .collect(Collectors.toList());
 
         final int numberOfHeaders = orderedAndFiltered.size();
-        for (int i = 0; i < numberOfHeaders; i++) {
+        for (int i = 0; i < numberOfHeaders; ++i) {
             final TarArchiveStructSparse str = orderedAndFiltered.get(i);
             if (i + 1 < numberOfHeaders
                 && str.getOffset() + str.getNumbytes() > orderedAndFiltered.get(i + 1).getOffset()) {
@@ -1311,7 +1311,7 @@ public class TarArchiveEntry implements ArchiveEntry, TarConstants, EntryStreamO
         // If atime[0]...atime[10] or ctime[0]...ctime[10] is not a POSIX octal number it cannot be 'xstar'.
         if ((buffer[offset] & 0x80) == 0) {
             final int lastIndex = length - 1;
-            for (int i = 0; i < lastIndex; i++) {
+            for (int i = 0; i < lastIndex; ++i) {
                 final byte b = buffer[offset + i];
                 if (b < '0' || b > '7') {
                     return true;

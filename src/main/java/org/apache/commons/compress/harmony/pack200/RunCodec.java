@@ -117,7 +117,7 @@ public class RunCodec extends Codec {
             final BHSDCodec bhsd = (BHSDCodec) codecUsed;
             if (bhsd.isDelta()) {
                 final long cardinality = bhsd.cardinality();
-                for (int i = 0; i < band.length; i++) {
+                for (int i = 0; i < band.length; ++i) {
                     while (band[i] > bhsd.largest()) {
                         band[i] -= cardinality;
                     }
@@ -130,7 +130,7 @@ public class RunCodec extends Codec {
             final PopulationCodec popCodec = (PopulationCodec) codecUsed;
             final int[] favoured = popCodec.getFavoured().clone();
             Arrays.sort(favoured);
-            for (int i = 0; i < band.length; i++) {
+            for (int i = 0; i < band.length; ++i) {
                 final boolean favouredValue = Arrays.binarySearch(favoured, band[i]) > -1;
                 final Codec theCodec = favouredValue ? popCodec.getFavouredCodec() : popCodec.getUnfavouredCodec();
                 if (theCodec instanceof BHSDCodec) {

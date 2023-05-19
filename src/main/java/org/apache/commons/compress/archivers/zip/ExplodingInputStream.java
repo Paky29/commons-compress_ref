@@ -107,50 +107,59 @@ class ExplodingInputStream extends InputStream implements InputStreamStatistics 
         init();
 
         final int bit = bits.nextBit();
-        if (bit == -1) {
-            // EOF
-            return;
-        }
-        if (bit == 1) {
-            // literal value
-            final int literal;
-            if (literalTree != null) {
-                literal = literalTree.read(bits);
-            } else {
-                literal = bits.nextByte();
-            }
+        switch(bit){
+            case -1:return;
+            case 1:
+                // literal value
+                final int literal;
+                if (literalTree != null) {
+                    literal = literalTree.read(bits);
+                } else {
+                    literal = bits.nextByte();
+                }
 
-            if (literal == -1) {
-                // end of stream reached, nothing left to decode
-                return;
-            }
-
-            buffer.put(literal);
-
-        } else {
-            // back reference
-            final int distanceLowSize = dictionarySize == 4096 ? 6 : 7;
-            final int distanceLow = (int) bits.nextBits(distanceLowSize);
-            final int distanceHigh = distanceTree.read(bits);
-            if (distanceHigh == -1 && distanceLow <= 0) {
-                // end of stream reached, nothing left to decode
-                return;
-            }
-            final int distance = distanceHigh << distanceLowSize | distanceLow;
-
-            int length = lengthTree.read(bits);
-            if (length == 63) {
-                final long nextByte = bits.nextBits(8);
-                if (nextByte == -1) {
-                    // EOF
+                if (literal == -1) {
+                    // end of stream reached, nothing left to decode
                     return;
                 }
-                length = ExactMath.add(length, nextByte);
-            }
-            length += minimumMatchLength;
 
-            buffer.copy(distance + 1, length);
+                buffer.put(literal);
+                break;
+            default:
+                // back reference
+                final int distanceLowSize = dictionarySize == 4096 ? 6 : 7;
+                final int distanceLow = (int) bits.nextBits(distanceLowSize);
+                final int distanceHigh = distanceTree.read(bits);
+                if (distanceHigh == -1 && distanceLow <= 0) {
+                    // end of stream reached, nothing left to decode
+                    return;
+                }
+                final int distance = distanceHigh << distanceLowSize | distanceLow;
+
+                int length = lengthTree.read(bits);
+                if (length == 63) {
+                    final long nextByte = bits.nextBits(8);
+                    if (nextByte == -1) {
+                        // EOF
+                        return;
+                    }
+                    length = ExactMath.add(length, nextByte);
+                }
+                length += minimumMatchLength;
+
+                buffer.copy(distance + 1, length);
+                break;
         }
+//        if (bit == -1) {
+//            // EOF
+//            return;
+//        }
+//        if (bit == 1) {
+//
+//
+//        } else {
+//
+//        }
     }
 
     /**

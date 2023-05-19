@@ -178,7 +178,7 @@ public abstract class LZWInputStream extends CompressorInputStream implements In
         outputStack = new byte[maxTableSize];
         outputStackLocation = maxTableSize;
         final int max = 1 << 8;
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < max; ++i) {
             prefixes[i] = -1;
             characters[i] = (byte) i;
         }

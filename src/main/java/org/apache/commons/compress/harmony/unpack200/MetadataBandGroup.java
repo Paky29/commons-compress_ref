@@ -122,7 +122,7 @@ public class MetadataBandGroup {
     private Annotation getAnnotation(final CPUTF8 type, final int pairCount, final Iterator<CPUTF8> namesIterator) {
         final CPUTF8[] elementNames = new CPUTF8[pairCount];
         final ElementValue[] elementValues = new ElementValue[pairCount];
-        for (int j = 0; j < elementNames.length; j++) {
+        for (int j = 0; j < elementNames.length; ++j) {
             elementNames[j] = namesIterator.next();
             final int t = T[T_index++];
             elementValues[j] = new ElementValue(t, getNextValue(t));
@@ -159,7 +159,7 @@ public class MetadataBandGroup {
                 nestpair_N_Index = 0;
                 nestname_RU_Iterator = Arrays.asList(nestname_RU).iterator();
                 if (type.equals("RVA") || type.equals("RIA")) {
-                    for (int i = 0; i < anno_N.length; i++) {
+                    for (int i = 0; i < anno_N.length; ++i) {
                         attributes.add(getAttribute(anno_N[i], type_RS[i], pair_N[i], name_RU_Iterator));
                     }
                 } else if (type.equals("RVPA") || type.equals("RIPA")) {
@@ -204,7 +204,7 @@ public class MetadataBandGroup {
         case '[':
             final int arraySize = casearray_N[casearray_N_Index++];
             final ElementValue[] nestedArray = new ElementValue[arraySize];
-            for (int i = 0; i < arraySize; i++) {
+            for (int i = 0; i < arraySize; ++i) {
                 final int nextT = T[T_index++];
                 nestedArray[i] = new ElementValue(nextT, getNextValue(nextT));
             }
@@ -221,7 +221,7 @@ public class MetadataBandGroup {
 
     private Attribute getParameterAttribute(final int numParameters, final Iterator<CPUTF8> namesIterator) {
         final ParameterAnnotation[] parameterAnnotations = new ParameterAnnotation[numParameters];
-        for (int i = 0; i < numParameters; i++) {
+        for (int i = 0; i < numParameters; ++i) {
             final int numAnnotations = anno_N[anno_N_Index++];
             final int[] pairCounts = pair_N[pair_N_Index++];
             final Annotation[] annotations = new Annotation[numAnnotations];

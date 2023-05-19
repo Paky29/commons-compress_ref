@@ -97,7 +97,7 @@ class HuffmanDecoder implements Closeable {
         }
 
         void add(final byte[] b, final int off, final int len) {
-            for (int i = off; i < off + len; i++) {
+            for (int i = off; i < off + len; ++i) {
                 add(b[i]);
             }
         }
@@ -118,7 +118,7 @@ class HuffmanDecoder implements Closeable {
             if (!wrappedAround && start >= wHead) {
                 throw new IllegalStateException("Attempt to read beyond memory: dist=" + distance);
             }
-            for (int i = 0, pos = start; i < length; i++, pos = incCounter(pos)) {
+            for (int i = 0, pos = start; i < length; ++i, pos = incCounter(pos)) {
                 buff[i] = add(memory[pos]);
             }
         }
@@ -369,7 +369,7 @@ class HuffmanDecoder implements Closeable {
 
         final BinaryTreeNode root = new BinaryTreeNode(0);
 
-        for (int i = 0; i < litTable.length; i++) {
+        for (int i = 0; i < litTable.length; ++i) {
             final int len = litTable[i];
             if (len != 0) {
                 BinaryTreeNode node = root;
@@ -404,7 +404,7 @@ class HuffmanDecoder implements Closeable {
 
         int code = 0;
         final int[] nextCode = new int[max + 1];
-        for (int i = 0; i <= max; i++) {
+        for (int i = 0; i <= max; ++i) {
             code = (code + blCount[i]) << 1;
             nextCode[i] = code;
         }

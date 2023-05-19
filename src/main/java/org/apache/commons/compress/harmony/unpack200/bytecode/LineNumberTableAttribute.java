@@ -92,7 +92,7 @@ public class LineNumberTableAttribute extends BCIRenumberedAttribute {
     @Override
     protected void writeBody(final DataOutputStream dos) throws IOException {
         dos.writeShort(lineNumberTableLength);
-        for (int i = 0; i < lineNumberTableLength; i++) {
+        for (int i = 0; i < lineNumberTableLength; ++i) {
             dos.writeShort(startPcs[i]);
             dos.writeShort(lineNumbers[i]);
         }

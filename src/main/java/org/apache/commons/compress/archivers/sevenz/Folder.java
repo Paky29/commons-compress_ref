@@ -49,7 +49,7 @@ class Folder {
 
     int findBindPairForInStream(final int index) {
         if (bindPairs != null) {
-            for (int i = 0; i < bindPairs.length; i++) {
+            for (int i = 0; i < bindPairs.length; ++i) {
                 if (bindPairs[i].inIndex == index) {
                     return i;
                 }
@@ -60,7 +60,7 @@ class Folder {
 
     int findBindPairForOutStream(final int index) {
         if (bindPairs != null) {
-            for (int i = 0; i < bindPairs.length; i++) {
+            for (int i = 0; i < bindPairs.length; ++i) {
                 if (bindPairs[i].outIndex == index) {
                     return i;
                 }
@@ -106,7 +106,7 @@ class Folder {
 
     long getUnpackSizeForCoder(final Coder coder) {
         if (coders != null) {
-            for (int i = 0; i < coders.length; i++) {
+            for (int i = 0; i < coders.length; ++i) {
                 if (coders[i] == coder) {
                     return unpackSizes[i];
                 }

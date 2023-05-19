@@ -64,7 +64,7 @@ public class Pack200CompressorInputStream extends CompressorInputStream {
             return false;
         }
 
-        for (int i = 0; i < SIG_LENGTH; i++) {
+        for (int i = 0; i < SIG_LENGTH; ++i) {
             if (signature[i] != CAFE_DOOD[i]) {
                 return false;
             }

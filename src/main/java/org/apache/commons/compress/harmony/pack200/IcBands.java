@@ -162,7 +162,7 @@ public class IcBands extends BandSet {
 
         int index2 = 0;
         final List<IcTuple> innerClassesList = new ArrayList<>(innerClasses);
-        for (int i = 0; i < ic_this_class.length; i++) {
+        for (int i = 0; i < ic_this_class.length; ++i) {
             final IcTuple icTuple = innerClassesList.get(i);
             ic_this_class[i] = icTuple.C.getIndex();
             ic_flags[i] = icTuple.F;

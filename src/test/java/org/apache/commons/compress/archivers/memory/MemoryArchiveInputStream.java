@@ -34,7 +34,7 @@ public final class MemoryArchiveInputStream extends ArchiveInputStream {
         filenames = new String[pFilesLength];
         content = new String[pFilesLength];
 
-        for (int i = 0; i < pFilesLength; i++) {
+        for (int i = 0; i < pFilesLength; ++i) {
             final String[] nameAndContent = pFiles[i];
             filenames[i] = nameAndContent[0];
             content[i] = nameAndContent[1];

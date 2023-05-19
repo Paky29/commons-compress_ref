@@ -83,7 +83,7 @@ public class BcBandsTest extends AbstractBandsTestCase {
         @Override
         public boolean[] getCodeHasAttributes() {
             int totalMethods = 0;
-            for (int i = 0; i < numClasses; i++) {
+            for (int i = 0; i < numClasses; ++i) {
                 totalMethods += numMethods[i];
             }
             return new boolean[totalMethods];
@@ -92,7 +92,7 @@ public class BcBandsTest extends AbstractBandsTestCase {
         @Override
         public int[] getCodeMaxNALocals() {
             int totalMethods = 0;
-            for (int i = 0; i < numClasses; i++) {
+            for (int i = 0; i < numClasses; ++i) {
                 totalMethods += numMethods[i];
             }
             return new int[totalMethods];
@@ -101,7 +101,7 @@ public class BcBandsTest extends AbstractBandsTestCase {
         @Override
         public int[] getCodeMaxStack() {
             int totalMethods = 0;
-            for (int i = 0; i < numClasses; i++) {
+            for (int i = 0; i < numClasses; ++i) {
                 totalMethods += numMethods[i];
             }
             return new int[totalMethods];
@@ -110,9 +110,9 @@ public class BcBandsTest extends AbstractBandsTestCase {
         @Override
         public ArrayList[][] getMethodAttributes() {
             final ArrayList[][] attributes = new ArrayList[numClasses][];
-            for (int i = 0; i < attributes.length; i++) {
+            for (int i = 0; i < attributes.length; ++i) {
                 attributes[i] = new ArrayList[numMethods[i]];
-                for (int j = 0; j < attributes[i].length; j++) {
+                for (int j = 0; j < attributes[i].length; ++j) {
                     attributes[i][j] = new ArrayList();
                 }
             }
@@ -122,9 +122,9 @@ public class BcBandsTest extends AbstractBandsTestCase {
         @Override
         public String[][] getMethodDescr() {
             final String[][] descr = new String[numClasses][];
-            for (int i = 0; i < descr.length; i++) {
+            for (int i = 0; i < descr.length; ++i) {
                 descr[i] = new String[numMethods[i]];
-                for (int j = 0; j < descr[i].length; j++) {
+                for (int j = 0; j < descr[i].length; ++j) {
                     descr[i][j] = "hello()";
                 }
             }
@@ -134,7 +134,7 @@ public class BcBandsTest extends AbstractBandsTestCase {
         @Override
         public long[][] getMethodFlags() {
             final long[][] flags = new long[numClasses][];
-            for (int i = 0; i < flags.length; i++) {
+            for (int i = 0; i < flags.length; ++i) {
                 flags[i] = new long[numMethods[i]];
             }
             return flags;

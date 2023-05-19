@@ -389,11 +389,11 @@ public class NewAttributeBands extends BandSet {
 
             // Add the corresponding array values
             int offset = 0;
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < index; ++i) {
                 offset += countElement.getValue(i);
             }
             final long numElements = countElement.getValue(index);
-            for (int i = offset; i < offset + numElements; i++) {
+            for (int i = offset; i < offset + numElements; ++i) {
                 for (final LayoutElement layoutElement : layoutElements) {
                     layoutElement.addToAttribute(i, attribute);
                 }
@@ -412,7 +412,7 @@ public class NewAttributeBands extends BandSet {
         public void readBands(final InputStream in, final int count) throws IOException, Pack200Exception {
             countElement.readBands(in, count);
             int arrayCount = 0;
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; ++i) {
                 arrayCount += countElement.getValue(i);
             }
             for (final LayoutElement layoutElement : layoutElements) {
@@ -448,7 +448,7 @@ public class NewAttributeBands extends BandSet {
             for (final UnionCase unionCase : unionCases) {
                 if (unionCase.hasTag(tag)) {
                     defaultCase = false;
-                    for (int j = 0; j < n; j++) {
+                    for (int j = 0; j < n; ++j) {
                         if (unionCase.hasTag(tagBand[j])) {
                             offset++;
                         }
@@ -459,7 +459,7 @@ public class NewAttributeBands extends BandSet {
             if (defaultCase) {
                 // default case
                 int defaultOffset = 0;
-                for (int j = 0; j < n; j++) {
+                for (int j = 0; j < n; ++j) {
                     boolean found = false;
                     for (final UnionCase unionCase : unionCases) {
                         if (unionCase.hasTag(tagBand[j])) {
@@ -496,7 +496,7 @@ public class NewAttributeBands extends BandSet {
             final int[] values = unionTag.band;
             // Count the band size for each union case then read the bands
             caseCounts = new int[unionCases.size()];
-            for (int i = 0; i < caseCounts.length; i++) {
+            for (int i = 0; i < caseCounts.length; ++i) {
                 final UnionCase unionCase = unionCases.get(i);
                 for (final int value : values) {
                     if (unionCase.hasTag(value)) {
@@ -677,7 +677,7 @@ public class NewAttributeBands extends BandSet {
         }
 
         final List<Attribute> attributes = new ArrayList<>(occurrenceCount);
-        for (int i = 0; i < occurrenceCount; i++) {
+        for (int i = 0; i < occurrenceCount; ++i) {
             attributes.add(getOneAttribute(i, attributeLayoutElements));
         }
         return attributes;
@@ -929,7 +929,7 @@ public class NewAttributeBands extends BandSet {
      */
     private void resolveCalls() {
         int backwardsCalls = 0;
-        for (int i = 0; i < attributeLayoutElements.size(); i++) {
+        for (int i = 0; i < attributeLayoutElements.size(); ++i) {
             final AttributeLayoutElement element = attributeLayoutElements.get(i);
             if (element instanceof Callable) {
                 final Callable callable = (Callable) element;
@@ -955,7 +955,7 @@ public class NewAttributeBands extends BandSet {
                 backwardsCalls++;
                 call.setCallable(currentCallable);
             } else if (index > 0) { // Forwards call
-                for (int k = i + 1; k < attributeLayoutElements.size(); k++) {
+                for (int k = i + 1; k < attributeLayoutElements.size(); ++k) {
                     final AttributeLayoutElement el = attributeLayoutElements.get(k);
                     if (el instanceof Callable) {
                         index--;

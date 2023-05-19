@@ -110,7 +110,7 @@ public class ArArchiveOutputStream extends ArchiveOutputStream {
         final long diff = pNewOffset - pOffset;
 
         if (diff > 0) {
-            for (int i = 0; i < diff; i++) {
+            for (int i = 0; i < diff; ++i) {
                 write(pFill);
             }
         }

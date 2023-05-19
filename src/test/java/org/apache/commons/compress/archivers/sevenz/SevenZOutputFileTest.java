@@ -122,7 +122,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
 
     private byte[] generateFileData(final int size) {
         final byte[] data = new byte[size];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             data[i] = (byte) ('A' + (i % 26));
         }
         return data;
@@ -231,7 +231,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "COMPRESS252-" + numberOfFiles + "-" + numberOfNonEmptyFiles + ".7z");
         try (SevenZOutputFile archive = new SevenZOutputFile(output)) {
             addDir(archive);
-            for (int i = 0; i < numberOfFiles; i++) {
+            for (int i = 0; i < numberOfFiles; ++i) {
                 addFile(archive, i,
                         (i + 1) % nonEmptyModulus == 0 && nonEmptyFilesAdded++ < numberOfNonEmptyFiles);
             }

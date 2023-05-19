@@ -55,7 +55,7 @@ public class AnnotationDefaultAttribute extends AnnotationsAttribute {
         nested.add(annotationDefaultAttributeName);
         nested.addAll(elementValue.getClassFileEntries());
         final ClassFileEntry[] nestedEntries = new ClassFileEntry[nested.size()];
-        for (int i = 0; i < nestedEntries.length; i++) {
+        for (int i = 0; i < nestedEntries.length; ++i) {
             nestedEntries[i] = (ClassFileEntry) nested.get(i);
         }
         return nestedEntries;

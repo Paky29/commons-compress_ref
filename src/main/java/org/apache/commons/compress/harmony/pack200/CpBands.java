@@ -106,7 +106,7 @@ public class CpBands extends BandSet {
 			int j = 0;
 			for (final ConstantPoolEntry entry : set) {
 				entry.setIndex(j);
-				j++;
+				++j;
 			}
 		}
 		final Map<CPClass, Integer> classNameToIndex = new HashMap<>();
@@ -299,11 +299,11 @@ public class CpBands extends BandSet {
                 final List<String> classes = new ArrayList<>();
                 final char[] chars = signature.toCharArray();
                 final StringBuilder signatureString = new StringBuilder();
-                for (int i = 0; i < chars.length; i++) {
+                for (int i = 0; i < chars.length; ++i) {
                     signatureString.append(chars[i]);
                     if (chars[i] == 'L') {
                         final StringBuilder className = new StringBuilder();
-                        for (int j = i + 1; j < chars.length; j++) {
+                        for (int j = i + 1; j < chars.length; ++j) {
                             final char c = chars[j];
                             if (!Character.isLetter(c) && !Character.isDigit(c) && (c != '/') && (c != '$')
                                 && (c != '_')) {
@@ -397,7 +397,7 @@ public class CpBands extends BandSet {
         int i = 0;
         for (final CPClass cpCl : cp_Class) {
             cpClass[i] = cpCl.getIndexInCpUtf8();
-            i++;
+            ++i;
         }
         final byte[] encodedBand = encodeBandInt("cpClass", cpClass, Codec.UDELTA5);
         out.write(encodedBand);
@@ -412,7 +412,7 @@ public class CpBands extends BandSet {
         for (final CPNameAndType nameAndType : cp_Descr) {
             cpDescrName[i] = nameAndType.getNameIndex();
             cpDescrType[i] = nameAndType.getTypeIndex();
-            i++;
+            ++i;
         }
 
         byte[] encodedBand = encodeBandInt("cp_Descr_Name", cpDescrName, Codec.DELTA5);
@@ -433,7 +433,7 @@ public class CpBands extends BandSet {
             final long l = Double.doubleToLongBits(dbl.getDouble());
             highBits[i] = (int) (l >> 32);
             loBits[i] = (int) l;
-            i++;
+            ++i;
         }
         byte[] encodedBand = encodeBandInt("cp_Double_hi", highBits, Codec.UDELTA5);
         out.write(encodedBand);
@@ -450,7 +450,7 @@ public class CpBands extends BandSet {
         int i = 0;
         for (final CPFloat fl : cp_Float) {
             cpFloat[i] = Float.floatToIntBits(fl.getFloat());
-            i++;
+            ++i;
         }
         final byte[] encodedBand = encodeBandInt("cp_Float", cpFloat, Codec.UDELTA5);
         out.write(encodedBand);
@@ -463,7 +463,7 @@ public class CpBands extends BandSet {
         int i = 0;
         for (final CPInt integer : cp_Int) {
             cpInt[i] = integer.getInt();
-            i++;
+            ++i;
         }
         final byte[] encodedBand = encodeBandInt("cp_Int", cpInt, Codec.UDELTA5);
         out.write(encodedBand);
@@ -479,7 +479,7 @@ public class CpBands extends BandSet {
             final long l = lng.getLong();
             highBits[i] = (int) (l >> 32);
             loBits[i] = (int) l;
-            i++;
+            ++i;
         }
         byte[] encodedBand = encodeBandInt("cp_Long_hi", highBits, Codec.UDELTA5);
         out.write(encodedBand);
@@ -499,7 +499,7 @@ public class CpBands extends BandSet {
         for (final CPMethodOrField mOrF : cp) {
             cp_methodOrField_class[i] = mOrF.getClassIndex();
             cp_methodOrField_desc[i] = mOrF.getDescIndex();
-            i++;
+            ++i;
         }
         byte[] encodedBand = encodeBandInt(name + "_class", cp_methodOrField_class, Codec.DELTA5);
         out.write(encodedBand);
@@ -520,7 +520,7 @@ public class CpBands extends BandSet {
         for (final CPSignature cpS : cp_Signature) {
             classes.addAll(cpS.getClasses());
             cpSignatureForm[i] = cpS.getIndexInCpUtf8();
-            i++;
+            ++i;
         }
         final int[] cpSignatureClasses = new int[classes.size()];
         Arrays.setAll(cpSignatureClasses, j -> classes.get(j).getIndex());
@@ -541,7 +541,7 @@ public class CpBands extends BandSet {
         int i = 0;
         for (final CPString cpStr : cp_String) {
             cpString[i] = cpStr.getIndexInCpUtf8();
-            i++;
+            ++i;
         }
         final byte[] encodedBand = encodeBandInt("cpString", cpString, Codec.UDELTA5);
         out.write(encodedBand);
@@ -559,12 +559,12 @@ public class CpBands extends BandSet {
         final String first = ((CPUTF8) cpUtf8Array[1]).getUnderlyingString();
         cpUtf8Suffix[0] = first.length();
         addCharacters(chars, first.toCharArray());
-        for (int i = 2; i < cpUtf8Array.length; i++) {
+        for (int i = 2; i < cpUtf8Array.length; ++i) {
             final char[] previous = ((CPUTF8) cpUtf8Array[i - 1]).getUnderlyingString().toCharArray();
             String currentStr = ((CPUTF8) cpUtf8Array[i]).getUnderlyingString();
             final char[] current = currentStr.toCharArray();
             int prefix = 0;
-            for (int j = 0; j < previous.length; j++) {
+            for (int j = 0; j < previous.length; ++j) {
                 if (previous[j] != current[j]) {
                     break;
                 }
@@ -587,7 +587,7 @@ public class CpBands extends BandSet {
         final int[] cpUtf8BigSuffix = new int[bigSuffix.size()];
         final int[][] cpUtf8BigChars = new int[bigSuffix.size()][];
         Arrays.setAll(cpUtf8Chars, i -> chars.get(i).charValue());
-        for (int i = 0; i < cpUtf8BigSuffix.length; i++) {
+        for (int i = 0; i < cpUtf8BigSuffix.length; ++i) {
             final int numBigChars = bigSuffix.get(i).intValue();
             cpUtf8BigSuffix[i] = numBigChars;
             cpUtf8BigChars[i] = new int[numBigChars];
@@ -610,7 +610,7 @@ public class CpBands extends BandSet {
         out.write(encodedBand);
         PackingUtils.log(WROTE + encodedBand.length + " bytes from cpUtf8BigSuffix[" + cpUtf8BigSuffix.length + "]");
 
-        for (int i = 0; i < cpUtf8BigChars.length; i++) {
+        for (int i = 0; i < cpUtf8BigChars.length; ++i) {
             encodedBand = encodeBandInt("cpUtf8BigChars " + i, cpUtf8BigChars[i], Codec.DELTA5);
             out.write(encodedBand);
             PackingUtils.log(WROTE + encodedBand.length + " bytes from cpUtf8BigChars" + i + "["

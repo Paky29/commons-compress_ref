@@ -227,7 +227,7 @@ public class ExtraFieldUtils {
         }
         final byte[] result = new byte[sum];
         int start = 0;
-        for (int i = 0; i < regularExtraFieldCount; i++) {
+        for (int i = 0; i < regularExtraFieldCount; ++i) {
             System.arraycopy(data[i].getHeaderId().getBytes(),
                              0, result, start, 2);
             System.arraycopy(data[i].getCentralDirectoryLength().getBytes(),
@@ -267,7 +267,7 @@ public class ExtraFieldUtils {
 
         final byte[] result = new byte[sum];
         int start = 0;
-        for (int i = 0; i < regularExtraFieldCount; i++) {
+        for (int i = 0; i < regularExtraFieldCount; ++i) {
             System.arraycopy(data[i].getHeaderId().getBytes(),
                              0, result, start, 2);
             System.arraycopy(data[i].getLocalFileDataLength().getBytes(),

@@ -71,7 +71,7 @@ class BinaryTree {
             }
             final int bitLength = (b & 0x0F) + 1;
 
-            for (int j = 0; j < numberOfValues; j++) {
+            for (int j = 0; j < numberOfValues; ++j) {
                 originalBitLengths[pos++] = bitLength;
             }
 
@@ -81,13 +81,13 @@ class BinaryTree {
         final int oBitLengths = originalBitLengths.length;
         // sort the array of bit lengths and memorize the permutation used to restore the order of the codes
         final int[] permutation = new int[oBitLengths];
-        for (int k = 0; k < permutation.length; k++) {
+        for (int k = 0; k < permutation.length; ++k) {
             permutation[k] = k;
         }
 
         int c = 0;
         final int[] sortedBitLengths = new int[oBitLengths];
-        for (int k = 0; k < oBitLengths; k++) {
+        for (int k = 0; k < oBitLengths; ++k) {
             // iterate over the values
             for (int l = 0; l < oBitLengths; l++) {
                 // look for the value in the original array
@@ -122,7 +122,7 @@ class BinaryTree {
         // build the tree
         final BinaryTree tree = new BinaryTree(maxLength);
 
-        for (int k = 0; k < codes.length; k++) {
+        for (int k = 0; k < codes.length; ++k) {
             final int bitLength = originalBitLengths[k];
             if (bitLength > 0) {
                 tree.addLeaf(0, Integer.reverse(codes[k] << 16), bitLength, k);

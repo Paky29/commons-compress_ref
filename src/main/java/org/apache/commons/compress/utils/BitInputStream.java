@@ -33,7 +33,7 @@ public class BitInputStream implements Closeable {
     private static final long[] MASKS = new long[MAXIMUM_CACHE_SIZE + 1];
 
     static {
-        for (int i = 1; i <= MAXIMUM_CACHE_SIZE; i++) {
+        for (int i = 1; i <= MAXIMUM_CACHE_SIZE; ++i) {
             MASKS[i] = (MASKS[i - 1] << 1) + 1;
         }
     }

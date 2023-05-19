@@ -382,10 +382,10 @@ public class MetadataBandGroup extends BandSet {
      */
     public void removeLatest() {
         final int latest = anno_N.remove(anno_N.size() - 1);
-        for (int i = 0; i < latest; i++) {
+        for (int i = 0; i < latest; ++i) {
             type_RS.remove(type_RS.size() - 1);
             final int pairs = pair_N.remove(pair_N.size() - 1);
-            for (int j = 0; j < pairs; j++) {
+            for (int j = 0; j < pairs; ++j) {
                 removeOnePair();
             }
         }
@@ -423,7 +423,7 @@ public class MetadataBandGroup extends BandSet {
             case "[":
                 final int arraySize = casearray_N.remove(casearray_N.size() - 1);
                 numBackwardsCalls -= arraySize;
-                for (int k = 0; k < arraySize; k++) {
+                for (int k = 0; k < arraySize; ++k) {
                     removeOnePair();
                 }
                 break;
@@ -431,7 +431,7 @@ public class MetadataBandGroup extends BandSet {
                 nesttype_RS.remove(nesttype_RS.size() - 1);
                 final int numPairs = nestpair_N.remove(nestpair_N.size() - 1);
                 numBackwardsCalls -= numPairs;
-                for (int i = 0; i < numPairs; i++) {
+                for (int i = 0; i < numPairs; ++i) {
                     removeOnePair();
                 }
                 break;

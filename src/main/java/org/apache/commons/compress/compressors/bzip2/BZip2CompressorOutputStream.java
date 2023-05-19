@@ -219,8 +219,8 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
                                       final int minLen, final int maxLen,
                                       final int alphaSize) {
         int vec = 0;
-        for (int n = minLen; n <= maxLen; n++) {
-            for (int i = 0; i < alphaSize; i++) {
+        for (int n = minLen; n <= maxLen; ++n) {
+            for (int i = 0; i < alphaSize; ++i) {
                 if ((length[i] & 0xff) == n) {
                     code[i] = vec;
                     vec++;
@@ -254,7 +254,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
             weight[0] = 0;
             parent[0] = -2;
 
-            for (int i = 1; i <= alphaSize; i++) {
+            for (int i = 1; i <= alphaSize; ++i) {
                 parent[i] = -1;
                 nHeap++;
                 heap[nHeap] = i;
@@ -353,13 +353,13 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
 
             }
 
-            for (int i = 1; i <= alphaSize; i++) {
+            for (int i = 1; i <= alphaSize; ++i) {
                 int j = 0;
                 int k = i;
 
                 for (int parent_k; (parent_k = parent[k]) >= 0;) {
                     k = parent_k;
-                    j++;
+                    ++j;
                 }
 
                 len[i - 1] = (byte) j;
@@ -369,7 +369,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
             }
 
             if (tooLong) {
-                for (int i = 1; i < alphaSize; i++) {
+                for (int i = 1; i < alphaSize; ++i) {
                     int j = weight[i] >> 8;
                     j = 1 + (j >> 1);
                     weight[i] = j << 8;
@@ -617,7 +617,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
 
         // make maps
         int nInUseShadow = 0;
-        for (int i = 0; i < 256; i++) {
+        for (int i = 0; i < 256; ++i) {
             if (inUse[i]) {
                 unseqToSeq[i] = (byte) nInUseShadow;
                 nInUseShadow++;
@@ -636,13 +636,13 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
         int wr = 0;
         int zPend = 0;
 
-        for (int i = 0; i <= lastShadow; i++) {
+        for (int i = 0; i <= lastShadow; ++i) {
             final byte ll_i = unseqToSeq[block[fmap[i]] & 0xff];
             byte tmp = yy[0];
             int j = 0;
 
             while (ll_i != tmp) {
-                j++;
+                ++j;
                 final byte tmp2 = tmp;
                 tmp = yy[j];
                 yy[j] = tmp2;
@@ -883,7 +883,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
                     short cost4 = 0;
                     short cost5 = 0;
 
-                    for (int i = gs; i <= ge; i++) {
+                    for (int i = gs; i <= ge; ++i) {
                         final int icv = sfmap[i];
                         cost0 += (short) (len_0[icv] & mask);
                         cost1 += (short) (len_1[icv] & mask);
@@ -905,7 +905,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
                         cost[t] = 0;
                     }
 
-                    for (int i = gs; i <= ge; i++) {
+                    for (int i = gs; i <= ge; ++i) {
                         final int icv = sfmap[i];
                         for (int t = nGroups; --t >= 0;) {
                             cost[t] += (short) (len[t][icv] & mask);
@@ -934,7 +934,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
                  * Increment the symbol frequencies for the selected table.
                  */
                 final int[] rfreq_bt = rfreq[bt];
-                for (int i = gs; i <= ge; i++) {
+                for (int i = gs; i <= ge; ++i) {
                     rfreq_bt[sfmap[i]]++;
                 }
 
@@ -962,13 +962,13 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
             pos[i] = (byte) i;
         }
 
-        for (int i = 0; i < nSelectors; i++) {
+        for (int i = 0; i < nSelectors; ++i) {
             final byte ll_i = dataShadow.selector[i];
             byte tmp = pos[0];
             int j = 0;
 
             while (ll_i != tmp) {
-                j++;
+                ++j;
                 final byte tmp2 = tmp;
                 tmp = pos[j];
                 pos[j] = tmp2;
@@ -1019,7 +1019,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
             }
         }
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; ++i) {
             bsW(1, inUse16[i] ? 1 : 0);
         }
 
@@ -1027,10 +1027,10 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
         int bsLiveShadow = this.bsLive;
         int bsBuffShadow = this.bsBuff;
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; ++i) {
             if (inUse16[i]) {
                 final int i16 = i * 16;
-                for (int j = 0; j < 16; j++) {
+                for (int j = 0; j < 16; ++j) {
                     // inlined: bsW(1, inUse[i16 + j] ? 1 : 0);
                     while (bsLiveShadow >= 8) {
                         outShadow.write(bsBuffShadow >> 24); // write 8-bit
@@ -1060,8 +1060,8 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
         int bsLiveShadow = this.bsLive;
         int bsBuffShadow = this.bsBuff;
 
-        for (int i = 0; i < nSelectors; i++) {
-            for (int j = 0, hj = selectorMtf[i] & 0xff; j < hj; j++) {
+        for (int i = 0; i < nSelectors; ++i) {
+            for (int j = 0, hj = selectorMtf[i] & 0xff; j < hj; ++j) {
                 // inlined: bsW(1, 1);
                 while (bsLiveShadow >= 8) {
                     outShadow.write(bsBuffShadow >> 24);
@@ -1107,7 +1107,7 @@ public class BZip2CompressorOutputStream extends CompressorOutputStream
             bsBuffShadow |= curr << (32 - bsLiveShadow - 5);
             bsLiveShadow += 5;
 
-            for (int i = 0; i < alphaSize; i++) {
+            for (int i = 0; i < alphaSize; ++i) {
                 final int lti = len_t[i] & 0xff;
                 while (curr < lti) {
                     // inlined: bsW(2, 2);

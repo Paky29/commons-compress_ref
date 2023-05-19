@@ -396,7 +396,7 @@ public class LZ77Compressor {
     }
 
     private void initialize() {
-        for (int i = 0; i < NUMBER_OF_BYTES_IN_HASH - 1; i++) {
+        for (int i = 0; i < NUMBER_OF_BYTES_IN_HASH - 1; ++i) {
             insertHash = nextHash(insertHash, window[i]);
         }
         initialized = true;
@@ -422,7 +422,7 @@ public class LZ77Compressor {
         // insertString inserts the byte 2 bytes after position, which may not yet be available -> missedInserts
         final int stop = Math.min(matchLength - 1, lookahead - NUMBER_OF_BYTES_IN_HASH);
         // currentPosition has been inserted already
-        for (int i = 1; i <= stop; i++) {
+        for (int i = 1; i <= stop; ++i) {
             insertString(currentPosition + i);
         }
         missedInserts = matchLength - stop - 1;
@@ -445,7 +445,7 @@ public class LZ77Compressor {
         final int maxCandidates = params.getMaxCandidates();
         for (int candidates = 0; candidates < maxCandidates && matchHead >= minIndex; candidates++) {
             int currentLength = 0;
-            for (int i = 0; i < maxPossibleLength; i++) {
+            for (int i = 0; i < maxPossibleLength; ++i) {
                 if (window[matchHead + i] != window[currentPosition + i]) {
                     break;
                 }
@@ -525,7 +525,7 @@ public class LZ77Compressor {
         if (len >= NUMBER_OF_BYTES_IN_HASH) {
             initialize();
             final int stop = len - NUMBER_OF_BYTES_IN_HASH + 1;
-            for (int i = 0; i < stop; i++) {
+            for (int i = 0; i < stop; ++i) {
                 insertString(i);
             }
             missedInserts = NUMBER_OF_BYTES_IN_HASH - 1;
@@ -545,11 +545,11 @@ public class LZ77Compressor {
         currentPosition -= wSize;
         matchStart -= wSize;
         blockStart -= wSize;
-        for (int i = 0; i < HASH_SIZE; i++) {
+        for (int i = 0; i < HASH_SIZE; ++i) {
             final int h = head[i];
             head[i] = h >= wSize ? h - wSize : NO_MATCH;
         }
-        for (int i = 0; i < wSize; i++) {
+        for (int i = 0; i < wSize; ++i) {
             final int p = prev[i];
             prev[i] = p >= wSize ? p - wSize : NO_MATCH;
         }

@@ -242,7 +242,7 @@ public class ZipUtilTest {
 
         assertEquals(bTest.length, rTest.length, "test and result arrays are same length");
 
-        for (int i = 0; i < bTest.length; i++) {
+        for (int i = 0; i < bTest.length; ++i) {
             final byte[] result = ZipUtil.reverse(bTest[i]);
             assertSame(bTest[i], result, "reverse mutates in-place");
             assertArrayEquals(rTest[i], result, "reverse actually reverses");
@@ -253,7 +253,7 @@ public class ZipUtilTest {
     public void testSignedByteToUnsignedInt() {
         // Yay, we can completely test all possible input values in this case!
         int expectedVal = 128;
-        for (int i = Byte.MIN_VALUE; i <= Byte.MAX_VALUE; i++) {
+        for (int i = Byte.MIN_VALUE; i <= Byte.MAX_VALUE; ++i) {
             final byte b = (byte) i;
             assertEquals(expectedVal, ZipUtil.signedByteToUnsignedInt(b));
             expectedVal++;
@@ -273,7 +273,7 @@ public class ZipUtilTest {
     @Test
     public void testUnsignedIntToSignedByte() {
         int unsignedVal = 128;
-        for (int i = Byte.MIN_VALUE; i <= Byte.MAX_VALUE; i++) {
+        for (int i = Byte.MIN_VALUE; i <= Byte.MAX_VALUE; ++i) {
             final byte expectedVal = (byte) i;
             assertEquals(expectedVal, ZipUtil.unsignedIntToSignedByte(unsignedVal));
             unsignedVal++;

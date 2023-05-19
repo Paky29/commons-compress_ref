@@ -136,7 +136,7 @@ public class FileNameUtil {
         final String lower = fileName.toLowerCase(Locale.ENGLISH);
         final int n = lower.length();
         for (int i = shortestUncompressedSuffix;
-             i <= longestUncompressedSuffix && i < n; i++) {
+             i <= longestUncompressedSuffix && i < n; ++i) {
             final String suffix = compressSuffix.get(lower.substring(n - i));
             if (suffix != null) {
                 return fileName.substring(0, n - i) + suffix;
@@ -163,7 +163,7 @@ public class FileNameUtil {
         final String lower = fileName.toLowerCase(Locale.ENGLISH);
         final int n = lower.length();
         for (int i = shortestCompressedSuffix;
-             i <= longestCompressedSuffix && i < n; i++) {
+             i <= longestCompressedSuffix && i < n; ++i) {
             final String suffix = uncompressSuffix.get(lower.substring(n - i));
             if (suffix != null) {
                 return fileName.substring(0, n - i) + suffix;
@@ -183,7 +183,7 @@ public class FileNameUtil {
         final String lower = fileName.toLowerCase(Locale.ENGLISH);
         final int n = lower.length();
         for (int i = shortestCompressedSuffix;
-             i <= longestCompressedSuffix && i < n; i++) {
+             i <= longestCompressedSuffix && i < n; ++i) {
             if (uncompressSuffix.containsKey(lower.substring(n - i))) {
                 return true;
             }

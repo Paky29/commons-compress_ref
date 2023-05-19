@@ -68,7 +68,7 @@ public class FileBands extends BandSet {
         long modtime;
         int latestModtime = Integer.MIN_VALUE;
         final boolean isLatest = !PackingOptions.KEEP.equals(options.getModificationTime());
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             final PackingFile packingFile = fileList.get(i);
             final String name = packingFile.getName();
             if (name.endsWith(".class") && !options.isPassFile(name)) {
@@ -110,7 +110,7 @@ public class FileBands extends BandSet {
      */
     public void finaliseBands() {
         file_name = new int[fileName.length];
-        for (int i = 0; i < file_name.length; i++) {
+        for (int i = 0; i < file_name.length; ++i) {
             if (fileName[i].equals(cpBands.getCPUtf8(""))) {
                 final PackingFile packingFile = fileList.get(i);
                 final String name = packingFile.getName();

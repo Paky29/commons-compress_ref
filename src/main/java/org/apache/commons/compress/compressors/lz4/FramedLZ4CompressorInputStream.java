@@ -64,7 +64,7 @@ public class FramedLZ4CompressorInputStream extends CompressorInputStream
         if ((b[0] & SKIPPABLE_FRAME_PREFIX_BYTE_MASK) != SKIPPABLE_FRAME_PREFIX_BYTE_MASK) {
             return false;
         }
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 4; ++i) {
             if (b[i] != SKIPPABLE_FRAME_TRAILER[i - 1]) {
                 return false;
             }

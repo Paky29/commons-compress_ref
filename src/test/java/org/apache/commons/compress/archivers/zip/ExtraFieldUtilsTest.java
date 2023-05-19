@@ -132,7 +132,7 @@ public class ExtraFieldUtilsTest implements UnixStat {
         final byte[] local =
             ExtraFieldUtils.mergeLocalFileDataData(new ZipExtraField[] {a, dummy});
         assertEquals(data.length, local.length, "local length");
-        for (int i=0; i<local.length; i++) {
+        for (int i=0; i<local.length; ++i) {
             assertEquals(data[i], local[i], "local byte " + i);
         }
 
@@ -148,7 +148,7 @@ public class ExtraFieldUtilsTest implements UnixStat {
         final byte[] central =
             ExtraFieldUtils.mergeCentralDirectoryData(new ZipExtraField[] {a, dummy});
         assertEquals(data2.length, central.length, "central length");
-        for (int i=0; i<central.length; i++) {
+        for (int i=0; i<central.length; ++i) {
             assertEquals(data2[i], central[i], "central byte " + i);
         }
 
@@ -162,7 +162,7 @@ public class ExtraFieldUtilsTest implements UnixStat {
         final byte[] local =
             ExtraFieldUtils.mergeLocalFileDataData(new ZipExtraField[] {a, d});
         assertEquals(data.length - 1, local.length, "local length");
-        for (int i = 0; i < local.length; i++) {
+        for (int i = 0; i < local.length; ++i) {
             assertEquals(data[i], local[i], "local byte " + i);
         }
 
@@ -176,7 +176,7 @@ public class ExtraFieldUtilsTest implements UnixStat {
         final byte[] central =
             ExtraFieldUtils.mergeCentralDirectoryData(new ZipExtraField[] {a, d});
         assertEquals(data2.length, central.length, "central length");
-        for (int i = 0; i < central.length; i++) {
+        for (int i = 0; i < central.length; ++i) {
             assertEquals(data2[i], central[i], "central byte " + i);
         }
 
@@ -232,7 +232,7 @@ public class ExtraFieldUtilsTest implements UnixStat {
         assertEquals(040755, ((AsiExtraField) ze[0]).getMode(), "mode field 1");
         assertTrue(ze[1] instanceof UnparseableExtraFieldData, "type field 2");
         assertEquals(4, ze[1].getLocalFileDataLength().getValue(), "data length field 2");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; ++i) {
             assertEquals(data2[data.length - 5 + i],
                     ze[1].getLocalFileDataData()[i],
                     "byte number " + i);

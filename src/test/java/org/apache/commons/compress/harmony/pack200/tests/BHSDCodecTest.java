@@ -49,7 +49,7 @@ public class BHSDCodecTest {
         final int[] sequence = {0, 2, 4, 2, 2, 4};
         final byte[] encoded = c.encode(sequence);
         final int[] decoded = c.decodeInts(6, new ByteArrayInputStream(encoded));
-        for (int i = 0; i < decoded.length; i++) {
+        for (int i = 0; i < decoded.length; ++i) {
             assertEquals(sequence[i], decoded[i]);
         }
     }

@@ -127,7 +127,7 @@ public class ZipArchiveInputStreamTest extends AbstractTestCase {
     private void fuzzingTest(final int[] bytes) throws Exception {
         final int len = bytes.length;
         final byte[] input = new byte[len];
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; ++i) {
             input[i] = (byte) bytes[i];
         }
         try (ArchiveInputStream ais = ArchiveStreamFactory.DEFAULT
@@ -189,7 +189,7 @@ public class ZipArchiveInputStreamTest extends AbstractTestCase {
     public void multiByteReadThrowsAtEofForCorruptedStoredEntry() throws Exception {
         final byte[] content = Files.readAllBytes(getFile("COMPRESS-264.zip").toPath());
         // make size much bigger than entry's real size
-        for (int i = 17; i < 26; i++) {
+        for (int i = 17; i < 26; ++i) {
             content[i] = (byte) 0xff;
         }
         final byte[] buf = new byte[2];
@@ -430,7 +430,7 @@ public class ZipArchiveInputStreamTest extends AbstractTestCase {
     public void singleByteReadThrowsAtEofForCorruptedStoredEntry() throws Exception {
         final byte[] content = Files.readAllBytes(getFile("COMPRESS-264.zip").toPath());
         // make size much bigger than entry's real size
-        for (int i = 17; i < 26; i++) {
+        for (int i = 17; i < 26; ++i) {
             content[i] = (byte) 0xff;
         }
         try (ByteArrayInputStream in = new ByteArrayInputStream(content);

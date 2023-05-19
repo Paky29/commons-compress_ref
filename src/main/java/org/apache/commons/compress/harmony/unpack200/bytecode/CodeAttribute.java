@@ -48,7 +48,7 @@ public class CodeAttribute extends BCIRenumberedAttribute {
         this.exceptionTable = exceptionTable;
         byteCodeOffsets.add(Integer.valueOf(0));
         int byteCodeIndex = 0;
-        for (int i = 0; i < codePacked.length; i++) {
+        for (int i = 0; i < codePacked.length; ++i) {
             final ByteCode byteCode = ByteCode.getByteCode(codePacked[i] & 0xff);
             // Setting the offset must happen before extracting operands
             // because label bytecodes need to know their offsets.
@@ -75,7 +75,7 @@ public class CodeAttribute extends BCIRenumberedAttribute {
                 // Special processing for wide bytecode - it knows what its
                 // instruction is from the opcode manager, so ignore the
                 // next instruction
-                i++;
+                ++i;
             }
         }
         // Now that all the bytecodes know their positions and

@@ -64,7 +64,7 @@ public class LocalVariableTableAttribute extends BCIRenumberedAttribute {
     protected ClassFileEntry[] getNestedClassFileEntries() {
         final List<CPUTF8> nestedEntries = new ArrayList<>();
         nestedEntries.add(getAttributeName());
-        for (int i = 0; i < localVariableTableLength; i++) {
+        for (int i = 0; i < localVariableTableLength; ++i) {
             nestedEntries.add(names[i]);
             nestedEntries.add(descriptors[i]);
         }
@@ -135,7 +135,7 @@ public class LocalVariableTableAttribute extends BCIRenumberedAttribute {
         super.resolve(pool);
         nameIndexes = new int[localVariableTableLength];
         descriptorIndexes = new int[localVariableTableLength];
-        for (int i = 0; i < localVariableTableLength; i++) {
+        for (int i = 0; i < localVariableTableLength; ++i) {
             names[i].resolve(pool);
             descriptors[i].resolve(pool);
             nameIndexes[i] = pool.indexOf(names[i]);
@@ -155,7 +155,7 @@ public class LocalVariableTableAttribute extends BCIRenumberedAttribute {
     @Override
     protected void writeBody(final DataOutputStream dos) throws IOException {
         dos.writeShort(localVariableTableLength);
-        for (int i = 0; i < localVariableTableLength; i++) {
+        for (int i = 0; i < localVariableTableLength; ++i) {
             dos.writeShort(startPcs[i]);
             dos.writeShort(lengths[i]);
             dos.writeShort(nameIndexes[i]);

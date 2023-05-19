@@ -145,7 +145,7 @@ public class ClassBands extends BandSet {
                 layoutsUsed |= element;
             }
         }
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < 26; ++i) {
             if ((layoutsUsed & 1 << i) != 0) {
                 final AttributeLayout layout = attrMap.getAttributeLayout(i, context);
                 callCount += layout.numBackwardsCallables();
@@ -165,14 +165,14 @@ public class ClassBands extends BandSet {
     public long[] getClassFlags() {
         if (classAccessFlags == null) {
             long mask = 0x7FFF;
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 16; ++i) {
                 final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_CLASS);
                 if (layout != null && !layout.isDefaultLayout()) {
                     mask &= ~(1 << i);
                 }
             }
             classAccessFlags = new long[classFlags.length];
-            for (int i = 0; i < classFlags.length; i++) {
+            for (int i = 0; i < classFlags.length; ++i) {
                 classAccessFlags[i] = classFlags[i] & mask;
             }
         }
@@ -258,16 +258,16 @@ public class ClassBands extends BandSet {
     public long[][] getFieldFlags() {
         if (fieldAccessFlags == null) {
             long mask = 0x7FFF;
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 16; ++i) {
                 final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_FIELD);
                 if (layout != null && !layout.isDefaultLayout()) {
                     mask &= ~(1 << i);
                 }
             }
             fieldAccessFlags = new long[fieldFlags.length][];
-            for (int i = 0; i < fieldFlags.length; i++) {
+            for (int i = 0; i < fieldFlags.length; ++i) {
                 fieldAccessFlags[i] = new long[fieldFlags[i].length];
-                for (int j = 0; j < fieldFlags[i].length; j++) {
+                for (int j = 0; j < fieldFlags[i].length; ++j) {
                     fieldAccessFlags[i][j] = fieldFlags[i][j] & mask;
                 }
             }
@@ -294,16 +294,16 @@ public class ClassBands extends BandSet {
     public long[][] getMethodFlags() {
         if (methodAccessFlags == null) {
             long mask = 0x7FFF;
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 16; ++i) {
                 final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_METHOD);
                 if (layout != null && !layout.isDefaultLayout()) {
                     mask &= ~(1 << i);
                 }
             }
             methodAccessFlags = new long[methodFlags.length][];
-            for (int i = 0; i < methodFlags.length; i++) {
+            for (int i = 0; i < methodFlags.length; ++i) {
                 methodAccessFlags[i] = new long[methodFlags[i].length];
-                for (int j = 0; j < methodFlags[i].length; j++) {
+                for (int j = 0; j < methodFlags[i].length; ++j) {
                     methodAccessFlags[i][j] = methodFlags[i][j] & mask;
                 }
             }
@@ -405,14 +405,14 @@ public class ClassBands extends BandSet {
         final AttributeLayout[] otherLayouts = new AttributeLayout[limit + 1];
         final int[] counts = new int[limit + 1];
         final List<Attribute>[] otherAttributes = new List[limit + 1];
-        for (int i = 0; i < limit; i++) {
+        for (int i = 0; i < limit; ++i) {
             final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_CLASS);
             if (layout != null && !(layout.isDefaultLayout())) {
                 otherLayouts[i] = layout;
                 counts[i] = SegmentUtils.countMatches(classFlags, layout);
             }
         }
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             if (counts[i] > 0) {
                 final NewAttributeBands bands = attrMap.getAttributeBands(otherLayouts[i]);
                 otherAttributes[i] = bands.parseAttributes(in, counts[i]);
@@ -434,7 +434,7 @@ public class ClassBands extends BandSet {
         int innerClassC2NIndex = 0;
         int versionIndex = 0;
         icLocal = new IcTuple[classCount][];
-        for (int i = 0; i < classCount; i++) {
+        for (int i = 0; i < classCount; ++i) {
             final long flag = classFlags[i];
             if (deprecatedLayout.matches(classFlags[i])) {
                 classAttributes[i].add(new DeprecatedAttribute());
@@ -450,7 +450,7 @@ public class ClassBands extends BandSet {
                     // Remove mangled nested class names
                     final char[] chars = className.toCharArray();
                     int index = -1;
-                    for (int j = 0; j < chars.length; j++) {
+                    for (int j = 0; j < chars.length; ++j) {
                         if (chars[j] <= 0x2D) {
                             index = j;
                             break;
@@ -484,7 +484,7 @@ public class ClassBands extends BandSet {
                 // Just create the tuples for now because the attributes are
                 // decided at the end when creating class constant pools
                 icLocal[i] = new IcTuple[classInnerClassesN[innerClassIndex]];
-                for (int j = 0; j < icLocal[i].length; j++) {
+                for (int j = 0; j < icLocal[i].length; ++j) {
                     final int icTupleCIndex = classInnerClassesRC[innerClassIndex][j];
                     int icTupleC2Index = -1;
                     int icTupleNIndex = -1;
@@ -530,7 +530,7 @@ public class ClassBands extends BandSet {
                 classVersionMinor[i] = defaultVersionMinor;
             }
             // Non-predefined attributes
-            for (int j = 0; j < otherLayouts.length; j++) {
+            for (int j = 0; j < otherLayouts.length; ++j) {
                 if (otherLayouts[j] != null && otherLayouts[j].matches(flag)) {
                     // Add the next attribute
                     classAttributes[i].add(otherAttributes[j].get(0));
@@ -578,7 +578,7 @@ public class ClassBands extends BandSet {
         final List<Attribute> riaAttributes = mbgs[1].getAttributes();
         int rvaAttributesIndex = 0;
         int riaAttributesIndex = 0;
-        for (int i = 0; i < classFlags.length; i++) {
+        for (int i = 0; i < classFlags.length; ++i) {
             if (rvaLayout.matches(classFlags[i])) {
                 classAttributes[i].add(rvaAttributes.get(rvaAttributesIndex++));
             }
@@ -655,14 +655,14 @@ public class ClassBands extends BandSet {
         final AttributeLayout[] otherLayouts = new AttributeLayout[limit + 1];
         final int[] counts = new int[limit + 1];
         final List<Attribute>[] otherAttributes = new List[limit + 1];
-        for (int i = 0; i < limit; i++) {
+        for (int i = 0; i < limit; ++i) {
             final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_CODE);
             if (layout != null && !(layout.isDefaultLayout())) {
                 otherLayouts[i] = layout;
                 counts[i] = SegmentUtils.countMatches(codeFlags, layout);
             }
         }
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             if (counts[i] > 0) {
                 final NewAttributeBands bands = attrMap.getAttributeBands(otherLayouts[i]);
                 otherAttributes[i] = bands.parseAttributes(in, counts[i]);
@@ -679,7 +679,7 @@ public class ClassBands extends BandSet {
         int lineNumberIndex = 0;
         int lvtIndex = 0;
         int lvttIndex = 0;
-        for (int i = 0; i < codeFlagsCount; i++) {
+        for (int i = 0; i < codeFlagsCount; ++i) {
             if (lineNumberTableLayout.matches(codeFlags[i])) {
                 final LineNumberTableAttribute lnta = new LineNumberTableAttribute(lineNumberTableN[lineNumberIndex],
                     lineNumberTableBciP[lineNumberIndex], lineNumberTableLine[lineNumberIndex]);
@@ -703,7 +703,7 @@ public class ClassBands extends BandSet {
                 codeAttributes[i].add(lvtta);
             }
             // Non-predefined attributes
-            for (int j = 0; j < otherLayouts.length; j++) {
+            for (int j = 0; j < otherLayouts.length; ++j) {
                 if (otherLayouts[j] != null && otherLayouts[j].matches(codeFlags[i])) {
                     // Add the next attribute
                     codeAttributes[i].add(otherAttributes[j].get(0));
@@ -726,7 +726,7 @@ public class ClassBands extends BandSet {
             codeHasAttributes = new boolean[codeCount];
         }
         int codeSpecialHeader = 0;
-        for (int i = 0; i < codeCount; i++) {
+        for (int i = 0; i < codeCount; ++i) {
             if (codeHeaders[i] == 0) {
                 codeSpecialHeader++;
                 if (!allCodeHasFlags) {
@@ -744,7 +744,7 @@ public class ClassBands extends BandSet {
         codeMaxNALocals = new int[codeCount];
         codeHandlerCount = new int[codeCount];
         int special = 0;
-        for (int i = 0; i < codeCount; i++) {
+        for (int i = 0; i < codeCount; ++i) {
             final int header = 0xff & codeHeaders[i];
             if (header < 0) {
                 throw new IllegalStateException("Shouldn't get here");
@@ -792,9 +792,9 @@ public class ClassBands extends BandSet {
 
         // Assign empty field attributes
         fieldAttributes = new ArrayList[classCount][];
-        for (int i = 0; i < classCount; i++) {
+        for (int i = 0; i < classCount; ++i) {
             fieldAttributes[i] = new ArrayList[fieldFlags[i].length];
-            for (int j = 0; j < fieldFlags[i].length; j++) {
+            for (int j = 0; j < fieldFlags[i].length; ++j) {
                 fieldAttributes[i][j] = new ArrayList<>();
             }
         }
@@ -815,8 +815,8 @@ public class ClassBands extends BandSet {
         final AttributeLayout deprecatedLayout = attrMap.getAttributeLayout(AttributeLayout.ATTRIBUTE_DEPRECATED,
             AttributeLayout.CONTEXT_FIELD);
 
-        for (int i = 0; i < classCount; i++) {
-            for (int j = 0; j < fieldFlags[i].length; j++) {
+        for (int i = 0; i < classCount; ++i) {
+            for (int j = 0; j < fieldFlags[i].length; ++j) {
                 final long flag = fieldFlags[i][j];
                 if (deprecatedLayout.matches(flag)) {
                     fieldAttributes[i][j].add(new DeprecatedAttribute());
@@ -853,14 +853,14 @@ public class ClassBands extends BandSet {
         final AttributeLayout[] otherLayouts = new AttributeLayout[limit + 1];
         final int[] counts = new int[limit + 1];
         final List<Attribute>[] otherAttributes = new List[limit + 1];
-        for (int i = 0; i < limit; i++) {
+        for (int i = 0; i < limit; ++i) {
             final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_FIELD);
             if (layout != null && !(layout.isDefaultLayout())) {
                 otherLayouts[i] = layout;
                 counts[i] = SegmentUtils.countMatches(fieldFlags, layout);
             }
         }
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             if (counts[i] > 0) {
                 final NewAttributeBands bands = attrMap.getAttributeBands(otherLayouts[i]);
                 otherAttributes[i] = bands.parseAttributes(in, counts[i]);
@@ -875,11 +875,11 @@ public class ClassBands extends BandSet {
         }
 
         // Non-predefined attributes
-        for (int i = 0; i < classCount; i++) {
-            for (int j = 0; j < fieldFlags[i].length; j++) {
+        for (int i = 0; i < classCount; ++i) {
+            for (int j = 0; j < fieldFlags[i].length; ++j) {
                 final long flag = fieldFlags[i][j];
                 int othersAddedAtStart = 0;
-                for (int k = 0; k < otherLayouts.length; k++) {
+                for (int k = 0; k < otherLayouts.length; ++k) {
                     if (otherLayouts[k] != null && otherLayouts[k].matches(flag)) {
                         // Add the next attribute
                         if (otherLayouts[k].getIndex() < 15) {
@@ -930,8 +930,8 @@ public class ClassBands extends BandSet {
         final List<Attribute> riaAttributes = mb[1].getAttributes();
         int rvaAttributesIndex = 0;
         int riaAttributesIndex = 0;
-        for (int i = 0; i < fieldFlags.length; i++) {
-            for (int j = 0; j < fieldFlags[i].length; j++) {
+        for (int i = 0; i < fieldFlags.length; ++i) {
+            for (int j = 0; j < fieldFlags[i].length; ++j) {
                 if (rvaLayout.matches(fieldFlags[i][j])) {
                     fieldAttributes[i][j].add(rvaAttributes.get(rvaAttributesIndex++));
                 }
@@ -946,7 +946,7 @@ public class ClassBands extends BandSet {
     private MetadataBandGroup[] parseMetadata(final InputStream in, final String[] RxA, final int[] RxACount,
         final int[] backwardsCallCounts, final String contextName) throws IOException, Pack200Exception {
         final MetadataBandGroup[] mbg = new MetadataBandGroup[RxA.length];
-        for (int i = 0; i < RxA.length; i++) {
+        for (int i = 0; i < RxA.length; ++i) {
             mbg[i] = new MetadataBandGroup(RxA[i], cpBands);
             final String rxa = RxA[i];
             if (rxa.indexOf('P') >= 0) {
@@ -1048,9 +1048,9 @@ public class ClassBands extends BandSet {
 
         // assign empty method attributes
         methodAttributes = new ArrayList[classCount][];
-        for (int i = 0; i < classCount; i++) {
+        for (int i = 0; i < classCount; ++i) {
             methodAttributes[i] = new ArrayList[methodFlags[i].length];
-            for (int j = 0; j < methodFlags[i].length; j++) {
+            for (int j = 0; j < methodFlags[i].length; ++j) {
                 methodAttributes[i][j] = new ArrayList<>();
             }
         }
@@ -1074,14 +1074,14 @@ public class ClassBands extends BandSet {
         // Add attributes to the attribute arrays
         int methodExceptionsIndex = 0;
         int methodSignatureIndex = 0;
-        for (int i = 0; i < methodAttributes.length; i++) {
-            for (int j = 0; j < methodAttributes[i].length; j++) {
+        for (int i = 0; i < methodAttributes.length; ++i) {
+            for (int j = 0; j < methodAttributes[i].length; ++j) {
                 final long flag = methodFlags[i][j];
                 if (methodExceptionsLayout.matches(flag)) {
                     final int n = numExceptions[methodExceptionsIndex];
                     final int[] exceptions = methodExceptionsRS[methodExceptionsIndex];
                     final CPClass[] exceptionClasses = new CPClass[n];
-                    for (int k = 0; k < n; k++) {
+                    for (int k = 0; k < n; ++k) {
                         exceptionClasses[k] = cpBands.cpClassValue(exceptions[k]);
                     }
                     methodAttributes[i][j].add(new ExceptionsAttribute(exceptionClasses));
@@ -1114,7 +1114,7 @@ public class ClassBands extends BandSet {
         final int limit = options.hasMethodFlagsHi() ? 62 : 31;
         final AttributeLayout[] otherLayouts = new AttributeLayout[limit + 1];
         final int[] counts = new int[limit + 1];
-        for (int i = 0; i < limit; i++) {
+        for (int i = 0; i < limit; ++i) {
             final AttributeLayout layout = attrMap.getAttributeLayout(i, AttributeLayout.CONTEXT_METHOD);
             if (layout != null && !(layout.isDefaultLayout())) {
                 otherLayouts[i] = layout;
@@ -1122,7 +1122,7 @@ public class ClassBands extends BandSet {
             }
         }
         final List<Attribute>[] otherAttributes = new List[limit + 1];
-        for (int i = 0; i < counts.length; i++) {
+        for (int i = 0; i < counts.length; ++i) {
             if (counts[i] > 0) {
                 final NewAttributeBands bands = attrMap.getAttributeBands(otherLayouts[i]);
                 otherAttributes[i] = bands.parseAttributes(in, counts[i]);
@@ -1137,11 +1137,11 @@ public class ClassBands extends BandSet {
         }
 
         // Non-predefined attributes
-        for (int i = 0; i < methodAttributes.length; i++) {
-            for (int j = 0; j < methodAttributes[i].length; j++) {
+        for (int i = 0; i < methodAttributes.length; ++i) {
+            for (int j = 0; j < methodAttributes[i].length; ++j) {
                 final long flag = methodFlags[i][j];
                 int othersAddedAtStart = 0;
-                for (int k = 0; k < otherLayouts.length; k++) {
+                for (int k = 0; k < otherLayouts.length; ++k) {
                     if (otherLayouts[k] != null && otherLayouts[k].matches(flag)) {
                         // Add the next attribute
                         if (otherLayouts[k].getIndex() < 15) {
@@ -1183,7 +1183,7 @@ public class ClassBands extends BandSet {
         Arrays.setAll(rxaCounts, i -> SegmentUtils.countMatches(methodFlags, rxaLayouts[i]));
         final int[] backwardsCalls = new int[5];
         int methodAttrIndex = 0;
-        for (int i = 0; i < backwardsCalls.length; i++) {
+        for (int i = 0; i < backwardsCalls.length; ++i) {
             if (rxaCounts[i] > 0) {
                 backwardsCallsUsed++;
                 backwardsCalls[i] = methodAttrCalls[methodAttrIndex];
@@ -1195,13 +1195,13 @@ public class ClassBands extends BandSet {
         final MetadataBandGroup[] mbgs = parseMetadata(in, RxA, rxaCounts, backwardsCalls, "method");
         final List<Attribute>[] attributeLists = new List[RxA.length];
         final int[] attributeListIndexes = new int[RxA.length];
-        for (int i = 0; i < mbgs.length; i++) {
+        for (int i = 0; i < mbgs.length; ++i) {
             attributeLists[i] = mbgs[i].getAttributes();
             attributeListIndexes[i] = 0;
         }
-        for (int i = 0; i < methodFlags.length; i++) {
-            for (int j = 0; j < methodFlags[i].length; j++) {
-                for (int k = 0; k < rxaLayouts.length; k++) {
+        for (int i = 0; i < methodFlags.length; ++i) {
+            for (int j = 0; j < methodFlags[i].length; ++j) {
+                for (int k = 0; k < rxaLayouts.length; ++k) {
                     if (rxaLayouts[k].matches(methodFlags[i][j])) {
                         methodAttributes[i][j].add(attributeLists[k].get(attributeListIndexes[k]++));
                     }

@@ -341,7 +341,7 @@ public class DumpArchiveEntry implements ArchiveEntry {
 
         header.holes = 0;
 
-        for (int i = 0; (i < 512) && (i < header.count); i++) {
+        for (int i = 0; (i < 512) && (i < header.count); ++i) {
             if (buffer[164 + i] == 0) {
                 header.holes++;
             }
@@ -832,7 +832,7 @@ public class DumpArchiveEntry implements ArchiveEntry {
 
         header.holes = 0;
 
-        for (int i = 0; (i < 512) && (i < header.count); i++) {
+        for (int i = 0; (i < 512) && (i < header.count); ++i) {
             if (buffer[164 + i] == 0) {
                 header.holes++;
             }

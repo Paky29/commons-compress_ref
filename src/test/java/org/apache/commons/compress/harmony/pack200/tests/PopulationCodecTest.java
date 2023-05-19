@@ -67,7 +67,7 @@ public class PopulationCodecTest {
             final int[] result = new PopulationCodec(codec, codec, codec).decodeInts(
                     expectedResult.length, in);
             assertEquals(expectedResult.length, result.length);
-            for (int i = 0; i < expectedResult.length; i++) {
+            for (int i = 0; i < expectedResult.length; ++i) {
                 assertEquals(expectedResult[i], result[i]);
             }
             assertEquals(0, in.available());

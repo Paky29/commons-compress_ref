@@ -77,7 +77,7 @@ public class RunCodecTest {
         final int[] bandDecoded = runCodec.decodeInts(8, new ByteArrayInputStream(
                 bandEncoded));
         assertEquals(band.length, bandDecoded.length);
-        for (int i = 0; i < band.length; i++) {
+        for (int i = 0; i < band.length; ++i) {
             assertEquals(band[i], bandDecoded[i]);
         }
     }
@@ -111,7 +111,7 @@ public class RunCodecTest {
         final int[] bandDecoded = runCodec.decodeInts(band.length,
                 new ByteArrayInputStream(bandEncoded));
         assertEquals(band.length, bandDecoded.length);
-        for (int i = 0; i < band.length; i++) {
+        for (int i = 0; i < band.length; ++i) {
             assertEquals(band[i], bandDecoded[i]);
         }
     }
@@ -135,7 +135,7 @@ public class RunCodecTest {
         final int[] bandDecoded = runCodec.decodeInts(9, new ByteArrayInputStream(
                 bandEncoded));
         assertEquals(band.length, bandDecoded.length);
-        for (int i = 0; i < band.length; i++) {
+        for (int i = 0; i < band.length; ++i) {
             assertEquals(band[i], bandDecoded[i]);
         }
     }

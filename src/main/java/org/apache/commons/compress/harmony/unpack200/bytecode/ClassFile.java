@@ -42,14 +42,14 @@ public class ClassFile {
         dos.writeShort(minor);
         dos.writeShort(major);
         dos.writeShort(pool.size() + 1);
-        for (int i = 1; i <= pool.size(); i++) {
+        for (int i = 1; i <= pool.size(); ++i) {
             ConstantPoolEntry entry;
             entry = (ConstantPoolEntry) pool.get(i);
             entry.doWrite(dos);
             // Doubles and longs take up two spaces in the pool, but only one
             // gets written
             if (entry.getTag() == ConstantPoolEntry.CP_Double || entry.getTag() == ConstantPoolEntry.CP_Long) {
-                i++;
+                ++i;
             }
         }
         dos.writeShort(accessFlags);

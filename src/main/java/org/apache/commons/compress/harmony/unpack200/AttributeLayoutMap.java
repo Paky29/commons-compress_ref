@@ -160,7 +160,7 @@ public class AttributeLayoutMap {
                 c = new ArrayList<>(c);
             }
             final List<AttributeLayout> newLayouts = (List<AttributeLayout>) c;
-            for (int j = 0; j < newLayouts.size(); j++) {
+            for (int j = 0; j < newLayouts.size(); ++j) {
                 final AttributeLayout layout1 = newLayouts.get(j);
                 for (int j2 = j + 1; j2 < newLayouts.size(); j2++) {
                     final AttributeLayout layout2 = newLayouts.get(j2);
