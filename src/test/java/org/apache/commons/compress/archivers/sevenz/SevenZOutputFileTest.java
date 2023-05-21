@@ -1315,6 +1315,8 @@ public class SevenZOutputFileTest extends AbstractTestCase {
             new SevenZOutputFile(var1, var2);
             Assert.fail("Expecting exception: IOException");
         } catch (Throwable var5) {
+            File file = new File("s:b");
+            file.delete();
         }
 
     }
