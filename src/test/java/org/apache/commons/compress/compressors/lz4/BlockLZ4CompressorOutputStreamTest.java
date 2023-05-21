@@ -24,10 +24,20 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.apache.commons.compress.compressors.lz77support.LZ77Compressor;
+import org.apache.commons.compress.compressors.lz77support.Parameters;
+import org.evosuite.runtime.EvoAssertions;
+import org.evosuite.runtime.ViolatedAssumptionAnswer;
+import org.evosuite.runtime.mock.java.io.MockFileOutputStream;
+import org.evosuite.runtime.mock.java.io.MockPrintStream;
+import org.evosuite.shaded.org.mockito.Mockito;
+import org.junit.Assert;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -374,5 +384,440 @@ public class BlockLZ4CompressorOutputStreamTest {
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
         p.writeTo(bos);
         assertArrayEquals(new byte[] { 15, 1, 0, (byte) 255, 0 }, bos.toByteArray());
+    }
+
+    //Test generati da Evosuite
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test00() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("test00blz4", false);
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var3 = new byte[0];
+        var2.prefill(var3, 0, 0);
+        Assert.assertEquals(0L, (long)var3.length);
+        var1.close();
+        File file = new File("test00blz4");
+        file.delete();
+    }
+
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test02() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var3 = new byte[2];
+        var2.write(var3);
+        var2.write(var3);
+        var2.write(var3);
+        var2.write(-756);
+        var1.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test03() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        MockPrintStream var3 = new MockPrintStream(var2, true);
+        Object[] var4 = new Object[2];
+        var3.format((Locale)null, "minBackReferenceLength can't be bigger than windowSize", var4);
+        var1.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test04() throws Throwable {
+        BlockLZ4CompressorOutputStream.Pair var1 = new BlockLZ4CompressorOutputStream.Pair();
+        LZ77Compressor.BackReference var2 = new LZ77Compressor.BackReference(-1216, -1216);
+        var1.setBackReference(var2);
+        boolean var3 = var1.hasBackReference();
+        Assert.assertFalse(var3);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test05() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        MockPrintStream var3 = new MockPrintStream(var2);
+        BlockLZ4CompressorOutputStream.Pair var4 = new BlockLZ4CompressorOutputStream.Pair();
+        LZ77Compressor.BackReference var5 = new LZ77Compressor.BackReference(18, 784);
+        var4.setBackReference(var5);
+        var4.writeTo(var3);
+        var1.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test06() throws Throwable {
+        BlockLZ4CompressorOutputStream.Pair var1 = new BlockLZ4CompressorOutputStream.Pair();
+        LZ77Compressor.BackReference var2 = new LZ77Compressor.BackReference(12, 12);
+        var1.setBackReference(var2);
+        ByteArrayOutputStream var3 = new ByteArrayOutputStream();
+        var1.writeTo(var3);
+        Assert.assertEquals(3L, (long)var3.size());
+        Assert.assertEquals("\b\f\u0000", var3.toString());
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test07() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        BlockLZ4CompressorOutputStream.Pair var3 = new BlockLZ4CompressorOutputStream.Pair();
+        LZ77Compressor.BackReference var4 = new LZ77Compressor.BackReference(19, 19);
+        var3.setBackReference(var4);
+        var3.writeTo(var2);
+        var1.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test08() throws Throwable {
+        BlockLZ4CompressorOutputStream var1 = new BlockLZ4CompressorOutputStream((OutputStream)null);
+        byte[] var2 = new byte[7];
+        var1.write(var2, -37, -37);
+        Assert.assertEquals(7L, (long)var2.length);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test09() throws Throwable {
+        BlockLZ4CompressorOutputStream.Pair var1 = new BlockLZ4CompressorOutputStream.Pair();
+        int var2 = var1.length();
+        Assert.assertEquals(0L, (long)var2);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test10() throws Throwable {
+        BlockLZ4CompressorOutputStream.Pair var1 = new BlockLZ4CompressorOutputStream.Pair();
+        boolean var2 = var1.canBeWritten(3036);
+        Assert.assertFalse(var2);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test11() throws Throwable {
+        BlockLZ4CompressorOutputStream.Pair var1 = new BlockLZ4CompressorOutputStream.Pair();
+        byte[] var2 = new byte[0];
+        LZ77Compressor.LiteralBlock var3 = new LZ77Compressor.LiteralBlock(var2, 0, 0);
+        byte[] var4 = var1.addLiteral(var3);
+        Assert.assertNotSame(var2, var4);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test12() throws Throwable {
+        Parameters.Builder var1 = BlockLZ4CompressorOutputStream.createParameterBuilder();
+        Assert.assertNotNull(var1);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test14() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var3 = new byte[9];
+
+        try {
+            var2.write(var3, 65536, 1024);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var5) {
+            var1.close();
+            File file = new File("minBackReferenceLength can't be bigger than windowSize");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.lz77support.LZ77Compressor", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test17() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackqeerenc}Length can't be bigger than windowIize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+
+        try {
+            var2.prefill((byte[])null, 27, 159);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var4) {
+            var1.close();
+            File file = new File("minBackqeerenc}Length can't be bigger than windowIize");
+            file.delete();
+            EvoAssertions.verifyException("java.util.Arrays", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test18() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenc}Length can't be bigger than windowIize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        var2.write(37);
+        byte[] var3 = new byte[4];
+
+        try {
+            var2.prefill(var3, 1, 37);
+            Assert.fail("Expecting exception: IllegalStateException");
+        } catch (IllegalStateException var5) {
+            var1.close();
+            File file = new File("minBackqeerenc}Length can't be bigger than windowIize");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.lz77support.LZ77Compressor", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test19() throws Throwable {
+        BlockLZ4CompressorOutputStream var1 = new BlockLZ4CompressorOutputStream((OutputStream)null);
+        byte[] var2 = new byte[1];
+
+        try {
+            var1.prefill(var2, 41, 41);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var4) {
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test20() throws Throwable {
+        BlockLZ4CompressorOutputStream var1 = new BlockLZ4CompressorOutputStream((OutputStream)null);
+        var1.write(-225);
+
+        try {
+            var1.finish();
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.lz4.BlockLZ4CompressorOutputStream$Pair", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test21() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        BlockLZ4CompressorOutputStream var3 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var4 = new byte[4];
+        var2.write(var4);
+        var3.write(var4);
+        var3.close();
+
+        try {
+            var2.finish();
+            Assert.fail("Expecting exception: IOException");
+        } catch (IOException var6) {
+            var1.close();
+            File file = new File("minBackReferenceLength can't be bigger than windowSize");
+            file.delete();
+            EvoAssertions.verifyException("org.evosuite.runtime.mock.java.io.MockFileOutputStream", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test23() throws Throwable {
+        BlockLZ4CompressorOutputStream var1 = new BlockLZ4CompressorOutputStream((OutputStream)null);
+
+        try {
+            var1.close();
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.lz4.BlockLZ4CompressorOutputStream", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test24() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("p_G");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+
+        try {
+            var2.close();
+            Assert.fail("Expecting exception: IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException var4) {
+            var1.close();
+            File file = new File("p_G");
+            file.delete();
+            EvoAssertions.verifyException("java.util.LinkedList", var4);
+        }
+
+    }
+
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test26() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new BlockLZ4CompressorOutputStream((OutputStream)null, (Parameters)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("java.util.Objects", var3);
+        }
+
+    }
+
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test28() throws Throwable {
+        MockPrintStream var1 = new MockPrintStream("K$Fq1d");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+
+        try {
+            var2.finish();
+            Assert.fail("Expecting exception: IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException var4) {
+            var1.close();
+            File file = new File("K$Fq1d");
+            file.delete();
+            EvoAssertions.verifyException("java.util.LinkedList", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test29() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var3 = new byte[7];
+        var2.write(var3);
+        var2.write(var3);
+        var2.write(-115);
+        var1.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test30() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenc}Length can't be bigger than windowIize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var3 = new byte[4];
+        var2.prefill(var3, 1, 37);
+        Assert.assertEquals(4L, (long)var3.length);
+        var1.close();
+        File file = new File("minBackReferenc}Length can't be bigger than windowIize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test31() throws Throwable {
+        BlockLZ4CompressorOutputStream var1 = new BlockLZ4CompressorOutputStream((OutputStream)null);
+        byte[] var2 = new byte[0];
+        var1.prefill(var2, 2, -1253);
+        Assert.assertArrayEquals(new byte[0], var2);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test32() throws Throwable {
+        ByteArrayOutputStream var1 = new ByteArrayOutputStream();
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        var2.write(-2393);
+        var2.close();
+        Assert.assertEquals(2L, (long)var1.size());
+        //Assert.assertEquals("\u0010§", var1.toString());
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test33() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        BlockLZ4CompressorOutputStream var3 = new BlockLZ4CompressorOutputStream(var2);
+        BlockLZ4CompressorOutputStream.Pair var4 = new BlockLZ4CompressorOutputStream.Pair();
+        LZ77Compressor.BackReference var5 = new LZ77Compressor.BackReference(18, 65536);
+        var4.setBackReference(var5);
+        var4.writeTo(var3);
+        var3.close();
+        Assert.assertFalse(var2.equals(var3));
+        var1.close();
+        var2.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test34() throws Throwable {
+        BlockLZ4CompressorOutputStream.Pair var1 = new BlockLZ4CompressorOutputStream.Pair();
+        LZ77Compressor.BackReference var2 = new LZ77Compressor.BackReference(18, 18);
+        var1.setBackReference(var2);
+
+        try {
+            var1.setBackReference(var2);
+            Assert.fail("Expecting exception: IllegalStateException");
+        } catch (IllegalStateException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.lz4.BlockLZ4CompressorOutputStream$Pair", var4);
+        }
+
+    }
+
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test36() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("minBackReferenceLength can't be bigger than windowSize");
+        BlockLZ4CompressorOutputStream var2 = new BlockLZ4CompressorOutputStream(var1);
+        byte[] var3 = new byte[9];
+        var2.write(var3);
+        var2.write(var3);
+        var1.close();
+        File file = new File("minBackReferenceLength can't be bigger than windowSize");
+        file.delete();
     }
 }

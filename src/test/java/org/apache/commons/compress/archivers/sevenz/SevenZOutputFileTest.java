@@ -24,25 +24,30 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.NonWritableChannelException;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.file.*;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 import org.apache.commons.compress.AbstractTestCase;
 import org.apache.commons.compress.PasswordRequiredException;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.dump.DumpArchiveEntry;
 import org.apache.commons.compress.utils.ByteUtils;
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
 import org.apache.commons.compress.utils.TimeUtils;
+import org.evosuite.runtime.EvoAssertions;
+import org.evosuite.runtime.mock.java.io.MockFile;
+import org.evosuite.runtime.mock.java.io.MockFileInputStream;
+import org.evosuite.runtime.mock.java.io.MockFileOutputStream;
+import org.evosuite.runtime.testdata.EvoSuiteFile;
+import org.evosuite.runtime.testdata.FileSystemHandling;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.tukaani.xz.LZMA2Options;
 
@@ -79,17 +84,17 @@ public class SevenZOutputFileTest extends AbstractTestCase {
     }
 
     private void addFile(final SevenZOutputFile archive, final int index, final boolean nonEmpty)
-        throws Exception {
+            throws Exception {
         addFile(archive, index, nonEmpty, null);
     }
 
     private void addFile(final SevenZOutputFile archive, final int index, final boolean nonEmpty, final Iterable<SevenZMethodConfiguration> methods)
-        throws Exception {
+            throws Exception {
         addFile(archive, index, nonEmpty ? 1 : 0, methods);
     }
 
     private void addFile(final SevenZOutputFile archive, final int index, final int size, final Iterable<SevenZMethodConfiguration> methods)
-        throws Exception {
+            throws Exception {
         final SevenZArchiveEntry entry = new SevenZArchiveEntry();
         entry.setName("foo/" + index + ".txt");
         entry.setContentMethods(methods);
@@ -115,7 +120,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
             addFile(outArchive, 0, true);
         }
         try (SevenZFile archive =
-             new SevenZFile(new SeekableInMemoryByteChannel(output.array()), "in memory")) {
+                     new SevenZFile(new SeekableInMemoryByteChannel(output.array()), "in memory")) {
             assertEquals(Boolean.TRUE, verifyFile(archive, 0, methods));
         }
     }
@@ -208,7 +213,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "bzip2-options.7z");
         // 400k block size
         createAndReadBack(output, Collections
-                          .singletonList(new SevenZMethodConfiguration(SevenZMethod.BZIP2, 4)));
+                .singletonList(new SevenZMethodConfiguration(SevenZMethod.BZIP2, 4)));
     }
 
     @Test
@@ -223,10 +228,10 @@ public class SevenZOutputFileTest extends AbstractTestCase {
     }
 
     private void testCompress252(final int numberOfFiles, final int numberOfNonEmptyFiles)
-        throws Exception {
+            throws Exception {
         final int nonEmptyModulus = numberOfNonEmptyFiles != 0
-            ? numberOfFiles / numberOfNonEmptyFiles
-            : numberOfFiles + 1;
+                ? numberOfFiles / numberOfNonEmptyFiles
+                : numberOfFiles + 1;
         int nonEmptyFilesAdded = 0;
         output = new File(dir, "COMPRESS252-" + numberOfFiles + "-" + numberOfNonEmptyFiles + ".7z");
         try (SevenZOutputFile archive = new SevenZOutputFile(output)) {
@@ -254,7 +259,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "deflate-options.7z");
         // Deflater.BEST_SPEED
         createAndReadBack(output, Collections
-                          .singletonList(new SevenZMethodConfiguration(SevenZMethod.DEFLATE, 1)));
+                .singletonList(new SevenZMethodConfiguration(SevenZMethod.DEFLATE, 1)));
     }
 
     @Test
@@ -498,8 +503,8 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         try (SevenZFile archive = new SevenZFile(output)) {
             assertThrows(
 
-                PasswordRequiredException.class,
-                () -> verifyFile(archive, 0), "A password should be needed");
+                    PasswordRequiredException.class,
+                    () -> verifyFile(archive, 0), "A password should be needed");
         }
 
         try (SevenZFile archive = new SevenZFile(output, "foo".toCharArray())) {
@@ -529,7 +534,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "lzma2-options.7z");
         // 1 MB dictionary
         createAndReadBack(output, Collections
-                          .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA2, 1 << 20)));
+                .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA2, 1 << 20)));
     }
 
     @Test
@@ -537,7 +542,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "lzma2-options2.7z");
         final LZMA2Options opts = new LZMA2Options(1);
         createAndReadBack(output, Collections
-                          .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA2, opts)));
+                .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA2, opts)));
     }
 
     @Test
@@ -545,7 +550,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "lzma-options.7z");
         // 1 MB dictionary
         createAndReadBack(output, Collections
-                          .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA, 1 << 20)));
+                .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA, 1 << 20)));
     }
 
     @Test
@@ -553,7 +558,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         output = new File(dir, "lzma-options2.7z");
         final LZMA2Options opts = new LZMA2Options(1);
         createAndReadBack(output, Collections
-                          .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA, opts)));
+                .singletonList(new SevenZMethodConfiguration(SevenZMethod.LZMA, opts)));
     }
 
     @Test
@@ -625,7 +630,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
     }
 
     private void verifyCompress252(final File output, final int numberOfFiles, final int numberOfNonEmptyFiles)
-        throws Exception {
+            throws Exception {
         int filesFound = 0;
         int nonEmptyFilesFound = 0;
         try (SevenZFile archive = new SevenZFile(output)) {
@@ -684,5 +689,1089 @@ public class SevenZOutputFileTest extends AbstractTestCase {
     private Boolean verifyFile(final SevenZFile archive, final int index,
                                final Iterable<SevenZMethodConfiguration> methods) throws Exception {
         return verifyFile(archive, index, 1, methods);
+    }
+
+    //Test generati con Evosuite
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test00() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(", ", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        HashSet var4 = new HashSet();
+        var3.setContentMethods(var4);
+        Assert.assertEquals(0, var2.position());
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test01() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile$1", false);
+        FileChannel var2 = var1.getChannel();
+        new SevenZOutputFile(var2, (char[])null);
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile$1");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test02() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".$_G!OMb");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        SevenZArchiveEntry var4 = new SevenZArchiveEntry();
+        var3.putArchiveEntry(var4);
+        var3.closeArchiveEntry();
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File(".$_G!OMb");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test03() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("test03s7o", false);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile("");
+        Path var5 = var4.toPath();
+        LinkOption[] var6 = new LinkOption[1];
+        LinkOption var7 = LinkOption.NOFOLLOW_LINKS;
+        var6[0] = var7;
+        var3.createArchiveEntry(var5, "test03s7o", var6);
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File("test03s7o");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test04() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("R92pre92", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile("", "");
+        var3.createArchiveEntry(var4, "org.apache.commons.compress.archivers.sevenz.SevenZOutputFile");
+        Assert.assertEquals(0, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File("R92pre92");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test05() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("test05s7o");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.putArchiveEntry((ArchiveEntry)null);
+
+        try {
+            var3.write((byte[])null, 45, 1101);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File("test05s7o");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test07() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".U");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        SevenZArchiveEntry var4 = new SevenZArchiveEntry();
+        var3.putArchiveEntry(var4);
+        byte[] var5 = new byte[2];
+
+        try {
+            var3.write(var5);
+            Assert.fail("Expecting exception: NoClassDefFoundError");
+        } catch (Throwable var7) {
+            var1.close();
+            var2.close();
+            File file = new File(".U");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test08() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile(".H_GOMP");
+        Path var5 = var4.toPath();
+        OpenOption[] var6 = new OpenOption[0];
+
+        try {
+            var3.write(var5, var6);
+            Assert.fail("Expecting exception: NoSuchFileException");
+        } catch (Throwable var8) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test09() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("RC2re2", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile("");
+        Path var5 = var4.toPath();
+        OpenOption[] var6 = new OpenOption[1];
+        StandardOpenOption var7 = StandardOpenOption.SPARSE;
+        var6[0] = var7;
+
+        try {
+            var3.write(var5, var6);
+            Assert.fail("Expecting exception: AccessDeniedException");
+        } catch (AccessDeniedException var9) {
+            var1.close();
+            var2.close();
+            File file = new File("RC2re2");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test10() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("R92pre92", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        File var4 = MockFile.createTempFile("This archive has already been finished", "This archive has already been finished");
+        Path var5 = var4.toPath();
+        OpenOption[] var6 = new OpenOption[1];
+        StandardOpenOption var7 = StandardOpenOption.WRITE;
+        var6[0] = var7;
+
+        try {
+            var3.write(var5, var6);
+            Assert.fail("Expecting exception: UnsupportedOperationException");
+        } catch (UnsupportedOperationException var9) {
+            var1.close();
+            var2.close();
+            File file = new File("R92pre92");
+            file.delete();
+            EvoAssertions.verifyException("java.nio.file.spi.FileSystemProvider", var9);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test11() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(",EC9");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.write((InputStream)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(",EC9");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test12() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("HGOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        SevenZArchiveEntry var4 = new SevenZArchiveEntry();
+        var3.putArchiveEntry(var4);
+        byte[] var5 = new byte[2];
+        ByteArrayInputStream var6 = new ByteArrayInputStream(var5);
+
+        try {
+            var3.write(var6);
+            Assert.fail("Expecting exception: NoClassDefFoundError");
+        } catch (Throwable var8) {
+            var1.close();
+            var2.close();
+            File file = new File("HGOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test13() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".$_G!OMb");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        byte[] var4 = new byte[0];
+        ByteArrayInputStream var5 = new ByteArrayInputStream(var4, -2842, 1167);
+
+        try {
+            var3.write(var5);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var7) {
+            var1.close();
+            var2.close();
+            File file = new File(".$_G!OMb");
+            file.delete();
+            EvoAssertions.verifyException("java.io.ByteArrayInputStream", var7);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test14() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        PipedInputStream var4 = new PipedInputStream();
+
+        try {
+            var3.write(var4);
+            Assert.fail("Expecting exception: IOException");
+        } catch (IOException var6) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("java.io.PipedInputStream", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test15() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.putArchiveEntry((ArchiveEntry)null);
+
+        try {
+            var3.write(-277496552);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test16() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("HGOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        DumpArchiveEntry var4 = new DumpArchiveEntry();
+
+        try {
+            var3.putArchiveEntry(var4);
+            Assert.fail("Expecting exception: ClassCastException");
+        } catch (ClassCastException var6) {
+            var1.close();
+            var2.close();
+            File file = new File("HGOMP");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test17() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", false);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        SevenZOutputFile var4 = new SevenZOutputFile(var2);
+        var4.close();
+
+        try {
+            var3.finish();
+            Assert.fail("Expecting exception: ClosedChannelException");
+        } catch (ClosedChannelException var6) {
+            var1.close();
+            var2.close();
+            File file = new File("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test18() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile(".H_GOMP", ".H_GOMP");
+        Path var5 = var4.toPath();
+        LinkOption[] var6 = new LinkOption[1];
+        LinkOption var7 = LinkOption.NOFOLLOW_LINKS;
+        var6[0] = var7;
+
+        try {
+            var3.createArchiveEntry(var5, ".H_GOMP", var6);
+            Assert.fail("Expecting exception: NoSuchFileException");
+        } catch (NoSuchFileException var9) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test19() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("org.apache.commons.compress.utils.IOUtils", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile("~R~*`!DI.>S6YV=!(1", "~R~*`!DI.>S6YV=!(1");
+
+        try {
+            var3.createArchiveEntry(var4, "~R~*`!DI.>S6YV=!(1");
+            Assert.fail("Expecting exception: InvalidPathException");
+        } catch (InvalidPathException var6) {
+            var1.close();
+            var2.close();
+            File file = new File("org.apache.commons.compress.utils.IOUtils");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test20() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("R92pre92", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.createArchiveEntry((File)null, "R92pre92");
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File("R92pre92");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test22() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var1.close();
+
+        try {
+            var3.close();
+            Assert.fail("Expecting exception: ClosedChannelException");
+        } catch (ClosedChannelException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test23() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        FileSystemHandling.shouldAllThrowIOExceptions();
+
+        try {
+            var3.close();
+            Assert.fail("Expecting exception: IOException");
+        } catch (Throwable var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test24() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("R92pre92", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.close();
+        Object var4 = null;
+
+        try {
+            new SevenZOutputFile(var2, (char[])null);
+            Assert.fail("Expecting exception: ClosedChannelException");
+        } catch (Throwable var6) {
+            var1.close();
+            var2.close();
+            File file = new File("R92pre92");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test25() throws Throwable {
+        char[] var1 = new char[4];
+        Object var2 = null;
+
+        try {
+            new SevenZOutputFile((SeekableByteChannel)null, var1);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test26() throws Throwable {
+        FileSystemHandling.shouldAllThrowIOExceptions();
+        MockFileOutputStream var1 = new MockFileOutputStream("RC2pre52", true);
+        FileChannel var2 = var1.getChannel();
+        char[] var3 = new char[0];
+        Object var4 = null;
+
+        try {
+            new SevenZOutputFile(var2, var3);
+            Assert.fail("Expecting exception: IOException");
+        } catch (Throwable var6) {
+            var1.close();
+            var2.close();
+            File file = new File("RC2pre52");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test27() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(",EC9");
+        FileChannel var2 = var1.getChannel();
+        var2.close();
+        Object var3 = null;
+
+        try {
+            new SevenZOutputFile(var2);
+            Assert.fail("Expecting exception: ClosedChannelException");
+        } catch (ClosedChannelException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(",EC9");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test28() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new SevenZOutputFile((SeekableByteChannel)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test29() throws Throwable {
+        EvoSuiteFile var1 = new EvoSuiteFile(".H_GOP");
+        FileSystemHandling.shouldThrowIOException(var1);
+        MockFileOutputStream var2 = new MockFileOutputStream(".H_GOP");
+        FileChannel var3 = var2.getChannel();
+        Object var4 = null;
+
+        try {
+            new SevenZOutputFile(var3);
+            Assert.fail("Expecting exception: IOException");
+        } catch (Throwable var6) {
+            var2.close();
+            var3.close();
+            File file = new File(".H_GOP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test30() throws Throwable {
+        MockFile var1 = new MockFile("0Y.6fgL]xD\" JUuD;G", "0Y.6fgL]xD\" JUuD;G");
+        Object var2 = null;
+
+        try {
+            new SevenZOutputFile(var1, (char[])null);
+            Assert.fail("Expecting exception: InvalidPathException");
+        } catch (InvalidPathException var4) {
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test31() throws Throwable {
+        MockFile var1 = new MockFile("s:b");
+        char[] var2 = new char[0];
+        Object var3 = null;
+
+        try {
+            new SevenZOutputFile(var1, var2);
+            Assert.fail("Expecting exception: IOException");
+        } catch (Throwable var5) {
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test32() throws Throwable {
+        MockFile var1 = new MockFile("_k\".2\u007fA6IMN^6HR@", "_k\".2\u007fA6IMN^6HR@");
+        Object var2 = null;
+
+        try {
+            new SevenZOutputFile(var1);
+            Assert.fail("Expecting exception: InvalidPathException");
+        } catch (InvalidPathException var4) {
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test33() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".$_G!OMb");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.write((byte[])null, 5, 5);
+            Assert.fail("Expecting exception: IllegalStateException");
+        } catch (IllegalStateException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".$_G!OMb");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test34() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(", ", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        byte[] var4 = new byte[3];
+        var3.write(var4, 111, -277496563);
+        Assert.assertEquals(0, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File(", ");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test35() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.finish();
+        Assert.assertEquals(32L, var2.position());
+        Assert.assertEquals(44L, var2.size());
+        var1.close();
+        var2.close();
+        File file = new File(".H_GOMP");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test36() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(", =C");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.setContentMethods((Iterable)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(", =C");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test37() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        SevenZArchiveEntry var4 = new SevenZArchiveEntry();
+        var3.putArchiveEntry(var4);
+
+        try {
+            var3.close();
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var6) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test38() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("org.ap]che.commons.comwress.archivers.zip.ZipEightByteInteger");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        byte[] var4 = new byte[10];
+        ByteArrayInputStream var5 = new ByteArrayInputStream(var4);
+        BufferedInputStream var6 = new BufferedInputStream(var5);
+
+        try {
+            var3.write(var6);
+            Assert.fail("Expecting exception: IllegalStateException");
+        } catch (IllegalStateException var8) {
+            var1.close();
+            var2.close();
+            File file = new File("org.ap]che.commons.comwress.archivers.zip.ZipEightByteInteger");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var8);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test39() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("HGOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFileInputStream var4 = new MockFileInputStream("HGOMP");
+        var3.write(var4);
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        var4.close();
+        File file = new File("HGOMP");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test40() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        byte[] var4 = new byte[9];
+
+        try {
+            var3.write(var4);
+            Assert.fail("Expecting exception: IllegalStateException");
+        } catch (IllegalStateException var6) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test41() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        byte[] var4 = new byte[0];
+        var3.write(var4);
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File(".H_GOMP");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test42() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZArchiveEntry var3 = new SevenZArchiveEntry();
+        SevenZOutputFile var4 = new SevenZOutputFile(var2);
+        var4.putArchiveEntry(var3);
+
+        try {
+            var4.write(-1);
+            Assert.fail("Expecting exception: NoClassDefFoundError");
+        } catch (Throwable var6) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test43() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("R92pre92", true);
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.close();
+
+        try {
+            var3.finish();
+            Assert.fail("Expecting exception: IOException");
+        } catch (IOException var5) {
+            var1.close();
+            var2.close();
+            File file = new File("R92pre92");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test44() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.closeArchiveEntry();
+            Assert.fail("Expecting exception: IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test45() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("org.apache.commons.compress.archivers.zip.X0017_StrongEncryptionHeader");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.close();
+        var3.close();
+        var1.close();
+        var2.close();
+        File file = new File("org.apache.commons.compress.archivers.zip.X0017_StrongEncryptionHeader");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test46() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("No current 7z entry", true);
+        FileChannel var2 = var1.getChannel();
+        char[] var3 = new char[0];
+        new SevenZOutputFile(var2, var3);
+        var1.close();
+        var2.close();
+        File file = new File("No current 7z entry");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test47() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new SevenZOutputFile((File)null, (char[])null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test48() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H]_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.write(-277496552);
+            Assert.fail("Expecting exception: IllegalStateException");
+        } catch (IllegalStateException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".H]_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test49() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        SevenZMethod var4 = SevenZMethod.DEFLATE64;
+        var3.setContentCompression(var4);
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File(".H_GOMP");
+        file.delete();
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test50() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        var3.putArchiveEntry((ArchiveEntry)null);
+
+        try {
+            var3.closeArchiveEntry();
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test51() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile(".H_GOMP", ".H_GOMP");
+        Path var5 = var4.toPath();
+
+        try {
+            var3.write(var5, (OpenOption[])null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var7) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            EvoAssertions.verifyException("java.nio.file.spi.FileSystemProvider", var7);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test52() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".$_G!OMb");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+
+        try {
+            var3.write((byte[])null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var5) {
+            var1.close();
+            var2.close();
+            File file = new File(".$_G!OMb");
+            file.delete();
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test53() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new SevenZOutputFile((File)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.archivers.sevenz.SevenZOutputFile", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test54() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream(".H_GOMP");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile(".H_GOMP", ".H_GOMP");
+        Path var5 = var4.toPath();
+
+        try {
+            var3.createArchiveEntry(var5, "", (LinkOption[])null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var7) {
+            var1.close();
+            var2.close();
+            File file = new File(".H_GOMP");
+            file.delete();
+            assertTrue(true);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test55() throws Throwable {
+        MockFileOutputStream var1 = new MockFileOutputStream("GR92pr92");
+        FileChannel var2 = var1.getChannel();
+        SevenZOutputFile var3 = new SevenZOutputFile(var2);
+        MockFile var4 = new MockFile("GR92pr92", "GR92pr92");
+        var3.createArchiveEntry(var4, "GR92pr92");
+        Assert.assertEquals(32L, var2.position());
+        var1.close();
+        var2.close();
+        File file = new File("GR92pr92");
+        file.delete();
     }
 }

@@ -21,6 +21,8 @@ package org.apache.commons.compress.compressors.bzip2;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.evosuite.runtime.EvoAssertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class BlockSortTest {
@@ -167,5 +169,231 @@ public class BlockSortTest {
         final DS ds = setUpFixture();
         ds.s.mainSort(ds.data, FIXTURE.length - 1);
         assertFixtureSorted(ds.data);
+    }
+
+    //Test generati da Evosuite
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test00() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(3);
+        BlockSort var2 = new BlockSort(var1);
+        var2.blockSort(var1, 0);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test01() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(3);
+        BlockSort var2 = new BlockSort(var1);
+        var2.fallbackSort(var1, 5);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test02() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(18);
+        BlockSort var2 = new BlockSort(var1);
+
+        try {
+            var2.mainSort((BZip2CompressorOutputStream.Data)null, 18);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test03() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(3);
+        BlockSort var2 = new BlockSort(var1);
+        int[] var3 = new int[7];
+        var2.fallbackSort(var3, new byte[7], 7);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test04() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(4);
+        BlockSort var2 = new BlockSort(var1);
+        int[] var3 = new int[4];
+        byte[] var4 = new byte[0];
+
+        try {
+            var2.fallbackSort(var3, var4, -3298);
+            Assert.fail("Expecting exception: NegativeArraySizeException");
+        } catch (NegativeArraySizeException var6) {
+            EvoAssertions.verifyException("java.util.BitSet", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test05() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(0);
+        BlockSort var2 = new BlockSort(var1);
+        byte[] var3 = new byte[9];
+
+        try {
+            var2.fallbackSort((int[])null, var3, -24);
+            Assert.fail("Expecting exception: IndexOutOfBoundsException");
+        } catch (IndexOutOfBoundsException var5) {
+            EvoAssertions.verifyException("java.util.BitSet", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test06() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(3);
+        BlockSort var2 = new BlockSort(var1);
+        byte[] var3 = new byte[0];
+
+        try {
+            var2.fallbackSort((int[])null, var3, 9967);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var5) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var5);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test07() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(0);
+        BlockSort var2 = new BlockSort(var1);
+
+        try {
+            var2.fallbackSort(var1, 0);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test08() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(4);
+        BlockSort var2 = new BlockSort(var1);
+        var2.blockSort(var1, 9975);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test09() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(18);
+        BlockSort var2 = new BlockSort(var1);
+
+        try {
+            var2.blockSort((BZip2CompressorOutputStream.Data)null, 50);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test10() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new BlockSort((BZip2CompressorOutputStream.Data)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test11() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(0);
+        BlockSort var2 = new BlockSort(var1);
+        int[] var3 = new int[0];
+        byte[] var4 = new byte[0];
+        var2.fallbackSort(var3, var4, 0);
+
+        try {
+            var2.blockSort(var1, 2);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var6) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var6);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test12() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(3);
+        BlockSort var2 = new BlockSort(var1);
+        var2.mainSort(var1, 200);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test13() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(4);
+        BlockSort var2 = new BlockSort(var1);
+
+        try {
+            var2.mainSort(var1, -2);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.compressors.bzip2.BlockSort", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test14() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(3);
+        BlockSort var2 = new BlockSort(var1);
+        var2.blockSort(var1, 3);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test15() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(4);
+        BlockSort var2 = new BlockSort(var1);
+        var2.fallbackSort(var1, 1469);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test16() throws Throwable {
+        BZip2CompressorOutputStream.Data var1 = new BZip2CompressorOutputStream.Data(4);
+        BlockSort var2 = new BlockSort(var1);
+        var2.blockSort(var1, 4);
+        var2.fallbackSort(var1, 1469);
     }
 }

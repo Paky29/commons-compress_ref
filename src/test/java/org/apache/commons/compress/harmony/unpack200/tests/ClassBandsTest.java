@@ -28,6 +28,8 @@ import org.apache.commons.compress.harmony.pack200.Pack200Exception;
 import org.apache.commons.compress.harmony.unpack200.ClassBands;
 import org.apache.commons.compress.harmony.unpack200.CpBands;
 import org.apache.commons.compress.harmony.unpack200.Segment;
+import org.evosuite.runtime.EvoAssertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -186,5 +188,19 @@ public class ClassBandsTest extends AbstractBandsTestCase {
         cpDescriptor = null;
     }
 
+    //Test generati da Evosuite
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test0() throws Throwable {
+        Segment var1 = new Segment();
+        Object var2 = null;
 
+        try {
+            new ClassBands(var1);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.harmony.unpack200.ClassBands", var4);
+        }
+    }
 }
