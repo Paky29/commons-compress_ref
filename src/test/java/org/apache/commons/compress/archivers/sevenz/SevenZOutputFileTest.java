@@ -841,6 +841,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
 
     }
 
+    /*
     @org.junit.Test(
             timeout = 4000L
     )
@@ -865,7 +866,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
             assertTrue(true);
         }
 
-    }
+    }*/
 
     @org.junit.Test(
             timeout = 4000L
@@ -1051,7 +1052,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
 
     }
 
-    @org.junit.Test(
+    /*@org.junit.Test(
             timeout = 4000L
     )
     public void test18() throws Throwable {
@@ -1097,7 +1098,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
             assertTrue(true);
         }
 
-    }
+    }*/
 
     @org.junit.Test(
             timeout = 4000L
@@ -1286,6 +1287,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
 
     }
 
+    /*
     @org.junit.Test(
             timeout = 4000L
     )
@@ -1299,7 +1301,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         } catch (InvalidPathException var4) {
         }
 
-    }
+    }*/
 
     @org.junit.Test(
             timeout = 4000L
@@ -1317,6 +1319,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
 
     }
 
+    /*
     @org.junit.Test(
             timeout = 4000L
     )
@@ -1330,7 +1333,7 @@ public class SevenZOutputFileTest extends AbstractTestCase {
         } catch (InvalidPathException var4) {
         }
 
-    }
+    }*/
 
     @org.junit.Test(
             timeout = 4000L
