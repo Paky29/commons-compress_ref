@@ -20,6 +20,11 @@ package org.apache.commons.compress.archivers.dump;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.apache.commons.compress.archivers.zip.ZipEncoding;
+import org.evosuite.runtime.EvoAssertions;
+import org.evosuite.runtime.ViolatedAssumptionAnswer;
+import org.evosuite.shaded.org.mockito.Mockito;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class DumpArchiveUtilTest {
@@ -47,5 +52,35 @@ public class DumpArchiveUtilTest {
                              (byte) 0x80, 0x67, 0x45, 0x23, 1, (byte) 0xEF,
                              (byte) 0xCD, (byte) 0xAB
                          }, 0));
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test1() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new DumpArchiveSummary((byte[])null, (ZipEncoding)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("org.apache.commons.compress.utils.ByteUtils", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test2() throws Throwable {
+        byte[] var1 = new byte[16];
+        Object var2 = null;
+
+        try {
+            new DumpArchiveSummary(var1, (ZipEncoding)null);
+            Assert.fail("Expecting exception: ArrayIndexOutOfBoundsException");
+        } catch (ArrayIndexOutOfBoundsException var4) {
+        }
+
     }
 }

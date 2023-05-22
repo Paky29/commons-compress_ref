@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.NoSuchElementException;
 
+import org.evosuite.runtime.EvoAssertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -52,6 +54,88 @@ public class ServiceLoaderIteratorTest {
         final Class<Integer> clasz = Integer.class;
         final ServiceLoaderIterator<Integer> serviceLoaderIterator = new ServiceLoaderIterator<>(clasz);
         assertThrows(UnsupportedOperationException.class, () -> serviceLoaderIterator.remove());
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test0() throws Throwable {
+        Class var1 = Object.class;
+        ClassLoader var2 = ClassLoader.getSystemClassLoader();
+        new ServiceLoaderIterator(var1, var2);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test1() throws Throwable {
+        ClassLoader var1 = ClassLoader.getSystemClassLoader();
+        Object var2 = null;
+
+        try {
+            new ServiceLoaderIterator((Class)null, var1);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var4) {
+            EvoAssertions.verifyException("java.util.Objects", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test2() throws Throwable {
+        Object var1 = null;
+
+        try {
+            new ServiceLoaderIterator((Class)null);
+            Assert.fail("Expecting exception: NullPointerException");
+        } catch (NullPointerException var3) {
+            EvoAssertions.verifyException("java.util.Objects", var3);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test3() throws Throwable {
+        Class var1 = Object.class;
+        ServiceLoaderIterator var2 = new ServiceLoaderIterator(var1);
+        boolean var3 = var2.hasNext();
+        Assert.assertFalse(var3);
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test4() throws Throwable {
+        Class var1 = SecurityException.class;
+        ServiceLoaderIterator var2 = new ServiceLoaderIterator(var1);
+
+        try {
+            var2.remove();
+            Assert.fail("Expecting exception: UnsupportedOperationException");
+        } catch (UnsupportedOperationException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.utils.ServiceLoaderIterator", var4);
+        }
+
+    }
+
+    @org.junit.Test(
+            timeout = 4000L
+    )
+    public void test5() throws Throwable {
+        Class var1 = Object.class;
+        ServiceLoaderIterator var2 = new ServiceLoaderIterator(var1);
+
+        try {
+            var2.next();
+            Assert.fail("Expecting exception: NoSuchElementException");
+        } catch (NoSuchElementException var4) {
+            EvoAssertions.verifyException("org.apache.commons.compress.utils.ServiceLoaderIterator", var4);
+        }
+
     }
 
 }
